@@ -1,7 +1,6 @@
 const db = require('./db')
-const models = require('./models');
 
-const { User } = models;
+const User = require('./models/User');
 
 const syncAndSeed =  async()=> {
   await db.sync({force: true})
@@ -22,5 +21,7 @@ const syncAndSeed =  async()=> {
 module.exports = {
   db,
   syncAndSeed,
-  models
+  models: {
+    User
+  }
 }
