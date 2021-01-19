@@ -1,6 +1,10 @@
+//this is the access point for all things database related!
+
 const db = require('./db')
 
-const User = require('./models/User');
+const User = require('./models/user');
+
+//associations could go here!
 
 const syncAndSeed =  async()=> {
   await db.sync({force: true})
