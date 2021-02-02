@@ -44,7 +44,6 @@
     "esm": "^3.2.25",
     "mocha": "^6.2.3",
     "nodemon": "^1.19.4",
-    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.1",

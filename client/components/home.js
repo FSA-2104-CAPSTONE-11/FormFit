@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 
 /**
@@ -25,10 +24,3 @@ const mapState = state => {
 }
 
 export default connect(mapState)(Home)
-
-/**
- * PROP TYPES
- */
-Home.propTypes = {
-  email: PropTypes.string
-}

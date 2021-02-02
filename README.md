@@ -1,16 +1,4 @@
-# Boilermaker
-
-_Good things come in pairs_
-
-Looking to mix up a backend with `express`/`sequelize` and a frontend with
-`react`/`redux`? That's `boilermaker`!
-
-Follow along with the boilerplate workshop to make your own! This canonical
-version can serve as a reference, or a starting point. For an in depth
-discussion into the code that makes up this repository, see the
-[Boilermaker Guided Tour][boilermaker-yt]
-
-[boilermaker-yt]: https://www.youtube.com/playlist?list=PLx0iOsdUOUmn7D5XL4mRUftn8hvAJGs8H
+# FS-App-Template
 
 ## Setup
 
@@ -19,22 +7,6 @@ To use this as boilerplate, you'll need to take the following steps:
 * Don't fork or clone this repo! Instead, create a new, empty
   directory on your machine and `git init` (or create an empty repo on
   Github and clone it to your local machine)
-* Run the following commands:
-
-```
-git remote add boilermaker https://github.com/FullstackAcademy/boilermaker.git
-git fetch boilermaker
-git merge boilermaker/master
-```
-
-Why did we do that? Because every once in a while, `boilermaker` may
-be updated with additional features or bug fixes, and you can easily
-get those changes from now on by entering:
-
-```
-git fetch boilermaker
-git merge boilermaker/master
-```
 
 ## Customize
 
@@ -46,13 +18,13 @@ Now that you've got the code, follow these steps to get acclimated:
   parameter in `package.json`):
 
 ```
-export MY_APP_NAME=boilermaker
+export MY_APP_NAME=fs-app-template
 createdb $MY_APP_NAME
 createdb $MY_APP_NAME-test
 ```
 
-* By default, running `npm test` will use `boilermaker-test`, while
-  regular development uses `boilermaker`
+* By default, running `npm test` will use `fs-app-template-test`, while
+  regular development uses `fs-app-template`
 * Create a file called `secrets.js` in the project root
   * This file is listed in `.gitignore`, and will _only_ be required
     in your _development_ environment
@@ -81,13 +53,8 @@ Running `npm run start:dev` will make great things happen!
 
 - start:dev will both start your server and build your client side files using webpack
 - start:dev:logger is the same as start:dev, but you will see your SQL queries (can be helpful for debugging)
+- start:dev:seed will start your server and also seed your database
 
-From there, just follow your bliss.
-
-## Deployment
-
-Ready to go world wide? Here's a guide to deployment! It is ready to be deployed to heroku at any moment.
-Supported way to deploy in Boilermaker:
 
 ### Heroku
 
@@ -104,7 +71,8 @@ Supported way to deploy in Boilermaker:
   2.  `heroku addons:create heroku-postgresql:hobby-dev` to add
       ("provision") a postgres database to your heroku dyno
   3.  `heroku config:set JWT=<your secret here!>` to set a secret for JWT signing 
-  4.  if you are using github oauth, you'll need to register another OAUTH app with github with the appropriate callback url and set the environment variables for GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET 
+  4.  `heroku config:set SEED=true` to get heroku to sync and seed your database 
+  5.  if you are using github oauth, you'll need to register another OAUTH app with github with the appropriate callback url and set the environment variables for GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET 
 
 * **If you already have a Heroku app...**
 
