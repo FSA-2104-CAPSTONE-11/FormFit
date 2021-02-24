@@ -8,6 +8,13 @@ To use this as boilerplate, you'll need to take the following steps:
   directory on your machine and `git init` (or create an empty repo on
   Github and clone it to your local machine)
 
+* Now you will have to add the fs-app-template as a remote
+
+```
+git remote add boilermaker git@github.com:FullstackAcademy/fs-app-template.git
+git fetch boilermaker
+```
+
 ## Customize
 
 Now that you've got the code, follow these steps to get acclimated:
@@ -16,15 +23,15 @@ Now that you've got the code, follow these steps to get acclimated:
 * `npm install`
 * Create two postgres databases (`MY_APP_NAME` should match the `name`
   parameter in `package.json`):
+* These commands will create both your **development** and **test** databases
 
 ```
-export MY_APP_NAME=fs-app-template
-createdb $MY_APP_NAME
-createdb $MY_APP_NAME-test
+createdb <YOUR APP NAME HERE FROM package.json> 
+createdb <YOUR APP NAME HERE FROM package.json>-test 
 ```
 
-* By default, running `npm test` will use `fs-app-template-test`, while
-  regular development uses `fs-app-template`
+* By default, running `npm test` will use your test database, while
+  regular development uses development database 
 * Create a file called `secrets.js` in the project root
   * This file is listed in `.gitignore`, and will _only_ be required
     in your _development_ environment
@@ -68,11 +75,20 @@ Running `npm run start:dev` will make great things happen!
 
   1.  `heroku create` or `heroku create your-app-name` if you have a
       name in mind.
-  2.  `heroku addons:create heroku-postgresql:hobby-dev` to add
-      ("provision") a postgres database to your heroku dyno
-  3.  `heroku config:set JWT=<your secret here!>` to set a secret for JWT signing 
-  4.  `heroku config:set SEED=true` to get heroku to sync and seed your database 
-  5.  if you are using github oauth, you'll need to register another OAUTH app with github with the appropriate callback url and set the environment variables for GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET 
+  2.  `heroku config:set JWT=<your secret here!>` to set a secret for JWT signing
+
+Database Setup
+
+  3.  `heroku addons:create heroku-postgresql:hobby-dev` to add
+      ("provision") a postgres database to your heroku dyno (This creates your production database)
+ 
+  4.  `heroku config:set SEED=true` to get heroku to sync and seed your database
+
+Oauth Setup
+
+  5.  if you are using github oauth, you'll need to register another OAUTH app with github with the appropriate callback url and set the environment variables for GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET
+  6.   note everytime your app restarts, the database tables will be dropped and re-created. To avoid this you can config:unset SEED 
+
 
 * **If you already have a Heroku app...**
 
