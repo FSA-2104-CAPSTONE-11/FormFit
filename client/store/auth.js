@@ -1,7 +1,6 @@
 import axios from 'axios'
 import history from '../history'
 
-const storage = () => window.localStorage
 const TOKEN = 'token'
 
 /**
@@ -18,7 +17,7 @@ const setAuth = auth => ({type: SET_AUTH, auth})
  * THUNK CREATORS
  */
 export const me = () => async dispatch => {
-  const token = storage().getItem(TOKEN)
+  const token = window.localStorage.getItem(TOKEN)
   if (token) {
     const res = await axios.get('/auth/me', {
       headers: {
@@ -30,10 +29,9 @@ export const me = () => async dispatch => {
 }
 
 export const authenticate = (username, password, method) => async dispatch => {
-  let res
   try {
-    res = await axios.post(`/auth/${method}`, {username, password})
-    storage().setItem(TOKEN, res.data.token)
+    const res = await axios.post(`/auth/${method}`, {username, password})
+    window.localStorage.setItem(TOKEN, res.data.token)
     dispatch(me())
   } catch (authError) {
     return dispatch(setAuth({error: authError}))
@@ -41,7 +39,7 @@ export const authenticate = (username, password, method) => async dispatch => {
 }
 
 export const logout = () => {
-  storage().removeItem(TOKEN)
+  window.localStorage.removeItem(TOKEN)
   history.push('/login')
   return {
     type: SET_AUTH,
