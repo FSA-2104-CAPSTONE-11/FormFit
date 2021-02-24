@@ -7,7 +7,7 @@ const axios = require('axios');
 const SALT_ROUNDS = 5;
 
 const User = db.define('user', {
-  email: {
+  username: {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false
@@ -36,8 +36,8 @@ User.prototype.generateToken = function() {
 /**
  * classMethods
  */
-User.authenticate = async function({ email, password }){
-    const user = await this.findOne({where: {email}})
+User.authenticate = async function({ username, password }){
+    const user = await this.findOne({where: { username }})
     if (!user || !(await user.correctPassword(password))) {
       const error = Error('Incorrect username/password');
       error.status = 401;
@@ -84,12 +84,12 @@ User.authenticateGithub = async function(code){
       authorization: `token ${ data.access_token }`
     }
   });
-  const { email, id } = response.data;
+  const { login, id } = response.data;
 
   //step 3: either find user or create user
-  let user = await User.findOne({ where: { githubId: id, email } });
+  let user = await User.findOne({ where: { githubId: id, username: login } });
   if(!user){
-    user = await User.create({ email, githubId: id });
+    user = await User.create({ username: login, githubId: id });
   }
   //step 4: return jwt token
   return user.generateToken();
