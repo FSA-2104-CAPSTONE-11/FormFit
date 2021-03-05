@@ -32,27 +32,6 @@ createdb <YOUR APP NAME HERE FROM package.json>-test
 
 * By default, running `npm test` will use your test database, while
   regular development uses development database 
-* Create a file called `secrets.js` in the project root
-  * This file is listed in `.gitignore`, and will _only_ be required
-    in your _development_ environment
-  * Its purpose is to attach the secret environment variables that you
-    will use while developing
-  * However, it's **very** important that you **not** push it to
-    Github! Otherwise, _prying eyes_ will find your secret API keys!
-  * It might look like this:
-
-
-```
-process.env.GITHUB_CLIENT_ID = 'the client id'
-process.env.GITHUB_CLIENT_SECRET = 'the client secret'
-```
-
-### OAuth
-
-
-* To use OAuth with Github, register an OAUTH app with github in order to obtain client_id and client_secret, the callback url should be set to http://localhost:8080/auth/github/callback
-
-[github-oauth]: https://docs.github.com/en/developers/apps/authorizing-oauth-apps 
 
 ## Start
 
@@ -84,10 +63,7 @@ Database Setup
  
   4.  `heroku config:set SEED=true` to get heroku to sync and seed your database
 
-Oauth Setup
-
-  5.  if you are using github oauth, you'll need to register another OAUTH app with github with the appropriate callback url and set the environment variables for GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET
-  6.   note everytime your app restarts, the database tables will be dropped and re-created. To avoid this you can config:unset SEED 
+  5.   note everytime your app restarts, the database tables will be dropped and re-created. To avoid this you can config:unset SEED 
 
 
 * **If you already have a Heroku app...**
