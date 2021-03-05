@@ -62,40 +62,6 @@ User.findByToken = async function(token) {
   }
 }
 
-User.authenticateGithub = async function(code){
-  //step 1: exchange code for token
-  let response = await axios.post('https://github.com/login/oauth/access_token', {
-    client_id: process.env.GITHUB_CLIENT_ID,
-    client_secret: process.env.GITHUB_CLIENT_SECRET,
-    code
-  }, {
-    headers: {
-      accept: 'application/json'
-    }
-  });
-  const { data } = response;
-  if(data.error){
-    const error = Error(data.error);
-    error.status = 401;
-    throw error;
-  }
-  //step 2: use token for user info
-  response = await axios.get('https://api.github.com/user', {
-    headers: {
-      authorization: `token ${ data.access_token }`
-    }
-  });
-  const { login, id } = response.data;
-
-  //step 3: either find user or create user
-  let user = await User.findOne({ where: { githubId: id, username: login } });
-  if(!user){
-    user = await User.create({ username: login, githubId: id });
-  }
-  //step 4: return jwt token
-  return user.generateToken();
-}
-
 /**
  * hooks
  */
