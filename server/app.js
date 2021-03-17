@@ -10,16 +10,11 @@ app.use(morgan('dev'))
 // body parsing middleware
 app.use(express.json())
 
-//use ejs renderer in order to pass data html files
-app.engine('html', require('ejs').renderFile);
-
 // auth and api routes
 app.use('/auth', require('./auth'))
 app.use('/api', require('./api'))
 
-const githubURL = process.env.GITHUB_CLIENT_ID ? `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}` : null;
-
-app.get('/', (req, res)=> res.render(path.join(__dirname, '..', 'public/index.html'), { githubURL }));
+app.get('/', (req, res)=> res.sendFile(path.join(__dirname, '..', 'public/index.html')));
 
 // static file-serving middleware
 app.use(express.static(path.join(__dirname, '..', 'public')))
@@ -37,7 +32,7 @@ app.use((req, res, next) => {
 
 // sends index.html
 app.use('*', (req, res) => {
-  res.render(path.join(__dirname, '..', 'public/index.html'), { githubURL });
+  res.sendFile(path.join(__dirname, '..', 'public/index.html'));
 })
 
 // error handling endware
