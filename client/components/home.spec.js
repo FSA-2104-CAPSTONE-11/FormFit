@@ -13,10 +13,10 @@ describe('Home', () => {
   let home
 
   beforeEach(() => {
-    home = shallow(<Home email="cody@email.com" />)
+    home = shallow(<Home username="cody" />)
   })
 
   it('renders the email in an h3', () => {
-    expect(home.find('h3').text()).to.be.equal('Welcome, cody@email.com')
+    expect(home.find('h3').text()).to.be.equal('Welcome, cody')
   })
 })

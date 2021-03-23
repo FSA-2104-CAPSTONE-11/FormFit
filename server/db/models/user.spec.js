@@ -1,13 +1,14 @@
 /* global describe beforeEach it */
 
 const {expect} = require('chai')
-const { db, syncAndSeed, models: { User } } = require('../index')
+const { db, models: { User } } = require('../index')
 const jwt = require('jsonwebtoken');
+const seed = require('../../../script/seed');
 
 describe('User model', () => {
   let users;
   beforeEach(async() => {
-    users = (await syncAndSeed()).users;
+    users = (await seed()).users;
   })
 
   describe('instanceMethods', () => {
@@ -21,13 +22,13 @@ describe('User model', () => {
     describe('authenticate', () => {
       let user;
       beforeEach(async()=> user = await User.create({
-        email: 'lucy@gmail.com',
+        username: 'lucy',
         password: 'loo'
       }));
       describe('with correct credentials', ()=> {
         it('returns a token', async() => {
           const token = await User.authenticate({
-            email: 'lucy@gmail.com',
+            username: 'lucy',
             password: 'loo'
           });
           expect(token).to.be.ok;
@@ -38,7 +39,7 @@ describe('User model', () => {
 
           try {
             await User.authenticate({
-              email: 'lucy@gmail.com',
+              username: 'lucy@gmail.com',
               password: '123'
             });
             throw 'nooo';
