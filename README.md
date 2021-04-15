@@ -13,7 +13,7 @@ To use this as boilerplate, you'll need to take the following steps:
 ```
 git remote add boilermaker git@github.com:FullstackAcademy/fs-app-template.git
 git fetch boilermaker
-git pull boilermaker master
+git pull boilermaker main
 ```
 
 ## Customize
