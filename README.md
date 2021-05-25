@@ -37,11 +37,11 @@ createdb <YOUR APP NAME HERE FROM package.json>-test
 
 ## Start
 
-Running `npm run start:dev` will make great things happen!
+Sync and seed your database by running `npm run seed`. Running `npm run start:dev` will make great things happen!
 
 - start:dev will both start your server and build your client side files using webpack
 - start:dev:logger is the same as start:dev, but you will see your SQL queries (can be helpful for debugging)
-- start:dev:seed will start your server and also seed your database
+- start:dev:seed will start your server and also seed your database (this is useful when you are making schema changes and you don't want to run your seed script separately)
 
 
 ### Heroku
@@ -65,7 +65,7 @@ Database Setup
 
   4.  `heroku config:set SEED=true` to get heroku to sync and seed your database
 
-  5.   note everytime your app restarts, the database tables will be dropped and re-created. To avoid this you can config:unset SEED
+  5.   note everytime your app restarts, the database tables will be dropped and re-created. To avoid this you can `config:unset SEED`
 
 
 * **If you already have a Heroku app...**
