@@ -25,17 +25,17 @@ export const me = createAsyncThunk('auth/me', async (arg, thunkAPI) => {
   }
 });
 
+
+//removed email, add back when needed.
 export const authenticate = createAsyncThunk(
   'auth/authenticate',
   async (arg, thunkAPI) => {
     const { username, password, formName: method } = arg;
-    console.log(`arg`, arg)
     const { dispatch } = thunkAPI;
-    console.log(`method, username, password`, method, username, password)
     try {
       const res =
         method === 'signup'
-          ? await axios.post(`/auth/${method}`, { username, password, email })
+          ? await axios.post(`/auth/${method}`, { username, password})
           : await axios.post(`/auth/${method}`, { username, password });
       window.localStorage.setItem(TOKEN, res.data.token);
       dispatch(me());
