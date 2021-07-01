@@ -3,6 +3,6 @@ import * as tf from "@tensorflow/tfjs-core";
 import "@tensorflow/tfjs-backend-webgl";
 import React, { useEffect } from "react";
 
-const Detect = () => {};
+const Detect = () => {<div>detector placeholder</div>};
 
 export default Detect;
