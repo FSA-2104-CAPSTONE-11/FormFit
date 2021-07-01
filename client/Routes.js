@@ -4,6 +4,7 @@ import { withRouter, Route, Switch, Redirect } from "react-router-dom";
 import { Login, Signup } from "./components/AuthForm";
 import Home from "./components/Home";
 import { me } from "./store";
+import AuthForm from "./components/AuthForm";
 import Detect from "./components/Detector";
 
 /**
@@ -26,9 +27,15 @@ class Routes extends Component {
           </Switch>
         ) : (
           <Switch>
-            <Route path="/" exact component={Login} />
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
+            <Route exact path="/">
+              <AuthForm name="login" />
+            </Route>
+            <Route path="/login">
+              <AuthForm name="login" />
+            </Route>
+            <Route path="/signup">
+              <AuthForm name="signup" />
+            </Route>
             <Route path="detect" component={Detect} />
           </Switch>
         )}

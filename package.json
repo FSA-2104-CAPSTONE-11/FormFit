@@ -20,6 +20,7 @@
   "author": "Fullstack Academy of Code",
   "license": "MIT",
   "dependencies": {
+    "@reduxjs/toolkit": "^1.6.0",
     "@tensorflow-models/pose-detection": "^0.0.3",
     "@tensorflow/tfjs-backend-webgl": "^3.7.0",
     "@tensorflow/tfjs-converter": "^3.7.0",
