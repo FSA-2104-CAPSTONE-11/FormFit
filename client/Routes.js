@@ -5,6 +5,7 @@ import { Login, Signup } from "./components/AuthForm";
 import Home from "./components/Home";
 import { me } from "./store";
 import AuthForm from "./components/AuthForm";
+import Detect from "./components/Detector";
 
 /**
  * COMPONENT
@@ -35,6 +36,7 @@ class Routes extends Component {
             <Route path="/signup">
               <AuthForm name="signup" />
             </Route>
+            <Route path="detect" component={Detect} />
           </Switch>
         )}
       </div>
