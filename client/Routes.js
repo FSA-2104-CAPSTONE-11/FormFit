@@ -36,7 +36,9 @@ class Routes extends Component {
             <Route path="/signup">
               <AuthForm name="signup" />
             </Route>
-            <Route path="detect" component={Detect} />
+            <Route path="/detect">
+              <Detect />
+            </Route>
           </Switch>
         )}
       </div>
