@@ -42,9 +42,6 @@ const Camera = () => {
       }
   }
 
-//   function draw() {
-//     p.background(220);
-//   }
 
   getPoses();
 
