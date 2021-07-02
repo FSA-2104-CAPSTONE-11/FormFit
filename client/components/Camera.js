@@ -19,13 +19,6 @@ const Camera = () => {
     );
   }
 
-  //   async function setup() {
-  //     p.createCanvas(320, 240);
-  //     video = p.createCapture(VIDEO);
-  //     video.size(320, 240);
-  //     //   video.hide();
-  //     await init();
-  //   }
 
   async function getPoses() {
     await init();
