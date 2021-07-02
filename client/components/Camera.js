@@ -89,7 +89,7 @@ const Camera = () => {
     }
   }
 
-  const drawCanvas = (poses, video, videoWidth, videoHeight, canvas) => {
+  const drawCanvas = (poses, videoWidth, videoHeight, canvas) => {
     const ctx = canvas.current.getContext("2d");
     canvas.current.width = videoWidth;
     canvas.current.height = videoHeight;
