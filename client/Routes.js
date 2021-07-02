@@ -5,7 +5,8 @@ import { Login, Signup } from "./components/AuthForm";
 import Home from "./components/Home";
 import { me } from "./store";
 import AuthForm from "./components/AuthForm";
-import Detect from "./components/Detector";
+// import Detect from "./components/Detector";
+import Camera from "./components/Camera";
 
 /**
  * COMPONENT
@@ -36,8 +37,11 @@ class Routes extends Component {
             <Route path="/signup">
               <AuthForm name="signup" />
             </Route>
-            <Route path="/detect">
+            {/* <Route path="/detect">
               <Detect />
+            </Route> */}
+            <Route path="/camera">
+              <Camera />
             </Route>
           </Switch>
         )}
