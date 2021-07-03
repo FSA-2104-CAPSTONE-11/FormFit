@@ -1,11 +1,5 @@
-import React, {useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import Webcam from "react-webcam";
-import * as posenet from "@tensorflow-models/posenet";
-
-// let detector;
-// let poses;
-const color = "aqua";
-const lineWidth = 2;
 
 const Camera = () => {
   const webcamRef = useRef();
@@ -45,54 +39,6 @@ const Camera = () => {
     }
   }
 
-  // function toTuple({ y, x }) {
-  //   return [y, x];
-  // }
-
-  // function drawSegment([ay, ax], [by, bx], color, scale, ctx) {
-  //   ctx.beginPath();
-  //   ctx.moveTo(ax * scale, ay * scale);
-  //   ctx.lineTo(bx * scale, by * scale);
-  //   ctx.lineWidth = lineWidth;
-  //   ctx.strokeStyle = color;
-  //   ctx.stroke();
-  // }
-
-  // function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
-  //   const adjacentKeyPoints = posenet.getAdjacentKeyPoints(
-  //     keypoints,
-  //     minConfidence
-  //   );
-  //   adjacentKeyPoints.forEach((keypoints) => {
-  //     drawSegment(
-  //       toTuple(keypoints[0]),
-  //       toTuple(keypoints[1]),
-  //       color,
-  //       scale,
-  //       ctx
-  //     );
-  //   });
-  // }
-
-  // function drawPoint(ctx, y, x, r, color) {
-  //   ctx.beginPath();
-  //   ctx.arc(x, y, r, 0, 2 * Math.PI);
-  //   ctx.fillStyle = color;
-  //   ctx.fill();
-  // }
-
-  // function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
-  //   for (let i = 0; i < keypoints.length; i++) {
-  //     const keypoint = keypoints[i];
-  //     if (keypoint.score < minConfidence) {
-  //       continue;
-  //     }
-
-  //     const { y, x } = keypoint;
-  //     drawPoint(ctx, y * scale, x * scale, 3, "white");
-  //   }
-  // }
-  
   function drawKeypoint(keypoint) {
     const ctx = canvasRef.current.getContext("2d");
     // If score is null, just show the keypoint.
@@ -114,15 +60,16 @@ const Camera = () => {
     ctx.strokeStyle = "White";
     ctx.lineWidth = 2;
 
+    //middle points will be white (just nose)
     for (const i of keypointInd.middle) {
       drawKeypoint(keypoints[i]);
     }
-
+    //left points will be green... note your actual left side (technically right side when looking at video)
     ctx.fillStyle = "Green";
     for (const i of keypointInd.left) {
       drawKeypoint(keypoints[i]);
     }
-
+    //right points will be orange... note your actual right side (technically left side when looking at video)
     ctx.fillStyle = "Orange";
     for (const i of keypointInd.right) {
       drawKeypoint(keypoints[i]);
@@ -154,26 +101,12 @@ const Camera = () => {
   }
 
   function drawCanvas(poses, videoWidth, videoHeight, canvas) {
-    // const ctx = canvas.current.getContext("2d");
     canvas.current.width = videoWidth;
     canvas.current.height = videoHeight;
 
     drawKeypoints(poses[0].keypoints);
     drawSkeleton(poses[0].keypoints);
   }
-
-  // let count = 0;
-  // setInterval(function () {
-  //   while (count < 1000) {
-  //     getPoses();
-  //     count++;
-  //   }
-  //   if (count === 1000) {
-  //     const canvas = document.getElementById("canvas");
-  //     const ctx = canvas.getContext("2d");
-  //     ctx.clearRect(0, 0, canvas.width, canvas.height);
-  //   }
-  // }, 1000);
 
   function handleClick() {
     init();
