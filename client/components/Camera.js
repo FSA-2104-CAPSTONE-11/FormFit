@@ -1,5 +1,5 @@
-import * as p from "p5";
-import React, {useEffect, useRef} from "react";
+// import * as p from "p5";
+import React, { useEffect, useRef } from "react";
 import Webcam from "react-webcam";
 
 let detector;
@@ -19,29 +19,27 @@ const Camera = () => {
     );
   }
 
-
   async function getPoses() {
     await init();
-    console.log('hello', webcamRef)
+    console.log("hello", webcamRef);
     if (
-        typeof webcamRef.current !== "undefined" &&
-        webcamRef.current !== null &&
-        webcamRef.current.video.readyState === 4
-      ) {
-        // Get video properties
-        const video = webcamRef.current.video;
-        const videoWidth = webcamRef.current.video.videoWidth;
-        const videoHeight = webcamRef.current.video.videoHeight;
-  
-        // Set video properties
-        webcamRef.current.video.width = videoWidth;
-        webcamRef.current.video.height = videoHeight;
+      typeof webcamRef.current !== "undefined" &&
+      webcamRef.current !== null &&
+      webcamRef.current.video.readyState === 4
+    ) {
+      // Get video properties
+      const video = webcamRef.current.video;
+      const videoWidth = webcamRef.current.video.videoWidth;
+      const videoHeight = webcamRef.current.video.videoHeight;
 
-        poses = await detector.estimatePoses(video);
-        console.log('poses', poses);
-      }
+      // Set video properties
+      webcamRef.current.video.width = videoWidth;
+      webcamRef.current.video.height = videoHeight;
+
+      poses = await detector.estimatePoses(video);
+      console.log("poses", poses);
+    }
   }
-
 
   getPoses();
 
