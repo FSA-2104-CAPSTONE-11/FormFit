@@ -1,10 +1,11 @@
-// import * as p from "p5";
 import React, { useEffect, useRef } from "react";
 import Webcam from "react-webcam";
+import * as posenet from "@tensorflow-models/posenet";
 
 let detector;
 let poses;
-// let video;
+const color = "aqua";
+const lineWidth = 2;
 
 const Camera = () => {
   const webcamRef = useRef();
@@ -21,7 +22,6 @@ const Camera = () => {
 
   async function getPoses() {
     await init();
-    console.log("hello", webcamRef);
     if (
       typeof webcamRef.current !== "undefined" &&
       webcamRef.current !== null &&
@@ -37,11 +37,79 @@ const Camera = () => {
       webcamRef.current.video.height = videoHeight;
 
       poses = await detector.estimatePoses(video);
-      console.log("poses", poses);
+      drawCanvas(poses, video, videoWidth, videoHeight, canvasRef);
     }
   }
 
-  getPoses();
+  function toTuple({ y, x }) {
+    return [y, x];
+  }
+
+  function drawSegment([ay, ax], [by, bx], color, scale, ctx) {
+    ctx.beginPath();
+    ctx.moveTo(ax * scale, ay * scale);
+    ctx.lineTo(bx * scale, by * scale);
+    ctx.lineWidth = lineWidth;
+    ctx.strokeStyle = color;
+    ctx.stroke();
+  }
+
+  function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
+    const adjacentKeyPoints = posenet.getAdjacentKeyPoints(
+      keypoints,
+      minConfidence
+    );
+    adjacentKeyPoints.forEach((keypoints) => {
+      drawSegment(
+        toTuple(keypoints[0]),
+        toTuple(keypoints[1]),
+        color,
+        scale,
+        ctx
+      );
+    });
+  }
+
+  function drawPoint(ctx, y, x, r, color) {
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, 2 * Math.PI);
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+
+  function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
+    for (let i = 0; i < keypoints.length; i++) {
+      const keypoint = keypoints[i];
+      if (keypoint.score < minConfidence) {
+        continue;
+      }
+
+      const { y, x } = keypoint;
+      drawPoint(ctx, y * scale, x * scale, 3, "white");
+    }
+  }
+
+  const drawCanvas = (poses, videoWidth, videoHeight, canvas) => {
+    const ctx = canvas.current.getContext("2d");
+    canvas.current.width = videoWidth;
+    canvas.current.height = videoHeight;
+
+    drawKeypoints(poses[0].keypoints, 0.4, ctx);
+    drawSkeleton(poses[0].keypoints, 0.3, ctx);
+  };
+
+  let count = 0;
+  setInterval(function () {
+    while (count < 50) {
+      getPoses();
+      count++;
+    }
+    if (count === 50) {
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }, 100);
 
   return (
     <div>
@@ -60,6 +128,7 @@ const Camera = () => {
         }}
       />
       <canvas
+        id="canvas"
         ref={canvasRef}
         style={{
           position: "absolute",
