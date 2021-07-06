@@ -85,6 +85,13 @@ const Camera = () => {
     poseDetection.util.getAdjacentPairs("MoveNet").forEach(([i, j]) => {
       const kp1 = keypoints[i];
       const kp2 = keypoints[j];
+      const firstX = kp1.x;
+      const firstY = kp1.y;
+      const secondX = kp2.x;
+      const secondY = kp2.y;
+      const adjacentPairAngle =
+        (Math.atan2(secondY - firstY, secondX - firstX) * 180) / Math.PI;
+      console.log("ADJACENT & ANGLE:", kp1.name, kp2.name, adjacentPairAngle);
 
       // If score is null, just show the keypoint.
       const score1 = kp1.score != null ? kp1.score : 1;
