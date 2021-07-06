@@ -15,7 +15,7 @@ const Camera = () => {
     );
     setInterval(() => {
       getPoses(detector);
-    }, 50);
+    }, 16);
   }
 
   async function getPoses(detector) {
