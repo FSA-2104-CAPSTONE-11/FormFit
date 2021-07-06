@@ -121,9 +121,14 @@ const Camera = () => {
 
   return (
     <div>
-      <button type="button" onClick={() => handleClick()}>
+      <button
+        type="button"
+        style={{ cursor: "pointer" }}
+        onClick={() => handleClick()}
+      >
         Start
       </button>
+      <br></br>
       <Webcam
         ref={webcamRef}
         style={{
