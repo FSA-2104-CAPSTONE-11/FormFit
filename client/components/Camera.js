@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from "react";
+import React, {useEffect, useRef} from "react";
 import history from "../history";
 import Webcam from "react-webcam";
 
 let count = 100;
 let angleArray = [];
-let score = 0;
+let kneeScore = 0;
+let hipScore = 0;
 
 const Camera = () => {
   const webcamRef = useRef();
@@ -27,11 +28,10 @@ const Camera = () => {
         count = 100;
         clearInterval(interval);
         checkKneeAngle();
+        checkHipAngle();
         angleArray = [];
-        if(score === 0) {
-          document.getElementById("kneeScore").innerText = ""
-        }
-        score = 0;
+        kneeScore = 0;
+        hipScore = 0;
       }
     }, 16);
   }
@@ -107,11 +107,12 @@ const Camera = () => {
       const firstY = kp1.y;
       const secondX = kp2.x;
       const secondY = kp2.y;
-      const name = kp1.name + kp2.name
-      const adjacentPairAngle =
-        Math.abs((Math.atan((firstY - secondY) / (firstX - secondX)) * 180) / Math.PI);
-        angleArray.push({ [name] : adjacentPairAngle})
-        // console.log(angleArray);
+      const name = kp1.name + kp2.name;
+      const adjacentPairAngle = Math.abs(
+        (Math.atan((firstY - secondY) / (firstX - secondX)) * 180) / Math.PI
+      );
+      angleArray.push({[name]: adjacentPairAngle});
+      // console.log(angleArray);
       // console.log("ADJACENT & ANGLE:", kp1.name, kp2.name, adjacentPairAngle);
 
       // If score is null, just show the keypoint.
@@ -139,16 +140,37 @@ const Camera = () => {
   function handleClick() {
     init();
     document.getElementById("ticker").innerText = "LOADING";
+    document.getElementById("kneeScore").innerText = "";
+    document.getElementById("hipScore").innerText = "";
   }
 
   function checkKneeAngle() {
-    const kneeAngles = angleArray.filter(e => Object.keys(e).includes('right_hipright_knee'))
-    kneeAngles.map(e => {if (e.right_hipright_knee < 1) {
-      score++
-    }})
-    console.log(score);
-    if (score > 0) {
-      document.getElementById("kneeScore").innerText = "100%"
+    const kneeAngles = angleArray.filter((e) =>
+      Object.keys(e).includes("right_hipright_knee")
+    );
+    kneeAngles.map((e) => {
+      if (e.right_hipright_knee < 1) {
+        kneeScore++;
+      }
+    });
+    // console.log(score);
+    if (kneeScore > 0) {
+      document.getElementById("kneeScore").innerText = "✔";
+    }
+  }
+
+  function checkHipAngle() {
+    const hipAngles = angleArray.filter((e) =>
+      Object.keys(e).includes("right_shoulderright_hip")
+    );
+    hipAngles.map((e) => {
+      if (e.right_shoulderright_hip < 45) {
+        hipScore++;
+      }
+    });
+    // console.log(score);
+    if (hipScore === 0) {
+      document.getElementById("hipScore").innerText = "✔";
     }
   }
 
@@ -158,11 +180,6 @@ const Camera = () => {
         <button type="button" onClick={() => handleClick()}>
           Start
         </button>
-        {/* <button type="button" onClick={() => checkKneeAngle()}>
-          Knee Angle
-        </button> */}
-        <div id="kneeScore">
-        </div>
         <Webcam
           id="webcam"
           ref={webcamRef}
@@ -196,6 +213,30 @@ const Camera = () => {
       </div>
       <div>Timer:</div>
       <div id="ticker"></div>
+      <table
+        style={{
+          borderWidth: "1px",
+          borderColor: "#aaaaaa",
+          borderStyle: "solid",
+        }}
+      >
+        <thead>
+          <tr>
+            <th>Body Part</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hip</td>
+            <td id="hipScore"></td>
+          </tr>
+          <tr>
+            <td>Knee</td>
+            <td id="kneeScore"></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };
