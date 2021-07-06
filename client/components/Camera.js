@@ -90,7 +90,7 @@ const Camera = () => {
       const secondX = kp2.x;
       const secondY = kp2.y;
       const adjacentPairAngle =
-        (Math.atan2(secondY - firstY, secondX - firstX) * 180) / Math.PI;
+        (Math.atan((firstY - secondY) / (firstX - secondX)) * 180) / Math.PI;
       console.log("ADJACENT & ANGLE:", kp1.name, kp2.name, adjacentPairAngle);
 
       // If score is null, just show the keypoint.
