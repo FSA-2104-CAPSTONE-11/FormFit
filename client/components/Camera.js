@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import history from "../history";
 import Webcam from "react-webcam";
 
@@ -111,7 +111,10 @@ const Camera = () => {
       const adjacentPairAngle = Math.abs(
         (Math.atan((firstY - secondY) / (firstX - secondX)) * 180) / Math.PI
       );
-      angleArray.push({[name]: adjacentPairAngle});
+
+      if (kp1.score > 0.5 && kp2.score > 0.5) {
+        angleArray.push({ [name]: adjacentPairAngle });
+      }
       // console.log(angleArray);
       // console.log("ADJACENT & ANGLE:", kp1.name, kp2.name, adjacentPairAngle);
 
@@ -228,11 +231,11 @@ const Camera = () => {
         </thead>
         <tbody>
           <tr>
-            <td>Hip</td>
+            <td>Torso stays Upright:</td>
             <td id="hipScore"></td>
           </tr>
           <tr>
-            <td>Knee</td>
+            <td>Knee reaches 90°:</td>
             <td id="kneeScore"></td>
           </tr>
         </tbody>
