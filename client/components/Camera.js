@@ -132,30 +132,24 @@ const Camera = () => {
       <Webcam
         ref={webcamRef}
         style={{
-          position: "absolute",
-          marginLeft: "auto",
-          marginRight: "auto",
-          left: 0,
-          right: 0,
-          textAlign: "center",
-          zindex: 9,
-          width: 640,
-          height: 480,
+          transform: "scaleX(-1)",
+          filter: "FlipH",
+          position: "fixed",
+          height: "100%",
+          width: "100%",
+          objectFit: "cover",
         }}
       />
       <canvas
         id="canvas"
         ref={canvasRef}
         style={{
-          position: "absolute",
-          marginLeft: "auto",
-          marginRight: "auto",
-          left: 0,
-          right: 0,
-          textAlign: "center",
-          zindex: 9,
-          width: 640,
-          height: 480,
+          transform: "scaleX(-1)",
+          filter: "FlipH",
+          position: "fixed",
+          height: "100%",
+          width: "100%",
+          objectFit: "cover",
         }}
       />
     </div>
