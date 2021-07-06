@@ -152,7 +152,7 @@ const Camera = () => {
       Object.keys(e).includes("right_hipright_knee")
     );
     kneeAngles.map((e) => {
-      if (e.right_hipright_knee < 1) {
+      if (e.right_hipright_knee < 5) {
         kneeScore++;
       }
     });
