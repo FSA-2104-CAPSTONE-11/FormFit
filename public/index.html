@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width initial-scale=1.0" />
+    <meta name="theme-color" content="#4285f4" />
     <title>FS-App-Template</title>
     <link rel="stylesheet" href="/style.css" />
     <script defer src="/bundle.js"></script>
@@ -20,9 +21,26 @@
     <!-- Alternatively you can use the WASM backend: <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm/dist/tf-backend-wasm.js"></script> -->
 
     <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection"></script> -->
+    <link rel="icon" type="image/png" href="./images/logo.png" />
+    <link rel="apple-touch-icon" href="./images/logo.png" />
+    <link rel="manifest" href="./manifest.json" />
   </head>
   <body>
     <div id="app"></div>
     <video preload="none" muted id="webcam" width="600" height="400"></video>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("./serviceworker.js")
+            .then((reg) =>
+              console.log("success installing service worker", reg.scope)
+            )
+            .catch((error) =>
+              console.log("failure installing service worker", error)
+            );
+        });
+      }
+    </script>
   </body>
 </html>
