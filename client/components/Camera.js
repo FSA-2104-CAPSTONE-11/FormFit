@@ -1,5 +1,8 @@
 import React, { useEffect, useRef } from "react";
+import history from "../history";
 import Webcam from "react-webcam";
+
+let count = 100;
 
 const Camera = () => {
   const webcamRef = useRef();
@@ -7,14 +10,21 @@ const Camera = () => {
 
   async function init() {
     const detectorConfig = {
-      modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING,
+      modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER,
     };
     const detector = await poseDetection.createDetector(
       poseDetection.SupportedModels.MoveNet,
       detectorConfig
     );
-    setInterval(() => {
+    const interval = setInterval(() => {
       getPoses(detector);
+      count--;
+      const ticker = document.getElementById("ticker");
+      ticker.innerText = count;
+      if (count === 0) {
+        count = 100;
+        clearInterval(interval);
+      }
     }, 16);
   }
 
@@ -117,42 +127,48 @@ const Camera = () => {
 
   function handleClick() {
     init();
+    document.getElementById("ticker").innerText = "LOADING";
   }
 
   return (
     <div>
-      <button type="button" onClick={() => handleClick()}>
-        Start
-      </button>
-      <Webcam
-        ref={webcamRef}
-        style={{
-          position: "absolute",
-          marginLeft: "auto",
-          marginRight: "auto",
-          left: 0,
-          right: 0,
-          textAlign: "center",
-          zindex: 9,
-          width: 640,
-          height: 480,
-        }}
-      />
-      <canvas
-        id="canvas"
-        ref={canvasRef}
-        style={{
-          position: "absolute",
-          marginLeft: "auto",
-          marginRight: "auto",
-          left: 0,
-          right: 0,
-          textAlign: "center",
-          zindex: 9,
-          width: 640,
-          height: 480,
-        }}
-      />
+      <div>
+        <button type="button" onClick={() => handleClick()}>
+          Start
+        </button>
+        <Webcam
+          id="webcam"
+          ref={webcamRef}
+          style={{
+            position: "absolute",
+            marginLeft: "auto",
+            marginRight: "auto",
+            left: 0,
+            right: 0,
+            textAlign: "center",
+            zindex: 9,
+            width: 640,
+            height: 480,
+          }}
+        />
+        <canvas
+          id="canvas"
+          ref={canvasRef}
+          style={{
+            position: "absolute",
+            marginLeft: "auto",
+            marginRight: "auto",
+            left: 0,
+            right: 0,
+            textAlign: "center",
+            zindex: 9,
+            width: 640,
+            height: 480,
+          }}
+        />
+      </div>
+      <div>Timer:</div>
+      <div id="ticker"></div>
     </div>
   );
 };
