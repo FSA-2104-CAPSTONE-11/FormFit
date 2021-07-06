@@ -1,5 +1,11 @@
 import React, { useEffect, useRef } from "react";
+import history from "../history";
 import Webcam from "react-webcam";
+
+let count = 100;
+let angleArray = [];
+let kneeScore = 0;
+let hipScore = 0;
 
 const Camera = () => {
   const webcamRef = useRef();
@@ -7,14 +13,26 @@ const Camera = () => {
 
   async function init() {
     const detectorConfig = {
-      modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING,
+      modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER,
     };
     const detector = await poseDetection.createDetector(
       poseDetection.SupportedModels.MoveNet,
       detectorConfig
     );
-    setInterval(() => {
+    const interval = setInterval(() => {
       getPoses(detector);
+      count--;
+      const ticker = document.getElementById("ticker");
+      ticker.innerText = count;
+      if (count === 0) {
+        count = 100;
+        clearInterval(interval);
+        checkKneeAngle();
+        checkHipAngle();
+        angleArray = [];
+        kneeScore = 0;
+        hipScore = 0;
+      }
     }, 16);
   }
 
@@ -89,9 +107,16 @@ const Camera = () => {
       const firstY = kp1.y;
       const secondX = kp2.x;
       const secondY = kp2.y;
-      const adjacentPairAngle =
-        (Math.atan((firstY - secondY) / (firstX - secondX)) * 180) / Math.PI;
-      console.log("ADJACENT & ANGLE:", kp1.name, kp2.name, adjacentPairAngle);
+      const name = kp1.name + kp2.name;
+      const adjacentPairAngle = Math.abs(
+        (Math.atan((firstY - secondY) / (firstX - secondX)) * 180) / Math.PI
+      );
+
+      if (kp1.score > 0.5 && kp2.score > 0.5) {
+        angleArray.push({ [name]: adjacentPairAngle });
+      }
+      // console.log(angleArray);
+      // console.log("ADJACENT & ANGLE:", kp1.name, kp2.name, adjacentPairAngle);
 
       // If score is null, just show the keypoint.
       const score1 = kp1.score != null ? kp1.score : 1;
@@ -117,42 +142,104 @@ const Camera = () => {
 
   function handleClick() {
     init();
+    document.getElementById("ticker").innerText = "LOADING";
+    document.getElementById("kneeScore").innerText = "";
+    document.getElementById("hipScore").innerText = "";
+  }
+
+  function checkKneeAngle() {
+    const kneeAngles = angleArray.filter((e) =>
+      Object.keys(e).includes("right_hipright_knee")
+    );
+    kneeAngles.map((e) => {
+      if (e.right_hipright_knee < 5) {
+        kneeScore++;
+      }
+    });
+    // console.log(score);
+    if (kneeScore > 0) {
+      document.getElementById("kneeScore").innerText = "✔";
+    }
+  }
+
+  function checkHipAngle() {
+    const hipAngles = angleArray.filter((e) =>
+      Object.keys(e).includes("right_shoulderright_hip")
+    );
+    hipAngles.map((e) => {
+      if (e.right_shoulderright_hip < 45) {
+        hipScore++;
+      }
+    });
+    // console.log(score);
+    if (hipScore === 0) {
+      document.getElementById("hipScore").innerText = "✔";
+    }
   }
 
   return (
     <div>
-      <button type="button" onClick={() => handleClick()}>
-        Start
-      </button>
-      <Webcam
-        ref={webcamRef}
+      <div>
+        <button type="button" onClick={() => handleClick()}>
+          Start
+        </button>
+        <Webcam
+          id="webcam"
+          ref={webcamRef}
+          style={{
+            position: "absolute",
+            marginLeft: "auto",
+            marginRight: "auto",
+            left: 0,
+            right: 0,
+            textAlign: "center",
+            zindex: 9,
+            width: 640,
+            height: 480,
+          }}
+        />
+        <canvas
+          id="canvas"
+          ref={canvasRef}
+          style={{
+            position: "absolute",
+            marginLeft: "auto",
+            marginRight: "auto",
+            left: 0,
+            right: 0,
+            textAlign: "center",
+            zindex: 9,
+            width: 640,
+            height: 480,
+          }}
+        />
+      </div>
+      <div>Timer:</div>
+      <div id="ticker"></div>
+      <table
         style={{
-          position: "absolute",
-          marginLeft: "auto",
-          marginRight: "auto",
-          left: 0,
-          right: 0,
-          textAlign: "center",
-          zindex: 9,
-          width: 640,
-          height: 480,
+          borderWidth: "1px",
+          borderColor: "#aaaaaa",
+          borderStyle: "solid",
         }}
-      />
-      <canvas
-        id="canvas"
-        ref={canvasRef}
-        style={{
-          position: "absolute",
-          marginLeft: "auto",
-          marginRight: "auto",
-          left: 0,
-          right: 0,
-          textAlign: "center",
-          zindex: 9,
-          width: 640,
-          height: 480,
-        }}
-      />
+      >
+        <thead>
+          <tr>
+            <th>Body Part</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Torso stays Upright:</td>
+            <td id="hipScore"></td>
+          </tr>
+          <tr>
+            <td>Knee reaches 90°:</td>
+            <td id="kneeScore"></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };
