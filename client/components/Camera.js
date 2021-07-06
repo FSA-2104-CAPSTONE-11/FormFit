@@ -3,6 +3,8 @@ import history from "../history";
 import Webcam from "react-webcam";
 
 let count = 100;
+let angleArray = [];
+let score = 0;
 
 const Camera = () => {
   const webcamRef = useRef();
@@ -24,6 +26,12 @@ const Camera = () => {
       if (count === 0) {
         count = 100;
         clearInterval(interval);
+        checkKneeAngle();
+        angleArray = [];
+        if(score === 0) {
+          document.getElementById("kneeScore").innerText = ""
+        }
+        score = 0;
       }
     }, 16);
   }
@@ -99,9 +107,12 @@ const Camera = () => {
       const firstY = kp1.y;
       const secondX = kp2.x;
       const secondY = kp2.y;
+      const name = kp1.name + kp2.name
       const adjacentPairAngle =
-        (Math.atan((firstY - secondY) / (firstX - secondX)) * 180) / Math.PI;
-      console.log("ADJACENT & ANGLE:", kp1.name, kp2.name, adjacentPairAngle);
+        Math.abs((Math.atan((firstY - secondY) / (firstX - secondX)) * 180) / Math.PI);
+        angleArray.push({ [name] : adjacentPairAngle})
+        // console.log(angleArray);
+      // console.log("ADJACENT & ANGLE:", kp1.name, kp2.name, adjacentPairAngle);
 
       // If score is null, just show the keypoint.
       const score1 = kp1.score != null ? kp1.score : 1;
@@ -130,12 +141,28 @@ const Camera = () => {
     document.getElementById("ticker").innerText = "LOADING";
   }
 
+  function checkKneeAngle() {
+    const kneeAngles = angleArray.filter(e => Object.keys(e).includes('right_hipright_knee'))
+    kneeAngles.map(e => {if (e.right_hipright_knee < 1) {
+      score++
+    }})
+    console.log(score);
+    if (score > 0) {
+      document.getElementById("kneeScore").innerText = "100%"
+    }
+  }
+
   return (
     <div>
       <div>
         <button type="button" onClick={() => handleClick()}>
           Start
         </button>
+        {/* <button type="button" onClick={() => checkKneeAngle()}>
+          Knee Angle
+        </button> */}
+        <div id="kneeScore">
+        </div>
         <Webcam
           id="webcam"
           ref={webcamRef}
