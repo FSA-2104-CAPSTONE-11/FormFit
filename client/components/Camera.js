@@ -256,9 +256,11 @@ const Camera = () => {
         type="button"
         style={{
           cursor: "pointer",
-          position: "relative",
+          position: "fixed",
           zIndex: 10,
           objectFit: "cover",
+          top: "90%",
+          left: "50%",
         }}
         onClick={() => handleClick()}
       >
