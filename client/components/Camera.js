@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import history from "../history";
 import Webcam from "react-webcam";
 
-let count = 100;
+let count = 250;
 let angleArray = [];
 let kneeScore = 0;
 let hipScore = 0;
