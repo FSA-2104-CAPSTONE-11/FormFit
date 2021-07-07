@@ -97,8 +97,8 @@ const Navbar = () => {
               onClose={() => setAnchorEl(null)}
             >
               <MenuItem onClick={() => handleMenuClick("/home")}>Home</MenuItem>
-              <MenuItem onClick={() => handleMenuClick("/camera")}>
-                Camera
+              <MenuItem onClick={() => handleMenuClick("/detector")}>
+                Detect Squats Here
               </MenuItem>
               {isLoggedIn ? (
                 <MenuItem onClick={handleClickLogout}>Logout</MenuItem>

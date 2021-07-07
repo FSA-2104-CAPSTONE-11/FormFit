@@ -1,13 +1,14 @@
-import React, { useEffect, useRef } from "react";
-import history from "../history";
+import * as poseDetection from "@tensorflow-models/pose-detection";
+import "@tensorflow/tfjs-backend-webgl";
+import React, { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 
 let count = 250;
-let angleArray = [];
-let kneeScore = 0;
-let hipScore = 0;
 
-const Camera = () => {
+const Detector = () => {
+  let [angleArray] = useState([]);
+  let [kneeScore] = useState(0);
+  let [hipScore] = useState(0);
   const webcamRef = useRef();
   const canvasRef = useRef();
 
@@ -115,9 +116,6 @@ const Camera = () => {
       if (kp1.score > 0.5 && kp2.score > 0.5) {
         angleArray.push({ [name]: adjacentPairAngle });
       }
-      // console.log(angleArray);
-      // console.log("ADJACENT & ANGLE:", kp1.name, kp2.name, adjacentPairAngle);
-
       // If score is null, just show the keypoint.
       const score1 = kp1.score != null ? kp1.score : 1;
       const score2 = kp2.score != null ? kp2.score : 1;
@@ -156,7 +154,6 @@ const Camera = () => {
         kneeScore++;
       }
     });
-    // console.log(score);
     if (kneeScore > 0) {
       document.getElementById("kneeScore").innerText = "✔";
     }
@@ -171,7 +168,6 @@ const Camera = () => {
         hipScore++;
       }
     });
-    // console.log(score);
     if (hipScore === 0) {
       document.getElementById("hipScore").innerText = "✔";
     }
@@ -276,4 +272,4 @@ const Camera = () => {
   );
 };
 
-export default Camera;
+export default Detector;
