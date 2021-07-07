@@ -46,7 +46,19 @@ const useStyles = makeStyles((theme) => ({
   link: {
     color: "#156064",
   },
-  toolbar: theme.mixins.toolbar
+  cssLabel: {
+    color: `${theme.palette.primary.dark} !important`,
+  },
+  cssOutlinedInput: {
+    "&$cssFocused $notchedOutline": {
+      borderColor: `${theme.palette.primary.dark} !important`,
+    },
+  },
+  cssFocused: {},
+  notchedOutline: {
+    borderWidth: "1px",
+    borderColor: "green !important",
+  },
 }));
 
 /**
@@ -106,6 +118,20 @@ const AuthForm = (props) => {
                 name="username"
                 autoComplete="username"
                 autoFocus
+                InputLabelProps={{
+                  style: { color: "#156064" },
+                  classes: {
+                    root: classes.cssLabel,
+                    focused: classes.cssFocused,
+                  },
+                }}
+                InputProps={{
+                  classes: {
+                    root: classes.cssOutlinedInput,
+                    focused: classes.cssFocused,
+                    notchedOutline: classes.notchedOutline,
+                  },
+                }}
               />
               {name === "signup" ? (
                 <TextField
@@ -117,6 +143,20 @@ const AuthForm = (props) => {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  InputLabelProps={{
+                    style: { color: "#156064" },
+                    classes: {
+                      root: classes.cssLabel,
+                      focused: classes.cssFocused,
+                    },
+                  }}
+                  InputProps={{
+                    classes: {
+                      root: classes.cssOutlinedInput,
+                      focused: classes.cssFocused,
+                      notchedOutline: classes.notchedOutline,
+                    },
+                  }}
                 />
               ) : (
                 <div></div>
@@ -131,6 +171,20 @@ const AuthForm = (props) => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                InputLabelProps={{
+                  style: { color: "#156064" },
+                  classes: {
+                    root: classes.cssLabel,
+                    focused: classes.cssFocused,
+                  },
+                }}
+                InputProps={{
+                  classes: {
+                    root: classes.cssOutlinedInput,
+                    focused: classes.cssFocused,
+                    notchedOutline: classes.notchedOutline,
+                  },
+                }}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
