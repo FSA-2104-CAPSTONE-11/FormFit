@@ -116,9 +116,6 @@ const Detector = () => {
       if (kp1.score > 0.5 && kp2.score > 0.5) {
         angleArray.push({ [name]: adjacentPairAngle });
       }
-      // console.log(angleArray);
-      // console.log("ADJACENT & ANGLE:", kp1.name, kp2.name, adjacentPairAngle);
-
       // If score is null, just show the keypoint.
       const score1 = kp1.score != null ? kp1.score : 1;
       const score2 = kp2.score != null ? kp2.score : 1;
@@ -157,7 +154,6 @@ const Detector = () => {
         kneeScore++;
       }
     });
-    // console.log(score);
     if (kneeScore > 0) {
       document.getElementById("kneeScore").innerText = "✔";
     }
@@ -172,7 +168,6 @@ const Detector = () => {
         hipScore++;
       }
     });
-    // console.log(score);
     if (hipScore === 0) {
       document.getElementById("hipScore").innerText = "✔";
     }
