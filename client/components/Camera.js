@@ -180,24 +180,17 @@ const Camera = () => {
   return (
     <div>
       <div>
-        <button
-        type="button"
-        style={{ cursor: "pointer" }}
-        onClick={() => handleClick()}
-      >
-        Start
-      </button>
-      <br></br>
+        <br></br>
         <Webcam
           id="webcam"
           ref={webcamRef}
           style={{
             transform: "scaleX(-1)",
-          filter: "FlipH",
-          position: "fixed",
-          height: "100%",
-          width: "100%",
-          objectFit: "cover",
+            filter: "FlipH",
+            position: "fixed",
+            height: "100%",
+            width: "100%",
+            objectFit: "cover",
           }}
         />
         <canvas
@@ -205,18 +198,36 @@ const Camera = () => {
           ref={canvasRef}
           style={{
             transform: "scaleX(-1)",
-          filter: "FlipH",
-          position: "fixed",
-          height: "100%",
-          width: "100%",
-          objectFit: "cover",
+            filter: "FlipH",
+            position: "fixed",
+            height: "100%",
+            width: "100%",
+            objectFit: "cover",
           }}
         />
       </div>
-      <div>Timer:</div>
-      <div id="ticker"></div>
+      <div
+        style={{
+          position: "relative",
+          zIndex: 10,
+          objectFit: "cover",
+        }}
+      >
+        Timer:
+      </div>
+      <div
+        id="ticker"
+        style={{
+          position: "relative",
+          zIndex: 10,
+          objectFit: "cover",
+        }}
+      ></div>
       <table
         style={{
+          position: "relative",
+          zIndex: 10,
+          objectFit: "cover",
           borderWidth: "1px",
           borderColor: "#aaaaaa",
           borderStyle: "solid",
@@ -239,6 +250,18 @@ const Camera = () => {
           </tr>
         </tbody>
       </table>
+      <button
+        type="button"
+        style={{
+          cursor: "pointer",
+          position: "relative",
+          zIndex: 10,
+          objectFit: "cover",
+        }}
+        onClick={() => handleClick()}
+      >
+        Start
+      </button>
     </div>
   );
 };
