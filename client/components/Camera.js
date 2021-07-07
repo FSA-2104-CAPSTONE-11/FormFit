@@ -206,26 +206,32 @@ const Camera = () => {
             }}
           />
         </div>
-        <div
+        {/* <div
           style={{
-            position: "relative",
+            position: "fixed",
+            top: "3%",
+            left: "80%",
             zIndex: 10,
             objectFit: "cover",
           }}
         >
           Timer:
-        </div>
+        </div> */}
         <div
           id="ticker"
           style={{
-            position: "relative",
+            position: "fixed",
+            left: "50%",
+            top: "50%",
             zIndex: 10,
             objectFit: "cover",
           }}
         ></div>
         <table
           style={{
-            position: "relative",
+            position: "fixed",
+            left: "70%",
+            top: "5%",
             zIndex: 10,
             objectFit: "cover",
             borderWidth: "1px",
