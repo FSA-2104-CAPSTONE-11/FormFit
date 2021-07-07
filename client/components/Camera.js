@@ -180,77 +180,79 @@ const Camera = () => {
   return (
     <div>
       <div>
-        <br></br>
-        <Webcam
-          id="webcam"
-          ref={webcamRef}
+        <div>
+          <Webcam
+            id="webcam"
+            ref={webcamRef}
+            style={{
+              transform: "scaleX(-1)",
+              filter: "FlipH",
+              position: "fixed",
+              height: "100%",
+              width: "100%",
+              objectFit: "cover",
+            }}
+          />
+          <canvas
+            id="canvas"
+            ref={canvasRef}
+            style={{
+              transform: "scaleX(-1)",
+              filter: "FlipH",
+              position: "fixed",
+              height: "100%",
+              width: "100%",
+              objectFit: "cover",
+            }}
+          />
+        </div>
+        <div
           style={{
-            transform: "scaleX(-1)",
-            filter: "FlipH",
-            position: "fixed",
-            height: "100%",
-            width: "100%",
+            position: "relative",
+            zIndex: 10,
             objectFit: "cover",
           }}
-        />
-        <canvas
-          id="canvas"
-          ref={canvasRef}
+        >
+          Timer:
+        </div>
+        <div
+          id="ticker"
           style={{
-            transform: "scaleX(-1)",
-            filter: "FlipH",
-            position: "fixed",
-            height: "100%",
-            width: "100%",
+            position: "relative",
+            zIndex: 10,
             objectFit: "cover",
           }}
-        />
+        ></div>
+        <table
+          style={{
+            position: "relative",
+            zIndex: 10,
+            objectFit: "cover",
+            borderWidth: "1px",
+            borderColor: "#aaaaaa",
+            borderStyle: "solid",
+          }}
+        >
+          <thead>
+            <tr>
+              <th>Body Part</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Torso stays Upright:</td>
+              <td id="hipScore"></td>
+            </tr>
+            <tr>
+              <td>Knee reaches 90°:</td>
+              <td id="kneeScore"></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div
-        style={{
-          position: "relative",
-          zIndex: 10,
-          objectFit: "cover",
-        }}
-      >
-        Timer:
-      </div>
-      <div
-        id="ticker"
-        style={{
-          position: "relative",
-          zIndex: 10,
-          objectFit: "cover",
-        }}
-      ></div>
-      <table
-        style={{
-          position: "relative",
-          zIndex: 10,
-          objectFit: "cover",
-          borderWidth: "1px",
-          borderColor: "#aaaaaa",
-          borderStyle: "solid",
-        }}
-      >
-        <thead>
-          <tr>
-            <th>Body Part</th>
-            <th>Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Torso stays Upright:</td>
-            <td id="hipScore"></td>
-          </tr>
-          <tr>
-            <td>Knee reaches 90°:</td>
-            <td id="kneeScore"></td>
-          </tr>
-        </tbody>
-      </table>
       <button
+        id="start"
         type="button"
         style={{
           cursor: "pointer",
