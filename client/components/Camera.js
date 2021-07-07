@@ -230,7 +230,7 @@ const Camera = () => {
         <table
           style={{
             position: "fixed",
-            left: "70%",
+            left: "45%",
             top: "5%",
             zIndex: 10,
             objectFit: "cover",
