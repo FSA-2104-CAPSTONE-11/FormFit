@@ -25,7 +25,7 @@ const Camera = () => {
       const ticker = document.getElementById("ticker");
       ticker.innerText = count;
       if (count === 0) {
-        count = 100;
+        count = 250;
         clearInterval(interval);
         checkKneeAngle();
         checkHipAngle();
