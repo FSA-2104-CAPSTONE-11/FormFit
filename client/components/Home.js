@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import NavbarOffset from './NavbarOffset';
 
 /**
  * COMPONENT
@@ -28,6 +29,7 @@ export const Home = (props) => {
 
   return (
     <div>
+      <NavbarOffset />
       <h3>Welcome, {username}</h3>
       <button onClick={startVideo}>Show my face</button>
       <video autoPlay={true} id="videoElement"></video>

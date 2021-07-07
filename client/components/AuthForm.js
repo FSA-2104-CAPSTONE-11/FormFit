@@ -16,13 +16,13 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import NavbarOffset from "./NavbarOffset";
 
 /**
  * STYLES
  */
 const useStyles = makeStyles((theme) => ({
   main: {
-    marginTop: theme.spacing(8),
     backgroundColor: "#f9fbe7",
     border: "1px solid #d3d3d3",
   },
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   link: {
     color: "#156064",
   },
-  toolbar: theme.mixins.toolbar
+  toolbar: theme.mixins.toolbar,
 }));
 
 /**
@@ -82,111 +82,114 @@ const AuthForm = (props) => {
       {isLoggedIn ? (
         <Redirect to="/home" />
       ) : (
-        <Container component="main" maxWidth="xs" className={classes.main}>
-          <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              {displayName}
-            </Typography>
-            <form
-              className={classes.form}
-              name={name}
-              noValidate
-              onSubmit={handleSubmit}
-            >
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                label="Username"
-                name="username"
-                autoComplete="username"
-                autoFocus
-              />
-              {name === "signup" ? (
+        <div>
+          <NavbarOffset />
+          <Container component="main" maxWidth="xs" className={classes.main}>
+            <div className={classes.paper}>
+              <Avatar className={classes.avatar}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                {displayName}
+              </Typography>
+              <form
+                className={classes.form}
+                name={name}
+                noValidate
+                onSubmit={handleSubmit}
+              >
                 <TextField
                   variant="outlined"
                   margin="normal"
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  id="username"
+                  label="Username"
+                  name="username"
+                  autoComplete="username"
+                  autoFocus
                 />
-              ) : (
-                <div></div>
-              )}
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+                {name === "signup" ? (
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                  />
+                ) : (
+                  <div></div>
+                )}
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                />
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Remember me"
+                />
 
-              {error && error.response && <div> {error.response.data} </div>}
+                {error && error.response && <div> {error.response.data} </div>}
 
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                {displayName}
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  {/* <Link href="#" variant="body2">
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                >
+                  {displayName}
+                </Button>
+                <Grid container>
+                  <Grid item xs>
+                    {/* <Link href="#" variant="body2">
                     Forgot password?
                   </Link> */}
+                  </Grid>
+                  <Grid item>
+                    {name === "login" ? (
+                      <Link
+                        href="/signup"
+                        variant="body2"
+                        className={classes.link}
+                      >
+                        {"Don't have an account? Sign Up"}
+                      </Link>
+                    ) : (
+                      <Link
+                        href="/login"
+                        variant="body2"
+                        className={classes.link}
+                      >
+                        {"Already have an account? Login"}
+                      </Link>
+                    )}
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  {name === "login" ? (
-                    <Link
-                      href="/signup"
-                      variant="body2"
-                      className={classes.link}
-                    >
-                      {"Don't have an account? Sign Up"}
-                    </Link>
-                  ) : (
-                    <Link
-                      href="/login"
-                      variant="body2"
-                      className={classes.link}
-                    >
-                      {"Already have an account? Login"}
-                    </Link>
-                  )}
-                </Grid>
-              </Grid>
-            </form>
-          </div>
-          <Box mt={8}>
-            <Typography variant="body2" color="textSecondary" align="center">
-              {"Copyright © "}
-              <Link color="inherit" href="/">
-                Squatter
-              </Link>{" "}
-              {new Date().getFullYear()}
-              {"."}
-            </Typography>
-          </Box>
-        </Container>
+              </form>
+            </div>
+            <Box mt={8}>
+              <Typography variant="body2" color="textSecondary" align="center">
+                {"Copyright © "}
+                <Link color="inherit" href="/">
+                  Squatter
+                </Link>{" "}
+                {new Date().getFullYear()}
+                {"."}
+              </Typography>
+            </Box>
+          </Container>
+        </div>
       )}
     </div>
   );
