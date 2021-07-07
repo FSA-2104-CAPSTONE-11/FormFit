@@ -46,7 +46,19 @@ const useStyles = makeStyles((theme) => ({
   link: {
     color: "#156064",
   },
-  toolbar: theme.mixins.toolbar,
+  cssLabel: {
+    color: `${theme.palette.primary.dark} !important`,
+  },
+  cssOutlinedInput: {
+    "&$cssFocused $notchedOutline": {
+      borderColor: `${theme.palette.primary.dark} !important`,
+    },
+  },
+  cssFocused: {},
+  notchedOutline: {
+    borderWidth: "1px",
+    borderColor: "green !important",
+  },
 }));
 
 /**
@@ -82,63 +94,105 @@ const AuthForm = (props) => {
       {isLoggedIn ? (
         <Redirect to="/home" />
       ) : (
-        <div>
+     <div>
           <NavbarOffset />
-          <Container component="main" maxWidth="xs" className={classes.main}>
-            <div className={classes.paper}>
-              <Avatar className={classes.avatar}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                {displayName}
-              </Typography>
-              <form
-                className={classes.form}
-                name={name}
-                noValidate
-                onSubmit={handleSubmit}
-              >
+        <Container component="main" maxWidth="xs" className={classes.main}>
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              {displayName}
+            </Typography>
+            <form
+              className={classes.form}
+              name={name}
+              noValidate
+              onSubmit={handleSubmit}
+            >
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
+                autoFocus
+                InputLabelProps={{
+                  style: { color: "#156064" },
+                  classes: {
+                    root: classes.cssLabel,
+                    focused: classes.cssFocused,
+                  },
+                }}
+                InputProps={{
+                  classes: {
+                    root: classes.cssOutlinedInput,
+                    focused: classes.cssFocused,
+                    notchedOutline: classes.notchedOutline,
+                  },
+                }}
+              />
+              {name === "signup" ? (
                 <TextField
                   variant="outlined"
                   margin="normal"
                   required
                   fullWidth
-                  id="username"
-                  label="Username"
-                  name="username"
-                  autoComplete="username"
-                  autoFocus
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  InputLabelProps={{
+                    style: { color: "#156064" },
+                    classes: {
+                      root: classes.cssLabel,
+                      focused: classes.cssFocused,
+                    },
+                  }}
+                  InputProps={{
+                    classes: {
+                      root: classes.cssOutlinedInput,
+                      focused: classes.cssFocused,
+                      notchedOutline: classes.notchedOutline,
+                    },
+                  }}
                 />
-                {name === "signup" ? (
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                  />
-                ) : (
-                  <div></div>
-                )}
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                />
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
-                />
-
+              ) : (
+                <div></div>
+              )}
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                InputLabelProps={{
+                  style: { color: "#156064" },
+                  classes: {
+                    root: classes.cssLabel,
+                    focused: classes.cssFocused,
+                  },
+                }}
+                InputProps={{
+                  classes: {
+                    root: classes.cssOutlinedInput,
+                    focused: classes.cssFocused,
+                    notchedOutline: classes.notchedOutline,
+                  },
+                }}
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+               
                 {error && error.response && <div> {error.response.data} </div>}
 
                 <Button
