@@ -71,67 +71,44 @@ const Navbar = () => {
         className={classes.appBarTransparent}
       >
         <Toolbar variant="dense">
-          {isMobile ? (
-            <>
-              <IconButton
-                edge="start"
-                className={classes.menuButton}
-                color="inherit"
-                aria-label="menu"
-                onClick={handleMenu}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={open}
-                onClose={() => setAnchorEl(null)}
-              >
-                <MenuItem onClick={() => handleMenuClick("/home")}>
-                  Home
-                </MenuItem>
-                <MenuItem onClick={() => handleMenuClick("/camera")}>
-                  Camera
-                </MenuItem>
-                {isLoggedIn ? (
-                  <MenuItem onClick={handleClickLogout}>Logout</MenuItem>
-                ) : (
-                  <MenuItem onClick={() => handleMenuClick("/login")}>Login</MenuItem>
-                )}
-              </Menu>
-            </>
-          ) : (
-            <div className={classes.headerOptions}>
-              <Button variant="contained" component={RouterLink} to="/">
-                HOME
-              </Button>
-              <Button variant="contained" component={RouterLink} to="/camera">
-                CAMERA
-              </Button>
+          <>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+              onClick={handleMenu}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={open}
+              onClose={() => setAnchorEl(null)}
+            >
+              <MenuItem onClick={() => handleMenuClick("/home")}>Home</MenuItem>
+              <MenuItem onClick={() => handleMenuClick("/camera")}>
+                Camera
+              </MenuItem>
               {isLoggedIn ? (
-                <Button variant="contained" onClick={handleClickLogout}>
-                  LOGOUT
-                </Button>
+                <MenuItem onClick={handleClickLogout}>Logout</MenuItem>
               ) : (
-                <Button
-                  variant="contained"
-                  onClick={() => handleButtonClick("/login")}
-                >
-                  LOGIN
-                </Button>
+                <MenuItem onClick={() => handleMenuClick("/login")}>
+                  Login
+                </MenuItem>
               )}
-            </div>
-          )}
+            </Menu>
+          </>
         </Toolbar>
       </AppBar>
     </div>

@@ -48,7 +48,7 @@ export const handleLogout = createAsyncThunk(
   async (arg, thunkAPI) => {
     const { dispatch } = thunkAPI;
     await dispatch(logout());
-    history.push("/");
+    history.push("/login");
   }
 );
 
