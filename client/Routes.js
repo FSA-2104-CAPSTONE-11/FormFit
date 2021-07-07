@@ -4,7 +4,7 @@ import { withRouter, Route, Switch } from "react-router-dom";
 import AuthForm from "./components/AuthForm";
 import Home from "./components/Home";
 import { me } from "./store";
-import Camera from "./components/Camera";
+import Detector from "./components/Detector";
 
 /**
  * COMPONENT
@@ -36,8 +36,8 @@ const Routes = () => {
         <Route path="/signup">
           <AuthForm name="signup" />
         </Route>
-        <Route exact path="/camera">
-          <Camera />
+        <Route exact path="/detector">
+          <Detector />
         </Route>
       </Switch>
     </div>

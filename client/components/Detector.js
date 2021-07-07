@@ -1,13 +1,14 @@
-import React, { useEffect, useRef } from "react";
-import history from "../history";
+import * as poseDetection from "@tensorflow-models/pose-detection";
+import "@tensorflow/tfjs-backend-webgl";
+import React, { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 
 let count = 250;
-let angleArray = [];
-let kneeScore = 0;
-let hipScore = 0;
 
-const Camera = () => {
+const Detector = () => {
+  let [angleArray] = useState([]);
+  let [kneeScore] = useState(0);
+  let [hipScore] = useState(0);
   const webcamRef = useRef();
   const canvasRef = useRef();
 
@@ -276,4 +277,4 @@ const Camera = () => {
   );
 };
 
-export default Camera;
+export default Detector;
