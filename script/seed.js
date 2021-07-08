@@ -28,7 +28,7 @@ async function seed() {
     Pose.create({
       name: "squat",
       instructions:
-        "in order to squat, directly face the camera, and drop your butt backwards towards the ground until your thighs are at least level with the floor. Keep your back upright and shoulders level the whole time. Then, stand back up straight. That iss one rep!",
+        "in order to squat, directly face the camera, and drop your butt backwards towards the ground until your thighs are at least level with the floor. Keep your back upright and shoulders level the whole time. Then, stand back up straight. That is one rep!",
     }),
   ]);
 
