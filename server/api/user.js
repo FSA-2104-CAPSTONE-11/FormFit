@@ -8,8 +8,7 @@ const requireToken = require("./gatekeeping");
 // //GET api/user (protected for logged in user)
 router.get("/", requireToken, async (req, res, next) => {
   try {
-    const user = await User.findByToken(req.headers.authorization);
-    const {id, username, email} = user
+    const {id, username, email} = req.user
     res.json({id, username, email});
   } catch (err) {
     next(err);
