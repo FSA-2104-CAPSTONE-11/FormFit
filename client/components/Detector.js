@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   roundButton: {
     backgroundColor: "#FFC2B4",
     border: "2px solid #156064",
-    opacity: "0.5"
+    opacity: "0.5",
   },
 }));
 
@@ -20,10 +20,10 @@ const Detector = () => {
   const classes = useStyles();
 
   let [angleArray] = useState([]);
-  let [shoulderArray] = useState([]);
-  let [kneeScore] = useState(0);
-  let [shoulderScore] = useState(0);
-  let [hipScore] = useState(0);
+  // let [shoulderArray] = useState([]);
+  // let [kneeScore] = useState(0);
+  // let [shoulderScore] = useState(0);
+  // let [hipScore] = useState(0);
   const webcamRef = useRef();
   const canvasRef = useRef();
 
@@ -132,15 +132,16 @@ const Detector = () => {
       );
 
       if (kp1.score > 0.5 && kp2.score > 0.5) {
-        angleArray.push({ [name]: adjacentPairAngle });
+        angleArray.push({ [name]: [adjacentPairAngle, kp1.score, kp2.score] });
+        console.log(`angleArray`, angleArray);
       }
-      if (
-        name === "left_shoulderright_shoulder" &&
-        kp1.score > 0.65 &&
-        kp2.score > 0.65
-      ) {
-        shoulderArray.push({ [name]: adjacentPairAngle });
-      }
+      // if (
+      //   name === "left_shoulderright_shoulder" &&
+      //   kp1.score > 0.65 &&
+      //   kp2.score > 0.65
+      // ) {
+      //   shoulderArray.push({ [name]: adjacentPairAngle });
+      // }
       // If score is null, just show the keypoint.
       const score1 = kp1.score != null ? kp1.score : 1;
       const score2 = kp2.score != null ? kp2.score : 1;
@@ -165,53 +166,55 @@ const Detector = () => {
 
   function handleClick() {
     init();
-    document.getElementById("ticker").innerText = "LOADING";
-    document.getElementById("kneeScore").innerText = "";
-    document.getElementById("hipScore").innerText = "";
-    document.getElementById("shoulderScore").innerText = "";
+    //set scoreboard to blank, ticker to loading
+
+    //document.getElementById("ticker").innerText = "LOADING";
+    // document.getElementById("kneeScore").innerText = "";
+    // document.getElementById("hipScore").innerText = "";
+    // document.getElementById("shoulderScore").innerText = "";
   }
 
-  function checkKneeAngle() {
-    const kneeAngles = angleArray.filter((e) =>
-      Object.keys(e).includes("right_hipright_knee")
-    );
-    kneeAngles.map((e) => {
-      if (e.right_hipright_knee < 5) {
-        kneeScore++;
-      }
-    });
-    if (kneeScore > 0) {
-      document.getElementById("kneeScore").innerText = "✔";
-    }
-  }
+  // function checkKneeAngle() {
+  //   const kneeAngles = angleArray.filter((e) =>
+  //     Object.keys(e).includes("right_hipright_knee")
+  //   );
+  //   kneeAngles.map((e) => {
+  //     if (e.right_hipright_knee < 5) {
+  //       kneeScore++;
+  //     }
+  //   });
+  //   if (kneeScore > 0) {
+  //     document.getElementById("kneeScore").innerText = "✔";
+  //   }
+  // }
 
-  function checkHipAngle() {
-    const hipAngles = angleArray.filter((e) =>
-      Object.keys(e).includes("right_shoulderright_hip")
-    );
-    hipAngles.map((e) => {
-      if (e.right_shoulderright_hip < 45) {
-        hipScore++;
-      }
-    });
-    if (hipScore === 0) {
-      document.getElementById("hipScore").innerText = "✔";
-    }
-  }
+  // function checkHipAngle() {
+  //   const hipAngles = angleArray.filter((e) =>
+  //     Object.keys(e).includes("right_shoulderright_hip")
+  //   );
+  //   hipAngles.map((e) => {
+  //     if (e.right_shoulderright_hip < 45) {
+  //       hipScore++;
+  //     }
+  //   });
+  //   if (hipScore === 0) {
+  //     document.getElementById("hipScore").innerText = "✔";
+  //   }
+  // }
 
-  function checkShoulderAlignment() {
-    const positions = shoulderArray.filter((e) =>
-      Object.keys(e).includes("left_shoulderright_shoulder")
-    );
-    positions.map((e) => {
-      if (e.left_shoulderright_shoulder > 5) {
-        shoulderScore++;
-      }
-    });
-    if (shoulderScore === 0) {
-      document.getElementById("shoulderScore").innerText = "✔";
-    }
-  }
+  // function checkShoulderAlignment() {
+  //   const positions = shoulderArray.filter((e) =>
+  //     Object.keys(e).includes("left_shoulderright_shoulder")
+  //   );
+  //   positions.map((e) => {
+  //     if (e.left_shoulderright_shoulder > 5) {
+  //       shoulderScore++;
+  //     }
+  //   });
+  //   if (shoulderScore === 0) {
+  //     document.getElementById("shoulderScore").innerText = "✔";
+  //   }
+  // }
 
   return (
     <div>
@@ -309,8 +312,8 @@ const Detector = () => {
           height: "60px",
           width: "60px",
           top: "85%",
-          left: 'calc(50% - 30px)',
-          padding: "0px"
+          left: "calc(50% - 30px)",
+          padding: "0px",
         }}
         onClick={() => handleClick()}
       >
