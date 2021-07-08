@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, PoseSession },
+  models: { User, PoseSession, Pose, Criteria },
 } = require("../server/db");
 
 /**
@@ -23,6 +23,40 @@ async function seed() {
     }),
   ]);
 
+  // Creating Pose
+  const pose = await Promise.all([
+    Pose.create({
+      name: "squat",
+      instructions:
+        "in order to squat, directly face the camera, and drop your butt backwards towards the ground until your thighs are at least level with the floor. Keep your back upright and shoulders level the whole time. Then, stand back up straight. That is one rep!",
+    }),
+  ]);
+
+  // Creating Criteria
+  const criteria = await Promise.all([
+    Criteria.create({
+      name: "knees",
+      quickDescription: "knees must reach 90 degrees",
+      longDescription:
+        "the angle between your knees, the floor, and your hips must reach 90 degrees. That means your thigh should be parallel to the ground.",
+      poseId: 1,
+    }),
+    Criteria.create({
+      name: "shoulders",
+      quickDescription: "shoulders remain level",
+      longDescription:
+        "your shoulders should be at roughly the same height at all points during the squat. If your upper half begins to tilt, you will fail this test",
+      poseId: 1,
+    }),
+    Criteria.create({
+      name: "torso",
+      quickDescription: "torso remains upright",
+      longDescription:
+        "while your legs lower you to the ground, your upper body should remain upright. Your back should be flat, and your eyes should be looking straight forward, not towards the ground.",
+      poseId: 1,
+    }),
+  ]);
+
   // Creating PoseSessions
   const poseSessions = await Promise.all([
     PoseSession.create({
@@ -31,6 +65,7 @@ async function seed() {
       feedback: "keep torso upright",
       length: 10.4,
       userId: 1,
+      poseId: 1,
     }),
     PoseSession.create({
       reps: 1,
@@ -38,11 +73,14 @@ async function seed() {
       feedback: "keep torso up right and bend knees 90 degrees",
       length: 4.5,
       userId: 1,
+      poseId: 1,
     }),
   ]);
 
   console.log(`seeded ${users.length} users`);
   console.log(`seeded ${poseSessions.length} poseSessions`);
+  console.log(`seeded ${pose.length} poses`);
+  console.log(`seeded ${criteria.length} criteria`);
   console.log(`seeded successfully`);
   return {
     users: {
