@@ -100,6 +100,9 @@ const Navbar = () => {
               <MenuItem onClick={() => handleMenuClick("/detector")}>
                 Detect Squats Here
               </MenuItem>
+              <MenuItem onClick={() => handleMenuClick("/history")}>
+                Pose History
+              </MenuItem>
               {isLoggedIn ? (
                 <div>
                   <MenuItem onClick={() => handleMenuClick("/profile")}>My Profile</MenuItem>
