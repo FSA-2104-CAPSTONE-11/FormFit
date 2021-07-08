@@ -5,6 +5,7 @@ import AuthForm from "./components/AuthForm";
 import Home from "./components/Home";
 import { me } from "./store";
 import Detector from "./components/Detector";
+import History from "./components/PoseHistory";
 
 /**
  * COMPONENT
@@ -38,6 +39,9 @@ const Routes = () => {
         </Route>
         <Route exact path="/detector">
           <Detector />
+        </Route>
+        <Route exact path="/history">
+          <History />
         </Route>
       </Switch>
     </div>
