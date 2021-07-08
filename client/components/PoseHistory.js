@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getHistory } from "../store/poseHistory";
+import NavbarOffset from "./NavbarOffset";
 
 // style imports
-import NavbarOffset from "./NavbarOffset";
 import { makeStyles } from "@material-ui/core/styles";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
   heading: {
     fontSize: theme.typography.pxToRem(20),
     fontWeight: theme.typography.fontWeightRegular,
+  },
+  column: {
+    flexBasis: "50%",
   },
 }));
 
@@ -73,16 +76,31 @@ const History = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  <Typography className={classes.heading}>
-                    Date: {alterDate(pose.createdAt)}
-                  </Typography>
-                  <Typography className={classes.heading}>
-                    Score: {pose.score}
-                  </Typography>
+                  <div className={classes.column}>
+                    <Typography className={classes.heading}>
+                      {alterDate(pose.createdAt)}
+                    </Typography>
+                  </div>
+                  <div className={classes.column}>
+                    <Typography className={classes.heading}>
+                      Score: {pose.score}
+                    </Typography>
+                  </div>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Typography>
-                    Duration: {pose.length} seconds Feedback: {pose.feedback}
+                  <Typography className={classes.body} component={"span"}>
+                    <ul style={{ listStyleType: "none", padding: 0 }}>
+                      <li>
+                        <strong>Time:</strong>
+                        {` ${pose.createdAt.slice(11, 16)} EST`}
+                      </li>
+                      <li>
+                        <strong>Duration:</strong> {pose.length} seconds
+                      </li>
+                      <li>
+                        <strong>Feedback:</strong> {pose.feedback}
+                      </li>
+                    </ul>
                   </Typography>
                 </AccordionDetails>
               </Accordion>
