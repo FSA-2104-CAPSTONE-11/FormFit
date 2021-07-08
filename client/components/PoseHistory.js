@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getHistory } from "../store/poseHistory";
 
 // style imports
+import NavbarOffset from "./NavbarOffset";
 import { makeStyles } from "@material-ui/core/styles";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -15,14 +16,19 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
  */
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%",
+    width: "95%",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   heading: {
-    fontSize: theme.typography.pxToRem(10),
+    fontSize: theme.typography.pxToRem(20),
     fontWeight: theme.typography.fontWeightRegular,
   },
 }));
 
+/**
+ * COMPONENT
+ */
 const History = () => {
   const classes = useStyles();
 
@@ -37,8 +43,26 @@ const History = () => {
     }
   }, [isLoggedIn]);
 
+  // function to manually alter each date we render
+  const alterDate = (createdAt) => {
+    const year = Number(createdAt.slice(0, 4));
+    const monthIndex = createdAt.slice(5, 7) - 1;
+    const day = Number(createdAt.slice(8, 10));
+    const event = new Date(year, monthIndex, day);
+    const options = { weekday: "short", month: "short", day: "numeric" };
+    return event.toLocaleDateString("US-en", options);
+  };
+
   return (
     <div className={classes.root}>
+      <NavbarOffset />
+      <h1
+        style={{
+          textAlign: "center",
+        }}
+      >
+        My Pose History
+      </h1>
       {isLoggedIn ? (
         <div>
           {poseHistory.map((pose) => {
@@ -50,7 +74,7 @@ const History = () => {
                   id="panel1a-header"
                 >
                   <Typography className={classes.heading}>
-                    Date: {pose.createdAt}
+                    Date: {alterDate(pose.createdAt)}
                   </Typography>
                   <Typography className={classes.heading}>
                     Score: {pose.score}
