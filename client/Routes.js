@@ -5,6 +5,7 @@ import AuthForm from "./components/AuthForm";
 import Home from "./components/Home";
 import { me } from "./store";
 import Detector from "./components/Detector";
+import Profile from "./components/Profile";
 import History from "./components/PoseHistory";
 
 /**
@@ -39,6 +40,9 @@ const Routes = () => {
         </Route>
         <Route exact path="/detector">
           <Detector />
+        </Route>
+        <Route exact path="/profile">
+          <Profile />
         </Route>
         <Route exact path="/history">
           <History />

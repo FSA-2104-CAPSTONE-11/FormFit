@@ -104,7 +104,10 @@ const Navbar = () => {
                 Pose History
               </MenuItem>
               {isLoggedIn ? (
-                <MenuItem onClick={handleClickLogout}>Logout</MenuItem>
+                <div>
+                  <MenuItem onClick={() => handleMenuClick("/profile")}>My Profile</MenuItem>
+                  <MenuItem onClick={handleClickLogout}>Logout</MenuItem>
+                </div>
               ) : (
                 <MenuItem onClick={() => handleMenuClick("/login")}>
                   Login
