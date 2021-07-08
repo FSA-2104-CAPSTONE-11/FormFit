@@ -7,7 +7,9 @@ let count = 250;
 
 const Detector = () => {
   let [angleArray] = useState([]);
+  let [shoulderArray] = useState([]);
   let [kneeScore] = useState(0);
+  let [shoulderScore] = useState(0);
   let [hipScore] = useState(0);
   const webcamRef = useRef();
   const canvasRef = useRef();
@@ -30,9 +32,12 @@ const Detector = () => {
         clearInterval(interval);
         checkKneeAngle();
         checkHipAngle();
+        checkShoulderAlignment();
         angleArray = [];
+        shoulderArray = [];
         kneeScore = 0;
         hipScore = 0;
+        shoulderScore = 0;
       }
     }, 16);
   }
@@ -116,6 +121,13 @@ const Detector = () => {
       if (kp1.score > 0.5 && kp2.score > 0.5) {
         angleArray.push({ [name]: adjacentPairAngle });
       }
+      if (
+        name === "left_shoulderright_shoulder" &&
+        kp1.score > 0.65 &&
+        kp2.score > 0.65
+      ) {
+        shoulderArray.push({ [name]: adjacentPairAngle });
+      }
       // If score is null, just show the keypoint.
       const score1 = kp1.score != null ? kp1.score : 1;
       const score2 = kp2.score != null ? kp2.score : 1;
@@ -143,6 +155,7 @@ const Detector = () => {
     document.getElementById("ticker").innerText = "LOADING";
     document.getElementById("kneeScore").innerText = "";
     document.getElementById("hipScore").innerText = "";
+    document.getElementById("shoulderScore").innerText = "";
   }
 
   function checkKneeAngle() {
@@ -170,6 +183,20 @@ const Detector = () => {
     });
     if (hipScore === 0) {
       document.getElementById("hipScore").innerText = "✔";
+    }
+  }
+
+  function checkShoulderAlignment() {
+    const positions = shoulderArray.filter((e) =>
+      Object.keys(e).includes("left_shoulderright_shoulder")
+    );
+    positions.map((e) => {
+      if (e.left_shoulderright_shoulder > 5) {
+        shoulderScore++;
+      }
+    });
+    if (shoulderScore === 0) {
+      document.getElementById("shoulderScore").innerText = "✔";
     }
   }
 
@@ -249,6 +276,10 @@ const Detector = () => {
             <tr>
               <td>Knee reaches 90°:</td>
               <td id="kneeScore"></td>
+            </tr>
+            <tr>
+              <td>Shoulder Alignment:</td>
+              <td id="shoulderScore"></td>
             </tr>
           </tbody>
         </table>
