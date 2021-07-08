@@ -5,6 +5,7 @@ import Webcam from "react-webcam";
 import { IconButton, SvgIcon, makeStyles } from "@material-ui/core";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import StartButton from "./StartButton";
+import evaluateExercise from "./Evaluator";
 
 const useStyles = makeStyles((theme) => ({
   roundButton: {
@@ -14,12 +15,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-let count = 250;
+let count = 50;
+
+const squatCriteria = [
+  // name : [score req, min angle, max angle]
+  { right_hipright_knee: [0.5, null, 5, "require"] },
+  { right_shoulderright_hip: [0.5, null, 70, "avoid"] },
+  { left_shoulderright_shoulder: [0.65, 10, null, "avoid"] },
+];
 
 const Detector = () => {
   const classes = useStyles();
 
-  let [angleArray] = useState([]);
+  let [angleArray, setAngleArray] = useState([]);
+  let [score, setScore] = useState({});
   // let [shoulderArray] = useState([]);
   // let [kneeScore] = useState(0);
   // let [shoulderScore] = useState(0);
@@ -41,16 +50,17 @@ const Detector = () => {
       const ticker = document.getElementById("ticker");
       ticker.innerText = count;
       if (count === 0) {
-        count = 250;
+        count = 50;
         clearInterval(interval);
-        checkKneeAngle();
-        checkHipAngle();
-        checkShoulderAlignment();
-        angleArray = [];
-        shoulderArray = [];
-        kneeScore = 0;
-        hipScore = 0;
-        shoulderScore = 0;
+        // checkKneeAngle();
+        // checkHipAngle();
+        // checkShoulderAlignment();
+        setScore(evaluateExercise(angleArray, squatCriteria));
+        // angleArray = [];
+        // shoulderArray = [];
+        // kneeScore = 0;
+        // hipScore = 0;
+        // shoulderScore = 0;
       }
     }, 16);
   }
@@ -71,7 +81,7 @@ const Detector = () => {
       webcamRef.current.video.height = videoHeight;
 
       let poses = await detector.estimatePoses(video);
-      console.log("poses", poses);
+      // console.log("poses", poses);
       drawCanvas(poses, videoWidth, videoHeight, canvasRef);
     }
   }
@@ -133,7 +143,7 @@ const Detector = () => {
 
       if (kp1.score > 0.5 && kp2.score > 0.5) {
         angleArray.push({ [name]: [adjacentPairAngle, kp1.score, kp2.score] });
-        console.log(`angleArray`, angleArray);
+        // console.log(`angleArray`, angleArray);
       }
       // if (
       //   name === "left_shoulderright_shoulder" &&
@@ -165,6 +175,8 @@ const Detector = () => {
   }
 
   function handleClick() {
+    setScore({});
+    setAngleArray([]);
     init();
     //set scoreboard to blank, ticker to loading
 
@@ -287,16 +299,16 @@ const Detector = () => {
           <tbody>
             <tr>
               <td>Torso stays Upright:</td>
-              <td id="hipScore"></td>
+              {count === 0 ? (<td id="hipScore">{Objects.values(score)[0]}</td>) : <td></td>}
             </tr>
-            <tr>
+            {/* <tr>
               <td>Knee reaches 90°:</td>
               <td id="kneeScore"></td>
             </tr>
             <tr>
               <td>Shoulder Alignment:</td>
               <td id="shoulderScore"></td>
-            </tr>
+            </tr> */}
           </tbody>
         </table>
       </div>

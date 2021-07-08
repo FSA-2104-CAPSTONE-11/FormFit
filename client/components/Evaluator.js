@@ -1,38 +1,62 @@
-import React from "react";
+const evaluateExercise = (angleArray, exerciseCriteria) => {
+  let result = {};
+  const debuggingArray = []
 
-function Evaluator(props) {
-  let { angleArray } = props;
-  //let angleArray = useSelector((state) => state.poses
-  let [shoulderArray] = useState([]);
-  let [kneeScore] = useState(0);
-  let [shoulderScore] = useState(0);
-  let [hipScore] = useState(0);
+  exerciseCriteria.forEach((cElement) => {
+    // get name and data from input criteria
+    const criterionName = Object.keys(cElement)[0];
+    const criterionData = cElement[criterionName];
+    const criterionType = criterionData[3];
 
-  const squatCriteria = [
-    // name : [score req, min angle, max angle]
-    { right_hipright_knee: [0.5, null, 5] },
-    { right_shoulderright_hip: [0.5, null, 45] },
-    { left_shoulderright_shoulder: [0.65, 5, null] },
-  ];
+    // create key value pair and assign starting value in result obj, true if target value should not be reached, false if target should be reached
+    result[criterionName] = criterionType === "avoid" ? true : false;
 
-  const evaluateExercise = (angleArray, criteria) => {
-    let result = {};
+    // loop through angle array
+    angleArray.forEach((aElement) => {
+      const angleName = Object.keys(aElement)[0];
+      const angleData = aElement[angleName];
 
-    criteria.forEach(([cKey, cValue]) => {
-      result[cKey] = cValue[1] ? true : false;
-      angleArray.forEach(([aKey, aValue]) => {
-        if (cKey === aKey && cValue[0] <= aValue[1] && cValue[0] <= aValue[2]) {
-          if (cValue[1] && cValue[1] < aValue[0]) {
-            result[cKey] = false;
-          }
-          if (cValue[2] && cValue[2] > aValue[0]) {
-            result[cKey] = true;
+      // when we find criterion in angle array, check scores for each node are high enough
+      if (
+        criterionName === angleName &&
+        criterionData[0] <= angleData[1] &&
+        criterionData[0] <= angleData[2]
+      ) {
+        // if we have to hit target
+        if (criterionType === "require") {
+          // if a max is set, true if we get under
+          if (criterionData[2]) {
+            if (angleData[0] < criterionData[2]) {
+              result[criterionName] = true;
+            }
+          } else {
+            // if min is set, true if we get over
+            if (angleData[0] > criterionData[1]) {
+              result[criterionName] = true;
+            }
           }
         }
-      });
-    });
-    return result;
-  };
-}
 
-export default Evaluator;
+        // if we have to avoid target
+        if (criterionType === "avoid") {
+          // if max is set, false if we get under target
+          if (criterionData[2]) {
+            if (angleData[0] < criterionData[2]) {
+              result[criterionName] = false;
+            }
+          } else {
+            // if min is set, false if we get over target
+            if (angleData[0] > criterionData[1]) {
+              result[criterionName] = false;
+            }
+          }
+        }
+      }
+    });
+  });
+  // console.log(`debuggingArray`, debuggingArray);
+  console.log(`result`, result);
+  return result;
+};
+
+export default evaluateExercise;
