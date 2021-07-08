@@ -1,7 +1,7 @@
 const router = require("express").Router();
 module.exports = router;
 
-router.use("/users", require("./users"));
+router.use("/user", require("./user"));
 router.use("/history", require("./history"));
 
 router.use((req, res, next) => {
