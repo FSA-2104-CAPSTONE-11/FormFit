@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-let count = 50;
+let count = 250;
 
 const squatCriteria = [
   // name : [score req, min angle, max angle]
@@ -26,13 +26,8 @@ const squatCriteria = [
 
 const Detector = () => {
   const classes = useStyles();
-
-  let [angleArray, setAngleArray] = useState([]);
   let [score, setScore] = useState({});
-  // let [shoulderArray] = useState([]);
-  // let [kneeScore] = useState(0);
-  // let [shoulderScore] = useState(0);
-  // let [hipScore] = useState(0);
+  let [angleArray, setAngleArray] = useState([]);
   const webcamRef = useRef();
   const canvasRef = useRef();
 
@@ -50,19 +45,23 @@ const Detector = () => {
       const ticker = document.getElementById("ticker");
       ticker.innerText = count;
       if (count === 0) {
-        count = 50;
+        count = 250;
         clearInterval(interval);
-        // checkKneeAngle();
-        // checkHipAngle();
-        // checkShoulderAlignment();
-        setScore(evaluateExercise(angleArray, squatCriteria));
-        // angleArray = [];
-        // shoulderArray = [];
-        // kneeScore = 0;
-        // hipScore = 0;
-        // shoulderScore = 0;
+        let result = evaluateExercise(angleArray, squatCriteria);
+        setScore({ ...result });
+        //updateScoreboard()
+        //setScore({ hu: 8 });
+        console.log("score", score);
       }
     }, 16);
+  }
+
+  async function updateScoreboard() {
+    let result = evaluateExercise(angleArray, squatCriteria);
+    Object.keys(result).forEach((el) => {
+      console.log("el", el);
+      score[el] = result[el];
+    });
   }
 
   async function getPoses(detector) {
@@ -89,10 +88,10 @@ const Detector = () => {
   function drawKeypoint(keypoint) {
     const ctx = canvasRef.current.getContext("2d");
     // If score is null, just show the keypoint.
-    const score = keypoint.score != null ? keypoint.score : 1;
+    const confidence = keypoint.score != null ? keypoint.score : 1;
     const scoreThreshold = 0.3 || 0;
 
-    if (score >= scoreThreshold) {
+    if (confidence >= scoreThreshold) {
       const circle = new Path2D();
       circle.arc(keypoint.x, keypoint.y, 4, 0, 2 * Math.PI);
       ctx.fill(circle);
@@ -145,13 +144,7 @@ const Detector = () => {
         angleArray.push({ [name]: [adjacentPairAngle, kp1.score, kp2.score] });
         // console.log(`angleArray`, angleArray);
       }
-      // if (
-      //   name === "left_shoulderright_shoulder" &&
-      //   kp1.score > 0.65 &&
-      //   kp2.score > 0.65
-      // ) {
-      //   shoulderArray.push({ [name]: adjacentPairAngle });
-      // }
+
       // If score is null, just show the keypoint.
       const score1 = kp1.score != null ? kp1.score : 1;
       const score2 = kp2.score != null ? kp2.score : 1;
@@ -175,58 +168,11 @@ const Detector = () => {
   }
 
   function handleClick() {
-    setScore({});
+    // setScore({});
     setAngleArray([]);
     init();
     //set scoreboard to blank, ticker to loading
-
-    //document.getElementById("ticker").innerText = "LOADING";
-    // document.getElementById("kneeScore").innerText = "";
-    // document.getElementById("hipScore").innerText = "";
-    // document.getElementById("shoulderScore").innerText = "";
   }
-
-  // function checkKneeAngle() {
-  //   const kneeAngles = angleArray.filter((e) =>
-  //     Object.keys(e).includes("right_hipright_knee")
-  //   );
-  //   kneeAngles.map((e) => {
-  //     if (e.right_hipright_knee < 5) {
-  //       kneeScore++;
-  //     }
-  //   });
-  //   if (kneeScore > 0) {
-  //     document.getElementById("kneeScore").innerText = "✔";
-  //   }
-  // }
-
-  // function checkHipAngle() {
-  //   const hipAngles = angleArray.filter((e) =>
-  //     Object.keys(e).includes("right_shoulderright_hip")
-  //   );
-  //   hipAngles.map((e) => {
-  //     if (e.right_shoulderright_hip < 45) {
-  //       hipScore++;
-  //     }
-  //   });
-  //   if (hipScore === 0) {
-  //     document.getElementById("hipScore").innerText = "✔";
-  //   }
-  // }
-
-  // function checkShoulderAlignment() {
-  //   const positions = shoulderArray.filter((e) =>
-  //     Object.keys(e).includes("left_shoulderright_shoulder")
-  //   );
-  //   positions.map((e) => {
-  //     if (e.left_shoulderright_shoulder > 5) {
-  //       shoulderScore++;
-  //     }
-  //   });
-  //   if (shoulderScore === 0) {
-  //     document.getElementById("shoulderScore").innerText = "✔";
-  //   }
-  // }
 
   return (
     <div>
@@ -299,7 +245,11 @@ const Detector = () => {
           <tbody>
             <tr>
               <td>Torso stays Upright:</td>
-              {count === 0 ? (<td id="hipScore">{Objects.values(score)[0]}</td>) : <td></td>}
+              {Object.keys(score).length > 0 ? (
+                <td id="hipScore">{Object.values(score)[0]}</td>
+              ) : (
+                <td></td>
+              )}
             </tr>
             {/* <tr>
               <td>Knee reaches 90°:</td>
