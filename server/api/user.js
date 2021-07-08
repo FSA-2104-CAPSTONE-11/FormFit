@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const {
-  models: {User},
+  models: { User },
 } = require("../db");
 module.exports = router;
 const requireToken = require("./gatekeeping");
@@ -8,8 +8,8 @@ const requireToken = require("./gatekeeping");
 // //GET api/user (protected for logged in user)
 router.get("/", requireToken, async (req, res, next) => {
   try {
-    const {id, username, email} = req.user
-    res.json({id, username, email});
+    const { id, username, email } = req.user;
+    res.json({ id, username, email });
   } catch (err) {
     next(err);
   }
@@ -19,9 +19,9 @@ router.get("/", requireToken, async (req, res, next) => {
 router.put("/", requireToken, async (req, res, next) => {
   try {
     await req.user.update(req.body);
-    const {id, username, email} = req.user
-    res.json({id, username, email});
+    const { id, username, email } = req.user;
+    res.json({ id, username, email });
   } catch (error) {
-    next(err);
+    next(error);
   }
 });
