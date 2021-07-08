@@ -2,10 +2,41 @@ import React, {useState, useEffect} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import NavbarOffset from "./NavbarOffset";
 import {getUser, updateUser} from "../store/user";
+import {makeStyles} from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: 345,
+  },
+  media: {
+    height: 280,
+  },
+  media2: {
+    height: 160,
+  },
+  paper: {
+    marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  link: {
+    color: "black",
+  },
+}));
 
 const Profile = () => {
+  const classes = useStyles();
   const isLoggedIn = useSelector((state) => !!state.auth.id);
-  const {id} = useSelector((state) => state.auth);
   const {username, email} = useSelector((state) => state.user);
   let [editing, setEditing] = useState(false);
   let newUsername = username;
@@ -13,7 +44,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      dispatch(getUser(id));
+      dispatch(getUser());
     }
   }, [isLoggedIn]);
 
@@ -31,63 +62,123 @@ const Profile = () => {
     <div>
       <NavbarOffset />
       {isLoggedIn ? (
-        <div>
-          <h2>Personal Info:</h2>
-          {!editing ? (
-            <div>
-              <h3>Username: {username}</h3>
-              <h3>Email: {email}</h3>
-              <button
-                onClick={() => {
-                  setEditing((editing = true));
-                }}
-                style={{textDecorationLine: "underline"}}
-              >
-                Edit
-              </button>
-            </div>
-          ) : (
-            <div>
-              <h3>
-                Username:
-                <input
-                  type="text"
-                  name="newUsername"
-                  defaultValue={username}
-                  onChange={onUsernameChange}
-                />
-              </h3>
-              <h3>
-                Email:
-                <input
-                  type="text"
-                  name="email"
-                  defaultValue={email}
-                  onChange={onEmailChange}
-                />
-              </h3>
-              <button
-                onClick={() => {
-                  dispatch(updateUser({id, newUsername, newEmail}));
-                  setEditing((editing = false));
-                }}
-                style={{textDecorationLine: "underline"}}
-              >
-                Save
-              </button>
-              <button
-                onClick={() => {
-                  setEditing((editing = false));
-                }}
-                style={{textDecorationLine: "underline"}}
-              >
-                Cancel
-              </button>
-            </div>
-          )}
-          <h2>My Activity:</h2>
-          <h3>Date of last exercise: </h3>
-          <h3>Score of last exercise: </h3>
+        <div className={classes.paper}>
+          <Card className={classes.root}>
+            <CardActionArea>
+              <CardMedia
+                className={classes.media}
+                image="https://www.pphfoundation.ca/wp-content/uploads/2018/05/default-avatar-600x600.png"
+                title="User Image"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Personal Info:
+                </Typography>
+                {!editing ? (
+                  <div>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      Username: {username}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      Email: {email}
+                    </Typography>
+                  </div>
+                ) : (
+                  <div>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      Username: 
+                      <input
+                        type="text"
+                        name="newUsername"
+                        defaultValue={username}
+                        onChange={onUsernameChange}
+                      />
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      Email:
+                      <input
+                        type="text"
+                        name="email"
+                        defaultValue={email}
+                        onChange={onEmailChange}
+                      />
+                    </Typography>
+                  </div>
+                )}
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              {!editing ? (
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    setEditing((editing = true));
+                  }}
+                >
+                  Edit
+                </Button>
+              ) : (
+                <div>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      dispatch(updateUser({newUsername, newEmail}));
+                      setEditing((editing = false));
+                    }}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      setEditing((editing = false));
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              )}
+            </CardActions>
+          </Card>
+          <Card className={classes.root}>
+            <CardMedia
+              className={classes.media2}
+              image="https://thumb9.shutterstock.com/image-photo/stock-vector-vector-illustration-of-squat-vector-icon-or-symbol-250nw-600173141.jpg"
+              title="History Image"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                History:
+              </Typography>
+              <Typography>
+                <Link href="/history" className={classes.link}>
+                  View My Activity
+                </Link>
+              </Typography>
+            </CardContent>
+          </Card>
         </div>
       ) : (
         <h3>Please log in to view this page!</h3>

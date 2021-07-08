@@ -7,12 +7,11 @@ const TOKEN = "token";
  * THUNK CREATOR
  */
 
-export const getUser = createAsyncThunk("/api/users/:id", async (id) => {
+export const getUser = createAsyncThunk("/api/user", async () => {
   try {
     const token = window.localStorage.getItem(TOKEN);
-    console.log(token, id)
     if (token) {
-      const {data: user} = await axios.get(`/api/users/${id}`, {
+      const {data: user} = await axios.get(`/api/user`, {
         headers: {
           authorization: token,
         },
@@ -24,15 +23,15 @@ export const getUser = createAsyncThunk("/api/users/:id", async (id) => {
   }
 });
 
-export const updateUser = createAsyncThunk("/api/users/:id", async (form) => {
+export const updateUser = createAsyncThunk("/api/user", async (form) => {
   try {
     const token = window.localStorage.getItem(TOKEN);
-    const {id, newUsername, newEmail} = form;
+    const {newUsername, newEmail} = form;
     let username = newUsername;
     let email = newEmail;
     if (token) {
       const {data: user} = await axios.put(
-        `/api/users/${id}`,
+        `/api/user`,
         {username, email},
         {
           headers: {

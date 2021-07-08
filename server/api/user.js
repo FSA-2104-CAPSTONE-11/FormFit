@@ -1,0 +1,29 @@
+const router = require("express").Router();
+const {
+  models: {User},
+} = require("../db");
+module.exports = router;
+const requireToken = require("./gatekeeping");
+
+// //GET api/user (protected for logged in user)
+router.get("/", requireToken, async (req, res, next) => {
+  try {
+    const user = await User.findByToken(req.headers.authorization);
+    const {id, username, email} = user
+    res.json({id, username, email});
+  } catch (err) {
+    next(err);
+  }
+});
+
+// PUT api/user (protected for logged in user)
+router.put("/", requireToken, async (req, res, next) => {
+  try {
+    const user = await User.findByToken(req.headers.authorization);
+    await user.update(req.body);
+    const {id, username, email} = user
+    res.json({id, username, email});
+  } catch (error) {
+    next(err);
+  }
+});
