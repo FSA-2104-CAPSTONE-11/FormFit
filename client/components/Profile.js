@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 const Profile = () => {
   const classes = useStyles();
   const isLoggedIn = useSelector((state) => !!state.auth.id);
-  const {username, email} = useSelector((state) => state.user);
+  const {username, email, poseSessions} = useSelector((state) => state.user);
   let [editing, setEditing] = useState(false);
   let newUsername = username;
   let newEmail = email;
@@ -56,6 +56,32 @@ const Profile = () => {
 
   const onEmailChange = (event) => {
     newEmail = event.target.value;
+  };
+
+  const getFavoriteExercise = (poseSessions) => {
+    if (poseSessions.length === 0) return null;
+    let modeMap = {};
+    let maxEl = poseSessions[0].pose.name,
+      maxCount = 1;
+    for (let i = 0; i < poseSessions.length; i++) {
+      let el = poseSessions[i].pose.name;
+      if (modeMap[el] === null) modeMap[el] = 1;
+      else modeMap[el]++;
+      if (modeMap[el] > maxCount) {
+        maxEl = el;
+        maxCount = modeMap[el];
+      }
+    }
+    return maxEl;
+  };
+
+  const alterDate = (createdAt) => {
+    const year = Number(createdAt.slice(0, 4));
+    const monthIndex = createdAt.slice(5, 7) - 1;
+    const day = Number(createdAt.slice(8, 10));
+    const event = new Date(year, monthIndex, day);
+    const options = {weekday: "short", month: "short", day: "numeric"};
+    return event.toLocaleDateString("US-en", options);
   };
 
   return (
@@ -81,14 +107,14 @@ const Profile = () => {
                       color="textSecondary"
                       component="p"
                     >
-                      Username: {username}
+                      <strong>Username:</strong> {username}
                     </Typography>
                     <Typography
                       variant="body2"
                       color="textSecondary"
                       component="p"
                     >
-                      Email: {email}
+                      <strong>Email:</strong> {email}
                     </Typography>
                   </div>
                 ) : (
@@ -98,7 +124,7 @@ const Profile = () => {
                       color="textSecondary"
                       component="p"
                     >
-                      Username: 
+                      <strong>Username:</strong>{" "}
                       <input
                         type="text"
                         name="newUsername"
@@ -111,7 +137,7 @@ const Profile = () => {
                       color="textSecondary"
                       component="p"
                     >
-                      Email:
+                      <strong>Email:</strong>{" "}
                       <input
                         type="text"
                         name="email"
@@ -168,16 +194,38 @@ const Profile = () => {
               image="https://thumb9.shutterstock.com/image-photo/stock-vector-vector-illustration-of-squat-vector-icon-or-symbol-250nw-600173141.jpg"
               title="History Image"
             />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                History:
-              </Typography>
-              <Typography>
-                <Link href="/history" className={classes.link}>
-                  View My Activity
-                </Link>
-              </Typography>
-            </CardContent>
+            {poseSessions ? (
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  My Activity:
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  <strong>Favorite Exercise:</strong>{" "}
+                  {getFavoriteExercise(poseSessions)}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  <strong>Last Exercise Date:</strong>{" "}
+                  {alterDate(poseSessions[poseSessions.length - 1].createdAt)}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  <strong>Last Exercise Type:</strong>{" "}
+                  {poseSessions[poseSessions.length - 1].pose.name}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  <strong>Last Exercise Score:</strong>{" "}
+                  {poseSessions[poseSessions.length - 1].score}
+                </Typography>
+                <CardActions>
+                  <Typography>
+                    <Link href="/history" className={classes.link}>
+                      View All Activity
+                    </Link>
+                  </Typography>
+                </CardActions>
+              </CardContent>
+            ) : (
+              <div></div>
+            )}
           </Card>
         </div>
       ) : (
