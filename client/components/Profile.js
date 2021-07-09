@@ -194,7 +194,7 @@ const Profile = () => {
               image="https://thumb9.shutterstock.com/image-photo/stock-vector-vector-illustration-of-squat-vector-icon-or-symbol-250nw-600173141.jpg"
               title="History Image"
             />
-            {poseSessions ? (
+            {poseSessions && poseSessions.length ? (
               <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
                   My Activity:
