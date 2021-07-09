@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getHistory } from "../store/poseHistory";
-import NavbarOffset from "./NavbarOffset";
+import Navbar from "./Navbar";
 
 // style imports
 import { makeStyles } from "@material-ui/core/styles";
@@ -58,7 +58,6 @@ const History = () => {
 
   return (
     <div className={classes.root}>
-      <NavbarOffset />
       <h1
         style={{
           textAlign: "center",

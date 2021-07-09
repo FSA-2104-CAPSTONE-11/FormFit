@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {useSelector, useDispatch} from "react-redux";
-import NavbarOffset from "./NavbarOffset";
+import Navbar from "./Navbar";
 import {getUser, updateUser} from "../store/user";
 import {makeStyles} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -86,7 +86,6 @@ const Profile = () => {
 
   return (
     <div>
-      <NavbarOffset />
       {isLoggedIn ? (
         <div className={classes.paper}>
           <Card className={classes.root}>
