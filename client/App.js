@@ -2,12 +2,13 @@ import React from "react";
 import { createTheme, ThemeProvider, CssBaseline } from "@material-ui/core";
 import Navbar from "./components/Navbar";
 import Routes from "./Routes";
+import { useSelector } from "react-redux";
 
 const customTheme = createTheme({
   palette: {
     primary: {
       main: "#f0f4c3",
-      dark: "#156064"
+      dark: "#156064",
     },
     secondary: {
       main: "#9e9d24",
@@ -19,12 +20,20 @@ const customTheme = createTheme({
 });
 
 const App = () => {
+  const isLoggedIn = useSelector((state) => !!state.auth.id);
+
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
       <div>
-        <Navbar />
-        <Routes />
+        {isLoggedIn ? (
+          <div>
+            <Navbar />
+            <Routes />
+          </div>
+        ) : (
+          <Routes />
+        )}
       </div>
     </ThemeProvider>
   );

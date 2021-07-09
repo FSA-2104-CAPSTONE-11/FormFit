@@ -42,7 +42,6 @@ const Navbar = () => {
   const open = Boolean(anchorEl);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const isLoggedIn = useSelector((state) => !!state.auth.id);
   const dispatch = useDispatch();
 
   const handleClickLogout = () => {
@@ -103,16 +102,10 @@ const Navbar = () => {
               <MenuItem onClick={() => handleMenuClick("/history")}>
                 Pose History
               </MenuItem>
-              {isLoggedIn ? (
-                <div>
-                  <MenuItem onClick={() => handleMenuClick("/profile")}>My Profile</MenuItem>
-                  <MenuItem onClick={handleClickLogout}>Logout</MenuItem>
-                </div>
-              ) : (
-                <MenuItem onClick={() => handleMenuClick("/login")}>
-                  Login
-                </MenuItem>
-              )}
+              <MenuItem onClick={() => handleMenuClick("/profile")}>
+                My Profile
+              </MenuItem>
+              <MenuItem onClick={handleClickLogout}>Logout</MenuItem>)
             </Menu>
           </>
         </Toolbar>
