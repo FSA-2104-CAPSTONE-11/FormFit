@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-let count = 250;
+let count = 50;
 
 const squatCriteria = [
   // name : [score req, min angle, max angle]
@@ -39,30 +39,34 @@ const Detector = () => {
       poseDetection.SupportedModels.MoveNet,
       detectorConfig
     );
-    const interval = setInterval(() => {
-      getPoses(detector);
-      count--;
-      const ticker = document.getElementById("ticker");
-      ticker.innerText = count;
-      if (count === 0) {
-        count = 250;
-        clearInterval(interval);
-        let result = evaluateExercise(angleArray, squatCriteria);
-        setScore({ ...result });
-        //updateScoreboard()
-        //setScore({ hu: 8 });
-        console.log("score", score);
-      }
-    }, 16);
+    if (detector) {
+      await getPoses(detector);
+    }
+
+    // const interval = setInterval(() => {
+    //   getPoses(detector);
+    //   count--;
+    //   const ticker = document.getElementById("ticker");
+    //   ticker.innerText = count;
+    //   if (count === 0) {
+    //     count = 250;
+    //     clearInterval(interval);
+    //     let result = evaluateExercise(angleArray, squatCriteria);
+    //     setScore({ ...result });
+    //     //updateScoreboard()
+    //     //setScore({ hu: 8 });
+    //     console.log("score", score);
+    //   }
+    // }, 16);
   }
 
-  async function updateScoreboard() {
-    let result = evaluateExercise(angleArray, squatCriteria);
-    Object.keys(result).forEach((el) => {
-      console.log("el", el);
-      score[el] = result[el];
-    });
-  }
+  // async function updateScoreboard() {
+  //   let result = evaluateExercise(angleArray, squatCriteria);
+  //   Object.keys(result).forEach((el) => {
+  //     console.log("el", el);
+  //     score[el] = result[el];
+  //   });
+  // }
 
   async function getPoses(detector) {
     if (
@@ -78,10 +82,15 @@ const Detector = () => {
       // Set video properties
       webcamRef.current.video.width = videoWidth;
       webcamRef.current.video.height = videoHeight;
-
-      let poses = await detector.estimatePoses(video);
-      // console.log("poses", poses);
-      drawCanvas(poses, videoWidth, videoHeight, canvasRef);
+      count--;
+      if (detector) {
+        let poses = await detector.estimatePoses(video);
+        drawCanvas(poses, videoWidth, videoHeight, canvasRef);
+        console.log("poses", poses);
+        while (count > 0) {
+          requestAnimationFrame(await getPoses(detector));
+        }
+      }
     }
   }
 
