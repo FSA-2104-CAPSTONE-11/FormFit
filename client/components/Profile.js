@@ -41,7 +41,6 @@ const Profile = () => {
   let [editing, setEditing] = useState(false);
   let newUsername = username;
   let newEmail = email;
-  console.log(poseSessions);
 
   useEffect(() => {
     if (isLoggedIn) {
