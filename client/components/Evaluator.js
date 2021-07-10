@@ -1,6 +1,6 @@
 const evaluateExercise = (angleArray, exerciseCriteria) => {
   let result = {};
-  const debuggingArray = []
+  // const debuggingArray = []
 
   exerciseCriteria.forEach((cElement) => {
     // get name and data from input criteria
@@ -15,6 +15,11 @@ const evaluateExercise = (angleArray, exerciseCriteria) => {
     angleArray.forEach((aElement) => {
       const angleName = Object.keys(aElement)[0];
       const angleData = aElement[angleName];
+
+      // // for debugging a particular criterion
+      // if (angleName === "right_hipright_knee") {
+      //   debuggingArray.push(angleData[0])
+      // }
 
       // when we find criterion in angle array, check scores for each node are high enough
       if (
@@ -55,7 +60,7 @@ const evaluateExercise = (angleArray, exerciseCriteria) => {
     });
   });
   // console.log(`debuggingArray`, debuggingArray);
-  console.log(`result`, result);
+  // console.log(`result`, result);
   return result;
 };
 

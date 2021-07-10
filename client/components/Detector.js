@@ -15,8 +15,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-let count = 250;
-
 const squatCriteria = [
   // name : [score req, min angle, max angle]
   { right_hipright_knee: [0.5, null, 5, "require"] },
@@ -55,9 +53,8 @@ const Detector = () => {
 
   useEffect(() => {
     let myInterval = setInterval(() => {
-      console.log('in UseEffect')
       if (time === 0) {
-        setScore({ task: "result" });
+        setScore({ task: "bingo" });
       }
     }, 1000);
     return () => {
@@ -83,10 +80,8 @@ const Detector = () => {
       if (detector) {
         let poses = await detector.estimatePoses(video);
         //console.log("poses", poses);
-        console.log(`time`, time);
         if (time > 0) {
-          time--
-          console.log("we got into the animation block");
+          time--;
           document.getElementById("ticker").innerText = `${time}`;
           requestAnimationFrame(async () => {
             await getPoses(detector);
@@ -101,9 +96,20 @@ const Detector = () => {
             canvasRef.current.width,
             canvasRef.current.height
           );
+          const result = await evaluateExercise(angleArray, squatCriteria);
+          setScore(result);
         }
       }
     }
+  }
+
+  function handleClick() {
+    document.getElementById("ticker").innerText = "LOADING";
+    setScore({});
+    time = 150;
+    setAngleArray([]);
+    init();
+    //set scoreboard to blank, ticker to loading
   }
 
   function drawKeypoint(keypoint) {
@@ -187,15 +193,6 @@ const Detector = () => {
     drawSkeleton(poses[0].keypoints);
   }
 
-  function handleClick() {
-    document.getElementById("ticker").innerText = "LOADING";
-    // setScore({});
-    time = 75;
-    setAngleArray([]);
-    init();
-    //set scoreboard to blank, ticker to loading
-  }
-
   return (
     <div>
       <div>
@@ -244,15 +241,19 @@ const Detector = () => {
             top: "50%",
             zIndex: 10,
             objectFit: "cover",
+            backgroundColor: "white",
+            opacity: "0.5",
           }}
         ></div>
         <table
           style={{
             position: "fixed",
-            left: "45%",
+            left: "5%",
             top: "5%",
             zIndex: 10,
             objectFit: "cover",
+            backgroundColor: "white",
+            opacity: "0.5",
             borderWidth: "1px",
             borderColor: "#aaaaaa",
             borderStyle: "solid",
@@ -265,22 +266,21 @@ const Detector = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Torso stays Upright:</td>
-              {Object.keys(score).length > 0 ? (
-                <td id="hipScore">{Object.values(score)[0]}</td>
-              ) : (
-                <td></td>
-              )}
-            </tr>
-            {/* <tr>
-              <td>Knee reaches 90°:</td>
-              <td id="kneeScore"></td>
-            </tr>
-            <tr>
-              <td>Shoulder Alignment:</td>
-              <td id="shoulderScore"></td>
-            </tr> */}
+            {score && Object.keys(score).length > 0 ? (
+              Object.keys(score).map((criterion, index) => {
+                return (
+                  <tr key={index+"row"}>
+                    <td key={index}>{criterion}</td>
+                    <td key={index + "k"}>{`${score[criterion]}`}</td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr key="row">
+                <td key="firstcol"></td>
+                <td key="secondcol"></td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
