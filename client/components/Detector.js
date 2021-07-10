@@ -72,6 +72,15 @@ const Detector = () => {
           });
           drawCanvas(poses, videoWidth, videoHeight, canvasRef);
         }
+        if (count === 0) {
+          const ctx = canvasRef.current.getContext("2d");
+          ctx.clearRect(
+            0,
+            0,
+            canvasRef.current.width,
+            canvasRef.current.height
+          );
+        }
       }
     }
   }
