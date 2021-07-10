@@ -31,6 +31,13 @@ const Detector = () => {
   const webcamRef = useRef();
   const canvasRef = useRef();
 
+  // let [time, setTime] = useState(0);
+  let time;
+  // let [start, setStart] = useState(false);
+  // let [finished, setFinished] = useState(false);
+  // let start = false;
+  // let finished = false;
+
   async function init() {
     const detectorConfig = {
       modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER,
@@ -45,6 +52,18 @@ const Detector = () => {
       });
     }
   }
+
+  useEffect(() => {
+    let myInterval = setInterval(() => {
+      console.log('in UseEffect')
+      if (time === 0) {
+        setScore({ task: "result" });
+      }
+    }, 1000);
+    return () => {
+      clearInterval(myInterval);
+    };
+  });
 
   async function getPoses(detector) {
     if (
@@ -64,15 +83,17 @@ const Detector = () => {
       if (detector) {
         let poses = await detector.estimatePoses(video);
         //console.log("poses", poses);
-        if (count > 0) {
-          count--;
-          document.getElementById("ticker").innerText = `${count}`;
+        console.log(`time`, time);
+        if (time > 0) {
+          time--
+          console.log("we got into the animation block");
+          document.getElementById("ticker").innerText = `${time}`;
           requestAnimationFrame(async () => {
             await getPoses(detector);
           });
           drawCanvas(poses, videoWidth, videoHeight, canvasRef);
         }
-        if (count === 0) {
+        if (time === 0) {
           const ctx = canvasRef.current.getContext("2d");
           ctx.clearRect(
             0,
@@ -167,9 +188,9 @@ const Detector = () => {
   }
 
   function handleClick() {
-    count = 250;
     document.getElementById("ticker").innerText = "LOADING";
     // setScore({});
+    time = 75;
     setAngleArray([]);
     init();
     //set scoreboard to blank, ticker to loading
