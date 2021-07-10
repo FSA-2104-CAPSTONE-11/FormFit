@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-let count = 50;
+let count = 250;
 
 const squatCriteria = [
   // name : [score req, min angle, max angle]
@@ -40,33 +40,11 @@ const Detector = () => {
       detectorConfig
     );
     if (detector) {
-      await getPoses(detector);
+      requestAnimationFrame(async () => {
+        await getPoses(detector);
+      });
     }
-
-    // const interval = setInterval(() => {
-    //   getPoses(detector);
-    //   count--;
-    //   const ticker = document.getElementById("ticker");
-    //   ticker.innerText = count;
-    //   if (count === 0) {
-    //     count = 250;
-    //     clearInterval(interval);
-    //     let result = evaluateExercise(angleArray, squatCriteria);
-    //     setScore({ ...result });
-    //     //updateScoreboard()
-    //     //setScore({ hu: 8 });
-    //     console.log("score", score);
-    //   }
-    // }, 16);
   }
-
-  // async function updateScoreboard() {
-  //   let result = evaluateExercise(angleArray, squatCriteria);
-  //   Object.keys(result).forEach((el) => {
-  //     console.log("el", el);
-  //     score[el] = result[el];
-  //   });
-  // }
 
   async function getPoses(detector) {
     if (
@@ -82,28 +60,18 @@ const Detector = () => {
       // Set video properties
       webcamRef.current.video.width = videoWidth;
       webcamRef.current.video.height = videoHeight;
-      // count--;
+
       if (detector) {
-        console.log("are we hitting this", count, count > 0);
-
         let poses = await detector.estimatePoses(video);
-        console.log("poses", poses);
-        // can we do it without recursion
-        const render = requestAnimationFrame(async function renderQueue() {
+        //console.log("poses", poses);
+        if (count > 0) {
           count--;
-          if (count > 0) {
-            drawCanvas(poses, videoWidth, videoHeight, canvasRef);
-            // await getPoses(detector);
-            requestAnimationFrame(renderQueue);
-          }
-        });
-        // console.log("render", render);
-        // cancelAnimationFrame(render);
-
-        // while (Number(count) > 0) {
-        //   console.log("what about this");
-        //   await getPoses(detector);
-        // }
+          document.getElementById("ticker").innerText = `${count}`;
+          requestAnimationFrame(async () => {
+            await getPoses(detector);
+          });
+          drawCanvas(poses, videoWidth, videoHeight, canvasRef);
+        }
       }
     }
   }
@@ -114,7 +82,6 @@ const Detector = () => {
     const confidence = keypoint.score != null ? keypoint.score : 1;
     const scoreThreshold = 0.3 || 0;
 
-    console.log("are we drawing single keypoint");
     if (confidence >= scoreThreshold) {
       const circle = new Path2D();
       circle.arc(keypoint.x, keypoint.y, 4, 0, 2 * Math.PI);
@@ -123,38 +90,36 @@ const Detector = () => {
     }
   }
 
-  async function drawKeypoints(keypoints) {
+  function drawKeypoints(keypoints) {
     const ctx = canvasRef.current.getContext("2d");
     const keypointInd = poseDetection.util.getKeypointIndexBySide("MoveNet");
     ctx.fillStyle = "White";
     ctx.strokeStyle = "White";
     ctx.lineWidth = 2;
 
-    console.log("are we hitting draw all keypoints");
-
     //middle points will be white (just nose)
     for (const i of keypointInd.middle) {
-      await drawKeypoint(keypoints[i]);
+      drawKeypoint(keypoints[i]);
     }
     //left points will be green... note your actual left side (technically right side when looking at video)
     ctx.fillStyle = "Green";
     for (const i of keypointInd.left) {
-      await drawKeypoint(keypoints[i]);
+      drawKeypoint(keypoints[i]);
     }
     //right points will be orange... note your actual right side (technically left side when looking at video)
     ctx.fillStyle = "Orange";
     for (const i of keypointInd.right) {
-      await drawKeypoint(keypoints[i]);
+      drawKeypoint(keypoints[i]);
     }
   }
 
-  async function drawSkeleton(keypoints) {
+  function drawSkeleton(keypoints) {
     const ctx = canvasRef.current.getContext("2d");
     ctx.fillStyle = "White";
     ctx.strokeStyle = "White";
     ctx.lineWidth = 2;
 
-    await poseDetection.util.getAdjacentPairs("MoveNet").forEach(([i, j]) => {
+    poseDetection.util.getAdjacentPairs("MoveNet").forEach(([i, j]) => {
       const kp1 = keypoints[i];
       const kp2 = keypoints[j];
       const firstX = kp1.x;
@@ -168,7 +133,6 @@ const Detector = () => {
 
       if (kp1.score > 0.5 && kp2.score > 0.5) {
         angleArray.push({ [name]: [adjacentPairAngle, kp1.score, kp2.score] });
-        // console.log(`angleArray`, angleArray);
       }
 
       // If score is null, just show the keypoint.
@@ -185,17 +149,17 @@ const Detector = () => {
     });
   }
 
-  async function drawCanvas(poses, videoWidth, videoHeight, canvas) {
+  function drawCanvas(poses, videoWidth, videoHeight, canvas) {
     canvas.current.width = videoWidth;
     canvas.current.height = videoHeight;
 
-    console.log("are we running draw canvas in parallel?");
-
-    await drawKeypoints(poses[0].keypoints);
-    await drawSkeleton(poses[0].keypoints);
+    drawKeypoints(poses[0].keypoints);
+    drawSkeleton(poses[0].keypoints);
   }
 
   function handleClick() {
+    count = 250;
+    document.getElementById("ticker").innerText = "LOADING";
     // setScore({});
     setAngleArray([]);
     init();
