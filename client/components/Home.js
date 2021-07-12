@@ -9,6 +9,7 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Link from "@material-ui/core/Link";
+import Data from "./Data";
 
 function Copyright() {
   return (
@@ -64,6 +65,7 @@ export const Home = () => {
         <div className={classes.appBarSpacer} />
         <h3>Welcome, {username}</h3>
         <Container maxWidth="lg" className={classes.container}>
+          <Data />
           <Grid container spacing={3}>
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}></Paper>
@@ -71,10 +73,7 @@ export const Home = () => {
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}></Paper>
             </Grid>
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}></Paper>
-            </Grid>
-            <Grid item xs={12} md={4} lg={3}>
+            <Grid item xs={12} md={4} lg={6}>
               <Paper className={fixedHeightPaper}></Paper>
             </Grid>
             <Grid item xs={12} md={8} lg={12}>
