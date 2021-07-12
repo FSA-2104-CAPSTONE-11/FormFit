@@ -25,12 +25,18 @@ const squatCriteria = [
 
 const Detector = () => {
   const classes = useStyles();
-  let [score, setScore] = useState({});
-  let [angleArray, setAngleArray] = useState([]);
+  const [score, setScore] = useState({});
+  const [angleArray, setAngleArray] = useState([]);
+
+  // const [status, setStatus] = useState("counted");
+
   const webcamRef = useRef();
   const canvasRef = useRef();
 
-  let time;
+  let time, maxTime;
+  let noseHeight = 0;
+  let status = "counted";
+  let reps = 0;
   let [finished, setFinished] = useState(false);
   let [ticker, setTicker] = useState();
 
@@ -66,7 +72,34 @@ const Detector = () => {
 
       if (detector) {
         let poses = await detector.estimatePoses(video);
-        //console.log("poses", poses);
+        // console.log("poses", poses);
+        if (time === maxTime) {
+          // poses[0].keypoints[0].y refers to the y coordinate of the nose keypoint
+          console.log("first pose", poses);
+          noseHeight = poses[0].keypoints[0].y;
+          console.log("noseHeight", noseHeight);
+        }
+
+        if (
+          status === "counted" &&
+          poses[0].keypoints[0].y > noseHeight + 100
+        ) {
+          status = "bottom";
+          console.log("status", status);
+        }
+
+        if (status === "bottom" && poses[0].keypoints[0].y < noseHeight + 100) {
+          status = "rising";
+          console.log("status", status);
+        }
+
+        if (status === "rising" && poses[0].keypoints[0].y < noseHeight + 30) {
+          status = "counted";
+          console.log("status", status);
+          reps++;
+          console.log("reps", reps);
+        }
+
         if (time > 0) {
           time--;
           setTicker(time);
@@ -93,9 +126,10 @@ const Detector = () => {
 
   function handleClick() {
     setTicker("LOADING");
-    setFinished(false)
+    setFinished(false);
     setScore({});
     time = 40;
+    maxTime = time;
     setAngleArray([]);
     init();
   }
@@ -221,7 +255,11 @@ const Detector = () => {
         >
           Timer:
         </div> */}
-        {finished ? <Scoreboard openStatus={true} scoreProp={score} /> : <div></div>}
+        {finished ? (
+          <Scoreboard openStatus={true} scoreProp={score} />
+        ) : (
+          <div></div>
+        )}
         <div
           id="ticker"
           style={{
