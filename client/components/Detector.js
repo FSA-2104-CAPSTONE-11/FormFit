@@ -28,7 +28,7 @@ const Detector = () => {
   let [angleArray, setAngleArray] = useState([]);
   let [finished, setFinished] = useState(false);
   let [ticker, setTicker] = useState();
-  const {criteria, instructions} = useSelector(state => state.pose)
+  const { criteria, instructions } = useSelector((state) => state.pose);
 
   async function init() {
     const detectorConfig = {
@@ -47,8 +47,8 @@ const Detector = () => {
 
   useEffect(() => {
     async function getPoseInfoAndCriteria() {
-      await dispatch(getPose({ poseName: "squat" }));
-    };
+      await dispatch(getPose({ poseName: "pushup" }));
+    }
     getPoseInfoAndCriteria();
   }, []);
 
