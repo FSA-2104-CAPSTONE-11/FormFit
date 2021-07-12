@@ -13,6 +13,10 @@ const Criteria = db.define("criteria", {
   longDescription: {
     type: Sequelize.TEXT,
   },
+  spec: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
 });
 
 module.exports = Criteria;

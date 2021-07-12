@@ -3,10 +3,11 @@ import "@tensorflow/tfjs-backend-webgl";
 import React, { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { IconButton, SvgIcon, makeStyles } from "@material-ui/core";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import StartButton from "./StartButton";
 import evaluateExercise from "./Evaluator";
 import Scoreboard from "./Scoreboard";
+import { getPose } from "../store/pose";
+import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   roundButton: {
@@ -16,23 +17,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const squatCriteria = [
-  // name : [score req, min angle, max angle]
-  { right_hipright_knee: [0.5, null, 5, "require"] },
-  { right_shoulderright_hip: [0.5, null, 70, "avoid"] },
-  { left_shoulderright_shoulder: [0.65, 10, null, "avoid"] },
-];
-
 const Detector = () => {
   const classes = useStyles();
-  let [score, setScore] = useState({});
-  let [angleArray, setAngleArray] = useState([]);
   const webcamRef = useRef();
   const canvasRef = useRef();
+  const dispatch = useDispatch();
 
   let time;
+  let [score, setScore] = useState({});
+  let [angleArray, setAngleArray] = useState([]);
   let [finished, setFinished] = useState(false);
   let [ticker, setTicker] = useState();
+  const {criteria, instructions} = useSelector(state => state.pose)
 
   async function init() {
     const detectorConfig = {
@@ -48,6 +44,13 @@ const Detector = () => {
       });
     }
   }
+
+  useEffect(() => {
+    async function getPoseInfoAndCriteria() {
+      await dispatch(getPose({ poseName: "squat" }));
+    };
+    getPoseInfoAndCriteria();
+  }, []);
 
   async function getPoses(detector) {
     if (
@@ -83,7 +86,7 @@ const Detector = () => {
             canvasRef.current.width,
             canvasRef.current.height
           );
-          const result = await evaluateExercise(angleArray, squatCriteria);
+          const result = await evaluateExercise(angleArray, criteria);
           setScore(result);
           setFinished(true);
         }
@@ -93,7 +96,7 @@ const Detector = () => {
 
   function handleClick() {
     setTicker("LOADING");
-    setFinished(false)
+    setFinished(false);
     setScore({});
     time = 40;
     setAngleArray([]);
@@ -221,7 +224,11 @@ const Detector = () => {
         >
           Timer:
         </div> */}
-        {finished ? <Scoreboard openStatus={true} scoreProp={score} /> : <div></div>}
+        {finished ? (
+          <Scoreboard openStatus={true} scoreProp={score} />
+        ) : (
+          <div></div>
+        )}
         <div
           id="ticker"
           style={{
