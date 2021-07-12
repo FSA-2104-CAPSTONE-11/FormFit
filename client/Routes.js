@@ -7,6 +7,7 @@ import { me } from "./store";
 import Detector from "./components/Detector";
 import Profile from "./components/Profile";
 import History from "./components/PoseHistory";
+import SessionSummary from "./components/SessionSummary";
 
 /**
  * COMPONENT
@@ -47,6 +48,11 @@ const Routes = () => {
         <Route exact path="/history">
           <History />
         </Route>
+        <Route
+          exact
+          path="/summary"
+          render={(props) => <SessionSummary {...props} />}
+        />
       </Switch>
     </div>
   );

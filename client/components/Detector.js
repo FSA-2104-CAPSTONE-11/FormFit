@@ -6,6 +6,8 @@ import { IconButton, SvgIcon, makeStyles } from "@material-ui/core";
 import StartButton from "./StartButton";
 import evaluateExercise from "./Evaluator";
 import Scoreboard from "./Scoreboard";
+import SessionSummary from "./SessionSummary";
+import { Redirect } from "react-router";
 import { getPose } from "../store/pose";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -19,13 +21,31 @@ const useStyles = makeStyles((theme) => ({
 
 const Detector = () => {
   const classes = useStyles();
+  const [score, setScore] = useState({});
+  const [angleArray, setAngleArray] = useState([]);
+
+  const [summary, setSummary] = useState({});
+  const [repInfo, setRepInfo] = useState([]);
+
   const webcamRef = useRef();
   const canvasRef = useRef();
   const dispatch = useDispatch();
 
-  let time;
-  let [score, setScore] = useState({});
-  let [angleArray, setAngleArray] = useState([]);
+
+  // can later make this more generalizable
+  let summaryOfScores = {
+    right_hipright_knee: 0,
+    right_shoulderright_hip: 0,
+    left_shoulderright_shoulder: 0,
+    reps: 0,
+  };
+
+  let time, maxTime;
+  let noseHeight = 0;
+  let status = "counted";
+  let reps = 0;
+  let results = [];
+
   let [finished, setFinished] = useState(false);
   let [ticker, setTicker] = useState();
   const { criteria, instructions } = useSelector((state) => state.pose);
@@ -69,7 +89,35 @@ const Detector = () => {
 
       if (detector) {
         let poses = await detector.estimatePoses(video);
-        //console.log("poses", poses);
+        if (time === maxTime) {
+          // poses[0].keypoints[0].y refers to the y coordinate of the nose keypoint
+          noseHeight = poses[0].keypoints[0].y;
+        }
+
+        if (
+          status === "counted" &&
+          poses[0].keypoints[0].y > noseHeight + 100
+        ) {
+          status = "bottom";
+        }
+
+        if (status === "bottom" && poses[0].keypoints[0].y < noseHeight + 100) {
+          status = "rising";
+        }
+
+        if (status === "rising" && poses[0].keypoints[0].y < noseHeight + 30) {
+          status = "counted";
+          reps++;
+          const result = await evaluateExercise(angleArray, squatCriteria);
+          Object.keys(result).forEach((angle) => {
+            if (result[angle]) {
+              summaryOfScores[angle]++;
+            }
+          });
+          summaryOfScores.reps = reps;
+          results.push(result);
+        }
+
         if (time > 0) {
           time--;
           setTicker(time);
@@ -86,9 +134,15 @@ const Detector = () => {
             canvasRef.current.width,
             canvasRef.current.height
           );
-          const result = await evaluateExercise(angleArray, criteria);
-          setScore(result);
+
+          // const result = await evaluateExercise(angleArray, squatCriteria);
+          // setScore(summaryOfScores);
+          setRepInfo(results);
+          setSummary(summaryOfScores);
+
           setFinished(true);
+          noseHeight = 0;
+          // time = maxTime;
         }
       }
     }
@@ -98,7 +152,8 @@ const Detector = () => {
     setTicker("LOADING");
     setFinished(false);
     setScore({});
-    time = 40;
+    time = 50;
+    maxTime = time;
     setAngleArray([]);
     init();
   }
@@ -225,7 +280,13 @@ const Detector = () => {
           Timer:
         </div> */}
         {finished ? (
-          <Scoreboard openStatus={true} scoreProp={score} />
+          // <Scoreboard openStatus={true} scoreProp={score} />
+          <Redirect
+            to={{
+              pathname: "/summary",
+              state: { summary, repInfo },
+            }}
+          />
         ) : (
           <div></div>
         )}
