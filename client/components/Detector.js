@@ -3,12 +3,13 @@ import "@tensorflow/tfjs-backend-webgl";
 import React, { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { IconButton, SvgIcon, makeStyles } from "@material-ui/core";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import StartButton from "./StartButton";
 import evaluateExercise from "./Evaluator";
 import Scoreboard from "./Scoreboard";
 import SessionSummary from "./SessionSummary";
 import { Redirect } from "react-router";
+import { getPose } from "../store/pose";
+import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   roundButton: {
@@ -17,13 +18,6 @@ const useStyles = makeStyles((theme) => ({
     opacity: "0.5",
   },
 }));
-
-const squatCriteria = [
-  // name : [score req, min angle, max angle]
-  { right_hipright_knee: [0.5, null, 5, "require"] },
-  { right_shoulderright_hip: [0.5, null, 70, "avoid"] },
-  { left_shoulderright_shoulder: [0.65, 10, null, "avoid"] },
-];
 
 const Detector = () => {
   const classes = useStyles();
@@ -35,6 +29,8 @@ const Detector = () => {
 
   const webcamRef = useRef();
   const canvasRef = useRef();
+  const dispatch = useDispatch();
+
 
   // can later make this more generalizable
   let summaryOfScores = {
@@ -52,6 +48,7 @@ const Detector = () => {
 
   let [finished, setFinished] = useState(false);
   let [ticker, setTicker] = useState();
+  const { criteria, instructions } = useSelector((state) => state.pose);
 
   async function init() {
     const detectorConfig = {
@@ -67,6 +64,13 @@ const Detector = () => {
       });
     }
   }
+
+  useEffect(() => {
+    async function getPoseInfoAndCriteria() {
+      await dispatch(getPose({ poseName: "pushup" }));
+    }
+    getPoseInfoAndCriteria();
+  }, []);
 
   async function getPoses(detector) {
     if (
@@ -130,6 +134,7 @@ const Detector = () => {
             canvasRef.current.width,
             canvasRef.current.height
           );
+
           // const result = await evaluateExercise(angleArray, squatCriteria);
           // setScore(summaryOfScores);
           setRepInfo(results);
