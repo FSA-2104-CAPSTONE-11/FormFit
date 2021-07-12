@@ -94,7 +94,6 @@ const AuthForm = (props) => {
         <Redirect to="/home" />
       ) : (
      <div>
-          {/* <NavbarOffset /> */}
         <Container component="main" maxWidth="xs" className={classes.main}>
           <div className={classes.paper}>
             <Avatar className={classes.avatar}>
