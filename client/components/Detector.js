@@ -7,6 +7,8 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import StartButton from "./StartButton";
 import evaluateExercise from "./Evaluator";
 import Scoreboard from "./Scoreboard";
+import SessionSummary from "./SessionSummary";
+import { Redirect } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   roundButton: {
@@ -28,15 +30,26 @@ const Detector = () => {
   const [score, setScore] = useState({});
   const [angleArray, setAngleArray] = useState([]);
 
-  // const [status, setStatus] = useState("counted");
+  const [summary, setSummary] = useState({});
+  const [repInfo, setRepInfo] = useState([]);
 
   const webcamRef = useRef();
   const canvasRef = useRef();
+
+  // can later make this more generalizable
+  let summaryOfScores = {
+    right_hipright_knee: 0,
+    right_shoulderright_hip: 0,
+    left_shoulderright_shoulder: 0,
+    reps: 0,
+  };
 
   let time, maxTime;
   let noseHeight = 0;
   let status = "counted";
   let reps = 0;
+  let results = [];
+
   let [finished, setFinished] = useState(false);
   let [ticker, setTicker] = useState();
 
@@ -72,12 +85,9 @@ const Detector = () => {
 
       if (detector) {
         let poses = await detector.estimatePoses(video);
-        // console.log("poses", poses);
         if (time === maxTime) {
           // poses[0].keypoints[0].y refers to the y coordinate of the nose keypoint
-          console.log("first pose", poses);
           noseHeight = poses[0].keypoints[0].y;
-          console.log("noseHeight", noseHeight);
         }
 
         if (
@@ -85,19 +95,23 @@ const Detector = () => {
           poses[0].keypoints[0].y > noseHeight + 100
         ) {
           status = "bottom";
-          console.log("status", status);
         }
 
         if (status === "bottom" && poses[0].keypoints[0].y < noseHeight + 100) {
           status = "rising";
-          console.log("status", status);
         }
 
         if (status === "rising" && poses[0].keypoints[0].y < noseHeight + 30) {
           status = "counted";
-          console.log("status", status);
           reps++;
-          console.log("reps", reps);
+          const result = await evaluateExercise(angleArray, squatCriteria);
+          Object.keys(result).forEach((angle) => {
+            if (result[angle]) {
+              summaryOfScores[angle]++;
+            }
+          });
+          summaryOfScores.reps = reps;
+          results.push(result);
         }
 
         if (time > 0) {
@@ -116,9 +130,14 @@ const Detector = () => {
             canvasRef.current.width,
             canvasRef.current.height
           );
-          const result = await evaluateExercise(angleArray, squatCriteria);
-          setScore(result);
+          // const result = await evaluateExercise(angleArray, squatCriteria);
+          // setScore(summaryOfScores);
+          setRepInfo(results);
+          setSummary(summaryOfScores);
+
           setFinished(true);
+          noseHeight = 0;
+          // time = maxTime;
         }
       }
     }
@@ -128,7 +147,7 @@ const Detector = () => {
     setTicker("LOADING");
     setFinished(false);
     setScore({});
-    time = 40;
+    time = 50;
     maxTime = time;
     setAngleArray([]);
     init();
@@ -256,7 +275,13 @@ const Detector = () => {
           Timer:
         </div> */}
         {finished ? (
-          <Scoreboard openStatus={true} scoreProp={score} />
+          // <Scoreboard openStatus={true} scoreProp={score} />
+          <Redirect
+            to={{
+              pathname: "/summary",
+              state: { summary, repInfo },
+            }}
+          />
         ) : (
           <div></div>
         )}
