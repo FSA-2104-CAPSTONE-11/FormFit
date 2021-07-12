@@ -6,6 +6,7 @@ import { IconButton, SvgIcon, makeStyles } from "@material-ui/core";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import StartButton from "./StartButton";
 import evaluateExercise from "./Evaluator";
+import Scoreboard from "./Scoreboard";
 
 const useStyles = makeStyles((theme) => ({
   roundButton: {
@@ -29,12 +30,9 @@ const Detector = () => {
   const webcamRef = useRef();
   const canvasRef = useRef();
 
-  // let [time, setTime] = useState(0);
   let time;
-  // let [start, setStart] = useState(false);
-  // let [finished, setFinished] = useState(false);
-  // let start = false;
-  // let finished = false;
+  let [finished, setFinished] = useState(false);
+  let [ticker, setTicker] = useState();
 
   async function init() {
     const detectorConfig = {
@@ -50,17 +48,6 @@ const Detector = () => {
       });
     }
   }
-
-  useEffect(() => {
-    let myInterval = setInterval(() => {
-      if (time === 0) {
-        setScore({ task: "bingo" });
-      }
-    }, 1000);
-    return () => {
-      clearInterval(myInterval);
-    };
-  });
 
   async function getPoses(detector) {
     if (
@@ -82,7 +69,7 @@ const Detector = () => {
         //console.log("poses", poses);
         if (time > 0) {
           time--;
-          document.getElementById("ticker").innerText = `${time}`;
+          setTicker(time);
           requestAnimationFrame(async () => {
             await getPoses(detector);
           });
@@ -98,18 +85,19 @@ const Detector = () => {
           );
           const result = await evaluateExercise(angleArray, squatCriteria);
           setScore(result);
+          setFinished(true);
         }
       }
     }
   }
 
   function handleClick() {
-    document.getElementById("ticker").innerText = "LOADING";
+    setTicker("LOADING");
+    setFinished(false)
     setScore({});
-    time = 150;
+    time = 40;
     setAngleArray([]);
     init();
-    //set scoreboard to blank, ticker to loading
   }
 
   function drawKeypoint(keypoint) {
@@ -233,6 +221,7 @@ const Detector = () => {
         >
           Timer:
         </div> */}
+        {finished ? <Scoreboard openStatus={true} scoreProp={score} /> : <div></div>}
         <div
           id="ticker"
           style={{
@@ -244,45 +233,9 @@ const Detector = () => {
             backgroundColor: "white",
             opacity: "0.5",
           }}
-        ></div>
-        <table
-          style={{
-            position: "fixed",
-            left: "5%",
-            top: "5%",
-            zIndex: 10,
-            objectFit: "cover",
-            backgroundColor: "white",
-            opacity: "0.5",
-            borderWidth: "1px",
-            borderColor: "#aaaaaa",
-            borderStyle: "solid",
-          }}
         >
-          <thead>
-            <tr>
-              <th>Body Part</th>
-              <th>Score</th>
-            </tr>
-          </thead>
-          <tbody>
-            {score && Object.keys(score).length > 0 ? (
-              Object.keys(score).map((criterion, index) => {
-                return (
-                  <tr key={index+"row"}>
-                    <td key={index}>{criterion}</td>
-                    <td key={index + "k"}>{`${score[criterion]}`}</td>
-                  </tr>
-                );
-              })
-            ) : (
-              <tr key="row">
-                <td key="firstcol"></td>
-                <td key="secondcol"></td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+          {ticker}
+        </div>
       </div>
       <IconButton
         className={classes.roundButton}
@@ -293,10 +246,10 @@ const Detector = () => {
           position: "fixed",
           zIndex: 10,
           objectFit: "cover",
-          height: "60px",
-          width: "60px",
+          height: "80px",
+          width: "80px",
           top: "85%",
-          left: "calc(50% - 30px)",
+          left: "calc(50% - 40px)",
           padding: "0px",
         }}
         onClick={() => handleClick()}
