@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getHistory } from "../store/poseHistory";
-import Navbar from "./Navbar";
 
 // style imports
 import { makeStyles } from "@material-ui/core/styles";
@@ -10,6 +9,7 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Redirect } from "react-router";
 
 /**
  * STYLES
@@ -19,6 +19,8 @@ const useStyles = makeStyles((theme) => ({
     width: "95%",
     marginLeft: "auto",
     marginRight: "auto",
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
   },
   heading: {
     fontSize: theme.typography.pxToRem(20),
@@ -107,7 +109,7 @@ const History = () => {
           })}
         </div>
       ) : (
-        <h3>Please log in to view this page!</h3>
+        <Redirect to="/login" />
       )}
     </div>
   );

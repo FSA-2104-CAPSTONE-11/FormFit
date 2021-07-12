@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
 import {useSelector, useDispatch} from "react-redux";
-import Navbar from "./Navbar";
 import {getUser, updateUser} from "../store/user";
 import {makeStyles} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -11,10 +10,13 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
+import { Redirect } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 345,
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   media: {
     height: 280,
@@ -23,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     height: 160,
   },
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(16),
     marginBottom: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
@@ -37,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 const Profile = () => {
   const classes = useStyles();
   const isLoggedIn = useSelector((state) => !!state.auth.id);
-  const {username, email, poseSessions} = useSelector((state) => state.user);
+  const { username, email, poseSessions } = useSelector((state) => state.user);
   let [editing, setEditing] = useState(false);
   let newUsername = username;
   let newEmail = email;
@@ -80,7 +82,7 @@ const Profile = () => {
     const monthIndex = createdAt.slice(5, 7) - 1;
     const day = Number(createdAt.slice(8, 10));
     const event = new Date(year, monthIndex, day);
-    const options = {weekday: "short", month: "short", day: "numeric"};
+    const options = { weekday: "short", month: "short", day: "numeric" };
     return event.toLocaleDateString("US-en", options);
   };
 
@@ -167,7 +169,7 @@ const Profile = () => {
                     variant="contained"
                     color="primary"
                     onClick={() => {
-                      dispatch(updateUser({newUsername, newEmail}));
+                      dispatch(updateUser({ newUsername, newEmail }));
                       setEditing((editing = false));
                     }}
                   >
@@ -228,7 +230,7 @@ const Profile = () => {
           </Card>
         </div>
       ) : (
-        <h3>Please log in to view this page!</h3>
+        <Redirect to="/login" />
       )}
     </div>
   );

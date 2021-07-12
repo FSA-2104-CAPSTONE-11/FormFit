@@ -6,6 +6,7 @@ import { IconButton, SvgIcon, makeStyles } from "@material-ui/core";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import StartButton from "./StartButton";
 import evaluateExercise from "./Evaluator";
+import Scoreboard from "./Scoreboard";
 
 const useStyles = makeStyles((theme) => ({
   roundButton: {
@@ -14,8 +15,6 @@ const useStyles = makeStyles((theme) => ({
     opacity: "0.5",
   },
 }));
-
-let count = 250;
 
 const squatCriteria = [
   // name : [score req, min angle, max angle]
@@ -31,6 +30,10 @@ const Detector = () => {
   const webcamRef = useRef();
   const canvasRef = useRef();
 
+  let time;
+  let [finished, setFinished] = useState(false);
+  let [ticker, setTicker] = useState();
+
   async function init() {
     const detectorConfig = {
       modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER,
@@ -39,29 +42,11 @@ const Detector = () => {
       poseDetection.SupportedModels.MoveNet,
       detectorConfig
     );
-    const interval = setInterval(() => {
-      getPoses(detector);
-      count--;
-      const ticker = document.getElementById("ticker");
-      ticker.innerText = count;
-      if (count === 0) {
-        count = 250;
-        clearInterval(interval);
-        let result = evaluateExercise(angleArray, squatCriteria);
-        setScore({ ...result });
-        //updateScoreboard()
-        //setScore({ hu: 8 });
-        console.log("score", score);
-      }
-    }, 16);
-  }
-
-  async function updateScoreboard() {
-    let result = evaluateExercise(angleArray, squatCriteria);
-    Object.keys(result).forEach((el) => {
-      console.log("el", el);
-      score[el] = result[el];
-    });
+    if (detector) {
+      requestAnimationFrame(async () => {
+        await getPoses(detector);
+      });
+    }
   }
 
   async function getPoses(detector) {
@@ -79,10 +64,40 @@ const Detector = () => {
       webcamRef.current.video.width = videoWidth;
       webcamRef.current.video.height = videoHeight;
 
-      let poses = await detector.estimatePoses(video);
-      // console.log("poses", poses);
-      drawCanvas(poses, videoWidth, videoHeight, canvasRef);
+      if (detector) {
+        let poses = await detector.estimatePoses(video);
+        //console.log("poses", poses);
+        if (time > 0) {
+          time--;
+          setTicker(time);
+          requestAnimationFrame(async () => {
+            await getPoses(detector);
+          });
+          drawCanvas(poses, videoWidth, videoHeight, canvasRef);
+        }
+        if (time === 0) {
+          const ctx = canvasRef.current.getContext("2d");
+          ctx.clearRect(
+            0,
+            0,
+            canvasRef.current.width,
+            canvasRef.current.height
+          );
+          const result = await evaluateExercise(angleArray, squatCriteria);
+          setScore(result);
+          setFinished(true);
+        }
+      }
     }
+  }
+
+  function handleClick() {
+    setTicker("LOADING");
+    setFinished(false)
+    setScore({});
+    time = 40;
+    setAngleArray([]);
+    init();
   }
 
   function drawKeypoint(keypoint) {
@@ -142,7 +157,6 @@ const Detector = () => {
 
       if (kp1.score > 0.5 && kp2.score > 0.5) {
         angleArray.push({ [name]: [adjacentPairAngle, kp1.score, kp2.score] });
-        // console.log(`angleArray`, angleArray);
       }
 
       // If score is null, just show the keypoint.
@@ -165,13 +179,6 @@ const Detector = () => {
 
     drawKeypoints(poses[0].keypoints);
     drawSkeleton(poses[0].keypoints);
-  }
-
-  function handleClick() {
-    // setScore({});
-    setAngleArray([]);
-    init();
-    //set scoreboard to blank, ticker to loading
   }
 
   return (
@@ -214,6 +221,7 @@ const Detector = () => {
         >
           Timer:
         </div> */}
+        {finished ? <Scoreboard openStatus={true} scoreProp={score} /> : <div></div>}
         <div
           id="ticker"
           style={{
@@ -222,45 +230,12 @@ const Detector = () => {
             top: "50%",
             zIndex: 10,
             objectFit: "cover",
-          }}
-        ></div>
-        <table
-          style={{
-            position: "fixed",
-            left: "45%",
-            top: "5%",
-            zIndex: 10,
-            objectFit: "cover",
-            borderWidth: "1px",
-            borderColor: "#aaaaaa",
-            borderStyle: "solid",
+            backgroundColor: "white",
+            opacity: "0.5",
           }}
         >
-          <thead>
-            <tr>
-              <th>Body Part</th>
-              <th>Score</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Torso stays Upright:</td>
-              {Object.keys(score).length > 0 ? (
-                <td id="hipScore">{Object.values(score)[0]}</td>
-              ) : (
-                <td></td>
-              )}
-            </tr>
-            {/* <tr>
-              <td>Knee reaches 90°:</td>
-              <td id="kneeScore"></td>
-            </tr>
-            <tr>
-              <td>Shoulder Alignment:</td>
-              <td id="shoulderScore"></td>
-            </tr> */}
-          </tbody>
-        </table>
+          {ticker}
+        </div>
       </div>
       <IconButton
         className={classes.roundButton}
@@ -271,10 +246,10 @@ const Detector = () => {
           position: "fixed",
           zIndex: 10,
           objectFit: "cover",
-          height: "60px",
-          width: "60px",
+          height: "80px",
+          width: "80px",
           top: "85%",
-          left: "calc(50% - 30px)",
+          left: "calc(50% - 40px)",
           padding: "0px",
         }}
         onClick={() => handleClick()}

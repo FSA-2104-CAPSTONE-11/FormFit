@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {useSelector} from "react-redux";
-
 import clsx from "clsx";
 import {makeStyles} from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -10,7 +9,6 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Link from "@material-ui/core/Link";
-import Navbar from "./Navbar";
 
 function Copyright() {
   return (
@@ -34,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: "100vh",
     overflow: "auto",
+    objectFit: "cover",
   },
   container: {
     paddingTop: theme.spacing(4),
@@ -66,17 +65,23 @@ export const Home = () => {
         <h3>Welcome, {username}</h3>
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>{/* <Chart /> */}</Paper>
-            </Grid>
-            {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>{/* <Deposits /> */}</Paper>
+              <Paper className={fixedHeightPaper}></Paper>
             </Grid>
-            {/* Recent Orders */}
+            <Grid item xs={12} md={4} lg={3}>
+              <Paper className={fixedHeightPaper}></Paper>
+            </Grid>
+            <Grid item xs={12} md={4} lg={3}>
+              <Paper className={fixedHeightPaper}></Paper>
+            </Grid>
+            <Grid item xs={12} md={4} lg={3}>
+              <Paper className={fixedHeightPaper}></Paper>
+            </Grid>
+            <Grid item xs={12} md={8} lg={12}>
+              <Paper className={fixedHeightPaper}></Paper>
+            </Grid>
             <Grid item xs={12}>
-              <Paper className={classes.paper}>{/* <Orders /> */}</Paper>
+              <Paper className={classes.paper}></Paper>
             </Grid>
           </Grid>
           <Box pt={4}>

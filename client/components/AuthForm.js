@@ -16,7 +16,7 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import NavbarOffset from "./NavbarOffset";
+// import NavbarOffset from "./NavbarOffset";
 
 /**
  * STYLES
@@ -95,7 +95,7 @@ const AuthForm = (props) => {
         <Redirect to="/home" />
       ) : (
      <div>
-          <NavbarOffset />
+          {/* <NavbarOffset /> */}
         <Container component="main" maxWidth="xs" className={classes.main}>
           <div className={classes.paper}>
             <Avatar className={classes.avatar}>

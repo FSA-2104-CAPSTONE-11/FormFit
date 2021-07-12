@@ -16,72 +16,53 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import PeopleIcon from "@material-ui/icons/People";
 import BarChartIcon from "@material-ui/icons/BarChart";
-import LayersIcon from "@material-ui/icons/Layers";
+import HomeIcon from "@material-ui/icons/Home";
+import VideocamIcon from "@material-ui/icons/Videocam";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import Divider from "@material-ui/core/Divider";
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
-    //     flexGrow: 1,
-  },
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
-  },
-  toolbarIcon: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    padding: "0 8px",
-    ...theme.mixins.toolbar,
+    display: 'flex',
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(["width", "margin"], {
+    transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
   appBarShift: {
-    marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
   menuButton: {
-    marginRight: 36,
+    marginRight: theme.spacing(2),
   },
-  menuButtonHidden: {
-    display: "none",
+  hide: {
+    display: 'none',
   },
-  title: {
-    flexGrow: 1,
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
   },
   drawerPaper: {
-    position: "relative",
-    whiteSpace: "nowrap",
     width: drawerWidth,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
   },
-  drawerPaperClose: {
-    overflowX: "hidden",
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing(7),
-    [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(9),
-    },
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
   },
 }));
 
@@ -89,9 +70,9 @@ const Navbar = () => {
   const classes = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-  const isLoggedIn = useSelector((state) => !!state.auth.id);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -104,47 +85,43 @@ const Navbar = () => {
   };
 
   const handleMenuClick = (pageURL) => {
+    setOpen(false);
     history.push(pageURL);
   };
 
   return (
     <div className={classes.root}>
       <AppBar
-        position="absolute"
-        className={clsx(classes.appBar, open && classes.appBarShift)}
+        position="fixed"
+        className={clsx(classes.appBar, {
+          [classes.appBarShift]: open,
+        })}
       >
-        <Toolbar className={classes.toolbar}>
+        <Toolbar>
           <IconButton
-            edge="start"
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
-            className={clsx(
-              classes.menuButton,
-              open && classes.menuButtonHidden
-            )}
+            edge="start"
+            className={clsx(classes.menuButton, open && classes.hide)}
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            className={classes.title}
-          >
+          <Typography variant="h6" noWrap>
             Squatter
           </Typography>
         </Toolbar>
       </AppBar>
       <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
+        className={classes.drawer}
+        variant="persistent"
+        anchor="left"
         open={open}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
       >
-        <div className={classes.toolbarIcon}>
+        <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
           </IconButton>
@@ -152,31 +129,32 @@ const Navbar = () => {
         <List>
           <ListItem button onClick={() => handleMenuClick("/home")}>
             <ListItemIcon>
-              <DashboardIcon />
+              <HomeIcon />
             </ListItemIcon>
             <ListItemText primary="Home" />
           </ListItem>
           <ListItem button onClick={() => handleMenuClick("/detector")}>
             <ListItemIcon>
-              <ShoppingCartIcon />
+              <VideocamIcon />
             </ListItemIcon>
             <ListItemText primary="Detect Squats Here" />
           </ListItem>
           <ListItem button onClick={() => handleMenuClick("/history")}>
             <ListItemIcon>
-              <PeopleIcon />
+              <BarChartIcon />
             </ListItemIcon>
             <ListItemText primary="Pose History" />
           </ListItem>
           <ListItem button onClick={() => handleMenuClick("/profile")}>
             <ListItemIcon>
-              <BarChartIcon />
+              <AccountCircleIcon />
             </ListItemIcon>
             <ListItemText primary="My Profile" />
           </ListItem>
+          <Divider />
           <ListItem button onClick={handleClickLogout}>
             <ListItemIcon>
-              <LayersIcon />
+              <ExitToAppIcon />
             </ListItemIcon>
             <ListItemText primary="Logout" />
           </ListItem>
