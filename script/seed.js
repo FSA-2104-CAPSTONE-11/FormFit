@@ -30,6 +30,11 @@ async function seed() {
       instructions:
         "in order to squat, directly face the camera, and drop your butt backwards towards the ground until your thighs are at least level with the floor. Keep your back upright and shoulders level the whole time. Then, stand back up straight. That is one rep!",
     }),
+    Pose.create({
+      name: "pushup",
+      instructions:
+        "To do a push up, position your hands about shoulder width apart. Try to keep your back and legs straight as you go down to the ground before you push yourself back up. That is one rep!",
+    }),
   ]);
 
   // Creating Criteria
@@ -61,6 +66,46 @@ async function seed() {
         right_shoulderright_hip: [0.5, null, 70, "avoid"],
       }),
       poseId: 1,
+    }),
+    Criteria.create({
+      name: "back",
+      quickDescription: "back stays level",
+      longDescription:
+        "Through out the whole duration of a pushup, your back can get as even with the ground, but shouldnt exceed a 35deg angle!",
+      spec: JSON.stringify({
+        right_shoulderright_hip: [0.8, 35, null, "avoid"],
+      }),
+      poseId: 2,
+    }),
+    Criteria.create({
+      name: "tricep",
+      quickDescription: "tricep should become perpendicular with the ground",
+      longDescription:
+        "When pushing yourself up from the down position of a pushup, you know you are at the top when your tricep forms a 90deg angle with the ground!",
+      spec: JSON.stringify({
+        right_shoulderright_elbow: [0.5, 85, null, "require"],
+      }),
+      poseId: 2,
+    }),
+    Criteria.create({
+      name: "legs",
+      quickDescription: "legs stay level",
+      longDescription:
+        "Through out the whole duration of a pushup, your legs can get as even with the ground, but shouldnt exceed a 35deg angle!",
+      spec: JSON.stringify({
+        right_hipright_knee: [0.6, 35, null, "avoid"],
+      }),
+      poseId: 2,
+    }),
+    Criteria.create({
+      name: "forearm",
+      quickDescription: "forearm never dips below perpendicular level",
+      longDescription:
+        "Through out the whole duration of a pushup, your forearm can get as even with the ground, but shouldnt go below a 75deg angle with!",
+      spec: JSON.stringify({
+        right_elbowright_wrist: [0.8, null, 75, "avoid"],
+      }),
+      poseId: 2,
     }),
   ]);
 
