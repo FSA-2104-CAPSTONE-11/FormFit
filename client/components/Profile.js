@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import NavbarOffset from "./NavbarOffset";
-import { getUser, updateUser } from "../store/user";
-import { makeStyles } from "@material-ui/core/styles";
+import React, {useState, useEffect} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {getUser, updateUser} from "../store/user";
+import {makeStyles} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -16,6 +15,8 @@ import { Redirect } from "react-router";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 345,
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   media: {
     height: 280,
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     height: 160,
   },
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(16),
     marginBottom: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
@@ -87,7 +88,6 @@ const Profile = () => {
 
   return (
     <div>
-      <NavbarOffset />
       {isLoggedIn ? (
         <div className={classes.paper}>
           <Card className={classes.root}>
