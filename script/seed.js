@@ -39,6 +39,7 @@ async function seed() {
       quickDescription: "knees must reach 90 degrees",
       longDescription:
         "the angle between your knees, the floor, and your hips must reach 90 degrees. That means your thigh should be parallel to the ground.",
+      spec: JSON.stringify({ right_hipright_knee: [0.5, null, 5, "require"] }),
       poseId: 1,
     }),
     Criteria.create({
@@ -46,6 +47,9 @@ async function seed() {
       quickDescription: "shoulders remain level",
       longDescription:
         "your shoulders should be at roughly the same height at all points during the squat. If your upper half begins to tilt, you will fail this test",
+      spec: JSON.stringify({
+        left_shoulderright_shoulder: [0.65, 10, null, "avoid"],
+      }),
       poseId: 1,
     }),
     Criteria.create({
@@ -53,6 +57,9 @@ async function seed() {
       quickDescription: "torso remains upright",
       longDescription:
         "while your legs lower you to the ground, your upper body should remain upright. Your back should be flat, and your eyes should be looking straight forward, not towards the ground.",
+      spec: JSON.stringify({
+        right_shoulderright_hip: [0.5, null, 70, "avoid"],
+      }),
       poseId: 1,
     }),
   ]);

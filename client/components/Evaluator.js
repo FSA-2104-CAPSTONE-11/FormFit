@@ -3,9 +3,12 @@ const evaluateExercise = (angleArray, exerciseCriteria) => {
   // const debuggingArray = []
 
   exerciseCriteria.forEach((cElement) => {
+    // spec format = {name : [node score required, min angle, max angle, type]}
+    const spec = JSON.parse(cElement.spec);
+
     // get name and data from input criteria
-    const criterionName = Object.keys(cElement)[0];
-    const criterionData = cElement[criterionName];
+    const criterionName = Object.keys(spec)[0];
+    const criterionData = spec[criterionName];
     const criterionType = criterionData[3];
 
     // create key value pair and assign starting value in result obj, true if target value should not be reached, false if target should be reached
