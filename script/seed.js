@@ -101,7 +101,7 @@ async function seed() {
       name: "forearm",
       quickDescription: "forearm never dips below perpendicular level",
       longDescription:
-        "Through out the whole duration of a pushup, your forearm can get as even with the ground, but shouldnt go below a 75deg angle with!",
+        "Through out the whole duration of a pushup, your forearm shouldn't go below a 75deg angle!",
       spec: JSON.stringify({
         right_elbowright_wrist: [0.8, null, 75, "avoid"],
       }),
