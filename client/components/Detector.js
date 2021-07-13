@@ -31,7 +31,6 @@ const Detector = () => {
   const canvasRef = useRef();
   const dispatch = useDispatch();
 
-
   // can later make this more generalizable
   let summaryOfScores = {
     right_hipright_knee: 0,
@@ -48,6 +47,7 @@ const Detector = () => {
 
   let [finished, setFinished] = useState(false);
   let [ticker, setTicker] = useState();
+  let [exercise, setExercise] = useState("squat");
   const { criteria, instructions } = useSelector((state) => state.pose);
 
   async function init() {
@@ -67,10 +67,10 @@ const Detector = () => {
 
   useEffect(() => {
     async function getPoseInfoAndCriteria() {
-      await dispatch(getPose({ poseName: "pushup" }));
+      await dispatch(getPose({ poseName: exercise }));
     }
     getPoseInfoAndCriteria();
-  }, []);
+  }, [exercise]);
 
   async function getPoses(detector) {
     if (
@@ -108,7 +108,7 @@ const Detector = () => {
         if (status === "rising" && poses[0].keypoints[0].y < noseHeight + 30) {
           status = "counted";
           reps++;
-          const result = await evaluateExercise(angleArray, squatCriteria);
+          const result = await evaluateExercise(angleArray, criteria);
           Object.keys(result).forEach((angle) => {
             if (result[angle]) {
               summaryOfScores[angle]++;
@@ -239,6 +239,10 @@ const Detector = () => {
     drawSkeleton(poses[0].keypoints);
   }
 
+  function handleChange(e) {
+    setExercise(e.target.value);
+  }
+
   return (
     <div>
       <div>
@@ -267,6 +271,30 @@ const Detector = () => {
               objectFit: "cover",
             }}
           />
+          <label
+            htmlFor="exercises"
+            style={{
+              position: "fixed",
+              zIndex: 10,
+              opacity: "0.8",
+              top: "8%",
+            }}
+          >
+            Choose an Exercise:
+          </label>
+          <select
+            name="exercises"
+            style={{
+              position: "fixed",
+              zIndex: 10,
+              top: "10%",
+              opacity: "0.5",
+            }}
+            onChange={handleChange}
+          >
+            <option value="squat">Squat</option>
+            <option value="pushup">Push-Up</option>
+          </select>
         </div>
         {/* <div
           style={{
