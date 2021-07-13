@@ -67,7 +67,7 @@ const History = () => {
       >
         My Pose History
       </h1>
-      {isLoggedIn ? (
+      {isLoggedIn && poseHistory && poseHistory.length ? (
         <div>
           {poseHistory.map((pose) => {
             return (
