@@ -3,6 +3,14 @@ import "@tensorflow/tfjs-backend-webgl";
 import React, { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { IconButton, SvgIcon, makeStyles } from "@material-ui/core";
+import {
+  Modal,
+  Backdrop,
+  Slide,
+  Button,
+  Grid,
+  Typography,
+} from "@material-ui/core";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import StartButton from "./StartButton";
@@ -18,6 +26,28 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#FFC2B4",
     border: "2px solid #156064",
     opacity: "0.5",
+  },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #156064",
+    borderRadius: theme.spacing(2),
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2),
+    opacity: ".75",
+  },
+  title: {
+    padding: theme.spacing(0),
+    marginTop: theme.spacing(0),
+    marginBottom: theme.spacing(0),
+    fontWeight: "bolder",
+    variant: "h2",
+    display: "flex",
+    justifyContent: "center",
   },
 }));
 
@@ -45,6 +75,11 @@ const Detector = () => {
   let [ticker, setTicker] = useState();
   let [exercise, setExercise] = useState("squat");
   const { criteria, instructions } = useSelector((state) => state.pose);
+  const [open, setOpen] = useState(true);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   async function init() {
     const detectorConfig = {
@@ -69,19 +104,19 @@ const Detector = () => {
   }, [exercise]);
 
   useEffect(() => {
-    if (instructions) {
-      const notify = () =>
-        toast.warn(`${instructions}`, {
-          position: "top-center",
-          autoClose: 10000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      notify();
-    }
+    // if (instructions) {
+    //   const notify = () =>
+    //     toast.warn(`${instructions}`, {
+    //       position: "top-center",
+    //       autoClose: 10000,
+    //       hideProgressBar: false,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     });
+    //   notify();
+    // }
   }, [instructions]);
 
   useEffect(() => {
@@ -318,6 +353,28 @@ const Detector = () => {
             <option value="squat">Squat</option>
             <option value="pushup">Push-Up</option>
           </select>
+          <div>
+            <Modal
+              aria-labelledby="transition-modal-title"
+              aria-describedby="transition-modal-description"
+              className={classes.modal}
+              open={open}
+              onClose={handleClose}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+            >
+              <Slide in={open} direction="left">
+                <div className={classes.paper}>
+                  <Typography className={classes.title}>
+                    {instructions}
+                  </Typography>
+                </div>
+              </Slide>
+            </Modal>
+          </div>
         </div>
         {/* <div
           style={{
