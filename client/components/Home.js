@@ -64,15 +64,6 @@ export const Home = () => {
         <h3>Welcome, {username}</h3>
         <Container maxWidth="lg" className={classes.container}>
           <Data />
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={8} lg={12}>
-              <Paper elevation={5} className={fixedHeightPaper}>
-                <Typography component="h2" variant="h6" gutterBottom>
-                  All Exercises
-                </Typography>
-              </Paper>
-            </Grid>
-          </Grid>
           <Box pt={4}>
             <Copyright />
           </Box>
