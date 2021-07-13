@@ -3,6 +3,8 @@ import "@tensorflow/tfjs-backend-webgl";
 import React, { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { IconButton, SvgIcon, makeStyles } from "@material-ui/core";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import StartButton from "./StartButton";
 import evaluateExercise from "./Evaluator";
 import Scoreboard from "./Scoreboard";
@@ -65,6 +67,22 @@ const Detector = () => {
     }
     getPoseInfoAndCriteria();
   }, [exercise]);
+
+  useEffect(() => {
+    if (instructions) {
+      const notify = () =>
+        toast.warn(`${instructions}`, {
+          position: "top-center",
+          autoClose: 10000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      notify();
+    }
+  }, [instructions]);
 
   useEffect(() => {
     if (criteria) {
@@ -249,6 +267,7 @@ const Detector = () => {
 
   return (
     <div>
+      <ToastContainer />
       <div>
         <div>
           <Webcam
