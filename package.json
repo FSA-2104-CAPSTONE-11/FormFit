@@ -38,7 +38,6 @@
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "pg": "^8.6.0",
-    "react-toastify": "^7.0.4",
     "react-webcam": "^5.2.4",
     "sequelize": "^6.6.4",
     "style-loader": "^3.1.0"
