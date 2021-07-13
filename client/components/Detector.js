@@ -66,7 +66,6 @@ const Detector = () => {
   const canvasRef = useRef();
   const dispatch = useDispatch();
 
-  // can later make this more generalizable
   let summaryOfScores = {};
   let time, maxTime;
   let noseHeight = 0;
@@ -106,17 +105,6 @@ const Detector = () => {
     getPoseInfoAndCriteria();
   }, [exercise]);
 
-  useEffect(() => {
-    if (criteria) {
-      let test = Object.values(criteria);
-      test.forEach((key, value) => {
-        let parsedSpec = JSON.parse(key.spec);
-        summaryOfScores[Object.keys(parsedSpec)] = 0;
-      });
-      setOpen(true);
-    }
-  }, [criteria]);
-
   async function getPoses(detector) {
     if (
       typeof webcamRef.current !== "undefined" &&
@@ -155,8 +143,12 @@ const Detector = () => {
           reps++;
           const result = await evaluateExercise(angleArray, criteria);
           Object.keys(result).forEach((angle) => {
-            if (result[angle]) {
+            if (result[angle] && summaryOfScores[angle]) {
               summaryOfScores[angle]++;
+            } else if (result[angle]) {
+              summaryOfScores[angle] = 1;
+            } else {
+              summaryOfScores[angle] = 0;
             }
           });
           summaryOfScores.reps = reps;
