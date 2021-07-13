@@ -1,7 +1,7 @@
-import React, {useState} from "react";
-import {useSelector} from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import clsx from "clsx";
-import {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
@@ -9,6 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Link from "@material-ui/core/Link";
 import Data from "./Data";
+import { Redirect } from "react-router";
 
 function Copyright() {
   return (
@@ -57,18 +58,26 @@ export const Home = () => {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  const isLoggedIn = useSelector((state) => !!state.auth.id);
+
   return (
-    <div className={classes.root}>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <h3>Welcome, {username}</h3>
-        <Container maxWidth="lg" className={classes.container}>
-          <Data />
-          <Box pt={4}>
-            <Copyright />
-          </Box>
-        </Container>
-      </main>
+    <div>
+      {isLoggedIn ? (
+        <div className={classes.root}>
+          <main className={classes.content}>
+            <div className={classes.appBarSpacer} />
+            <h3>Welcome, {username}</h3>
+            <Container maxWidth="lg" className={classes.container}>
+              <Data />
+              <Box pt={4}>
+                <Copyright />
+              </Box>
+            </Container>
+          </main>
+        </div>
+      ) : (
+        <Redirect to="/login" />
+      )}
     </div>
   );
 };

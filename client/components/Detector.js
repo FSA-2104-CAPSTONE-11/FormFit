@@ -60,6 +60,8 @@ const Detector = () => {
   const [summary, setSummary] = useState({});
   const [repInfo, setRepInfo] = useState([]);
 
+  const isLoggedIn = useSelector((state) => !!state.auth.id);
+
   const webcamRef = useRef();
   const canvasRef = useRef();
   const dispatch = useDispatch();
@@ -284,123 +286,129 @@ const Detector = () => {
 
   return (
     <div>
-      <div>
+      {isLoggedIn ? (
         <div>
-          <Webcam
-            id="webcam"
-            ref={webcamRef}
-            style={{
-              transform: "scaleX(-1)",
-              filter: "FlipH",
-              position: "fixed",
-              height: "100%",
-              width: "100%",
-              objectFit: "cover",
-            }}
-          />
-          <canvas
-            id="canvas"
-            ref={canvasRef}
-            style={{
-              transform: "scaleX(-1)",
-              filter: "FlipH",
-              position: "fixed",
-              height: "100%",
-              width: "100%",
-              objectFit: "cover",
-            }}
-          />
-          <label
-            htmlFor="exercises"
-            style={{
-              position: "fixed",
-              zIndex: 10,
-              opacity: "0.8",
-              top: "8%",
-            }}
-          >
-            Choose an Exercise:
-          </label>
-          <select
-            name="exercises"
-            style={{
-              position: "fixed",
-              zIndex: 10,
-              top: "10%",
-              opacity: "0.5",
-            }}
-            onChange={handleChange}
-          >
-            <option value="squat">Squat</option>
-            <option value="pushup">Push-Up</option>
-          </select>
           <div>
-            <Modal
-              aria-labelledby="transition-modal-title"
-              aria-describedby="transition-modal-description"
-              className={classes.modal}
-              open={open}
-              onClose={handleClose}
-              closeAfterTransition
-              BackdropComponent={Backdrop}
-              BackdropProps={{
-                timeout: 500,
+            <div>
+              <Webcam
+                id="webcam"
+                ref={webcamRef}
+                style={{
+                  transform: "scaleX(-1)",
+                  filter: "FlipH",
+                  position: "fixed",
+                  height: "100%",
+                  width: "100%",
+                  objectFit: "cover",
+                }}
+              />
+              <canvas
+                id="canvas"
+                ref={canvasRef}
+                style={{
+                  transform: "scaleX(-1)",
+                  filter: "FlipH",
+                  position: "fixed",
+                  height: "100%",
+                  width: "100%",
+                  objectFit: "cover",
+                }}
+              />
+              <label
+                htmlFor="exercises"
+                style={{
+                  position: "fixed",
+                  zIndex: 10,
+                  opacity: "0.8",
+                  top: "8%",
+                }}
+              >
+                Choose an Exercise:
+              </label>
+              <select
+                name="exercises"
+                style={{
+                  position: "fixed",
+                  zIndex: 10,
+                  top: "10%",
+                  opacity: "0.5",
+                }}
+                onChange={handleChange}
+              >
+                <option value="squat">Squat</option>
+                <option value="pushup">Push-Up</option>
+              </select>
+              <div>
+                <Modal
+                  aria-labelledby="transition-modal-title"
+                  aria-describedby="transition-modal-description"
+                  className={classes.modal}
+                  open={open}
+                  onClose={handleClose}
+                  closeAfterTransition
+                  BackdropComponent={Backdrop}
+                  BackdropProps={{
+                    timeout: 500,
+                  }}
+                >
+                  <Slide in={open} direction="left">
+                    <div className={classes.paper}>
+                      <Typography className={classes.title}>
+                        {instructions}
+                      </Typography>
+                    </div>
+                  </Slide>
+                </Modal>
+              </div>
+            </div>
+            {finished ? (
+              <Redirect
+                to={{
+                  pathname: "/summary",
+                  state: { summary, repInfo },
+                }}
+              />
+            ) : (
+              <div></div>
+            )}
+            <div
+              id="ticker"
+              style={{
+                position: "fixed",
+                left: "50%",
+                top: "50%",
+                zIndex: 10,
+                objectFit: "cover",
+                backgroundColor: "white",
+                opacity: "0.5",
               }}
             >
-              <Slide in={open} direction="left">
-                <div className={classes.paper}>
-                  <Typography className={classes.title}>
-                    {instructions}
-                  </Typography>
-                </div>
-              </Slide>
-            </Modal>
+              {ticker}
+            </div>
           </div>
-        </div>
-        {finished ? (
-          <Redirect
-            to={{
-              pathname: "/summary",
-              state: { summary, repInfo },
+          <IconButton
+            className={classes.roundButton}
+            id="start"
+            type="button"
+            style={{
+              cursor: "pointer",
+              position: "fixed",
+              zIndex: 10,
+              objectFit: "cover",
+              height: "80px",
+              width: "80px",
+              top: "85%",
+              left: "calc(50% - 40px)",
+              padding: "0px",
             }}
-          />
-        ) : (
-          <div></div>
-        )}
-        <div
-          id="ticker"
-          style={{
-            position: "fixed",
-            left: "50%",
-            top: "50%",
-            zIndex: 10,
-            objectFit: "cover",
-            backgroundColor: "white",
-            opacity: "0.5",
-          }}
-        >
-          {ticker}
+            onClick={() => handleClick()}
+          >
+            <StartButton />
+          </IconButton>
         </div>
-      </div>
-      <IconButton
-        className={classes.roundButton}
-        id="start"
-        type="button"
-        style={{
-          cursor: "pointer",
-          position: "fixed",
-          zIndex: 10,
-          objectFit: "cover",
-          height: "80px",
-          width: "80px",
-          top: "85%",
-          left: "calc(50% - 40px)",
-          padding: "0px",
-        }}
-        onClick={() => handleClick()}
-      >
-        <StartButton />
-      </IconButton>
+      ) : (
+        <Redirect to="/login" />
+      )}
     </div>
   );
 };
