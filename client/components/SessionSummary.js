@@ -63,7 +63,6 @@ const useAccordionStyles = makeStyles((theme) => ({
  * COMPONENT
  */
 const SessionSummary = (props) => {
-
   const accordionClasses = useAccordionStyles();
   const cardClasses = useCardStyles();
   const [reps, setReps] = useState([]);
@@ -154,18 +153,15 @@ const SessionSummary = (props) => {
                     component={"span"}
                   >
                     <ul style={{ listStyleType: "none", padding: 0 }}>
-                      <li>
-                        <strong>Did knees reach 90 degrees?</strong>{" "}
-                        {`${rep.right_hipright_knee}`}
-                      </li>
-                      <li>
-                        <strong>Did torso stay upright?</strong>{" "}
-                        {`${rep.right_shoulderright_hip}`}
-                      </li>
-                      <li>
-                        <strong>Did your upper body stay level?</strong>{" "}
-                        {`${rep.left_shoulderright_shoulder}`}
-                      </li>
+                      {Object.keys(rep).map((angle) => {
+                        count++;
+                        return (
+                          <li key={count}>
+                            <strong>{angle} </strong>
+                            {`${rep[angle]}`}
+                          </li>
+                        );
+                      })}
                     </ul>
                   </Typography>
                 </AccordionDetails>
