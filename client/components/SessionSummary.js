@@ -63,6 +63,7 @@ const useAccordionStyles = makeStyles((theme) => ({
  * COMPONENT
  */
 const SessionSummary = (props) => {
+
   const accordionClasses = useAccordionStyles();
   const cardClasses = useCardStyles();
   const [reps, setReps] = useState([]);

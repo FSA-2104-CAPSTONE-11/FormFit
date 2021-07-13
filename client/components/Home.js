@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import {useSelector} from "react-redux";
 import clsx from "clsx";
 import {makeStyles} from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
@@ -60,27 +59,18 @@ export const Home = () => {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <h3>Welcome, {username}</h3>
         <Container maxWidth="lg" className={classes.container}>
           <Data />
           <Grid container spacing={3}>
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}></Paper>
-            </Grid>
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}></Paper>
-            </Grid>
-            <Grid item xs={12} md={4} lg={6}>
-              <Paper className={fixedHeightPaper}></Paper>
-            </Grid>
             <Grid item xs={12} md={8} lg={12}>
-              <Paper className={fixedHeightPaper}></Paper>
-            </Grid>
-            <Grid item xs={12}>
-              <Paper className={classes.paper}></Paper>
+              <Paper elevation={5} className={fixedHeightPaper}>
+                <Typography component="h2" variant="h6" gutterBottom>
+                  All Exercises
+                </Typography>
+              </Paper>
             </Grid>
           </Grid>
           <Box pt={4}>
