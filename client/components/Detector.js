@@ -178,14 +178,10 @@ const Detector = () => {
             canvasRef.current.height
           );
 
-          // const result = await evaluateExercise(angleArray, squatCriteria);
-          // setScore(summaryOfScores);
           setRepInfo(results);
           setSummary(summaryOfScores);
-
           setFinished(true);
           noseHeight = 0;
-          // time = maxTime;
         }
       }
     }
@@ -361,19 +357,7 @@ const Detector = () => {
             </Modal>
           </div>
         </div>
-        {/* <div
-          style={{
-            position: "fixed",
-            top: "3%",
-            left: "80%",
-            zIndex: 10,
-            objectFit: "cover",
-          }}
-        >
-          Timer:
-        </div> */}
         {finished ? (
-          // <Scoreboard openStatus={true} scoreProp={score} />
           <Redirect
             to={{
               pathname: "/summary",
