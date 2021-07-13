@@ -193,7 +193,7 @@ const Detector = () => {
     setTicker("LOADING");
     setFinished(false);
     setScore({});
-    time = 50;
+    time = 150;
     maxTime = time;
     setAngleArray([]);
     init();
