@@ -32,13 +32,7 @@ const Detector = () => {
   const dispatch = useDispatch();
 
   // can later make this more generalizable
-  let summaryOfScores = {
-    right_hipright_knee: 0,
-    right_shoulderright_hip: 0,
-    left_shoulderright_shoulder: 0,
-    reps: 0,
-  };
-
+  let summaryOfScores = {};
   let time, maxTime;
   let noseHeight = 0;
   let status = "counted";
@@ -71,6 +65,16 @@ const Detector = () => {
     }
     getPoseInfoAndCriteria();
   }, [exercise]);
+
+  useEffect(() => {
+    if (criteria) {
+      let test = Object.values(criteria);
+      test.forEach((key, value) => {
+        let parsedSpec = JSON.parse(key.spec);
+        summaryOfScores[Object.keys(parsedSpec)] = 0;
+      });
+    }
+  }, [criteria]);
 
   async function getPoses(detector) {
     if (
