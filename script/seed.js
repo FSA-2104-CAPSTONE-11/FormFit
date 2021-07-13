@@ -112,11 +112,12 @@ async function seed() {
   // Creating PoseSessions
   const poseSessions = []
   for (let i = 0; i < 25; i++) {
+    const repNum = Math.floor(Math.random() * 20) + 5;
     const newSesh = await PoseSession.create({
-      reps: Math.floor(Math.random() * 20) + 5,
-      score: 1,
+      reps: repNum,
+      score: Math.floor(repNum * 3 * .8),
       feedback: Math.random() < .5 ? "keep it up" : "never do that, c'mon",
-      length: Math.floor(Math.random() * 30) ,
+      length: Math.floor(Math.random() * 30 + 5),
       userId: Math.random() < .5 ? 1 : 2,
       poseId: Math.random() < .5 ? 1 : 2,
       date: new Date(2021, 6, Math.floor(Math.random() * 7) + 6),
