@@ -32,14 +32,16 @@
     "axios": "^0.21.1",
     "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
+    "css-loader": "^5.2.7",
     "express": "^4.17.1",
     "history": "^4.10.1",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "pg": "^8.6.0",
     "react-webcam": "^5.2.4",
+    "sequelize": "^6.6.4",
+    "style-loader": "^3.1.0"
     "recharts": "^2.0.9",
-    "sequelize": "^6.6.4"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",

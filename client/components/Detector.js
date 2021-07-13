@@ -3,6 +3,14 @@ import "@tensorflow/tfjs-backend-webgl";
 import React, { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { IconButton, SvgIcon, makeStyles } from "@material-ui/core";
+import {
+  Modal,
+  Backdrop,
+  Slide,
+  Button,
+  Grid,
+  Typography,
+} from "@material-ui/core";
 import StartButton from "./StartButton";
 import evaluateExercise from "./Evaluator";
 import Scoreboard from "./Scoreboard";
@@ -12,10 +20,35 @@ import { getPose } from "../store/pose";
 import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
   roundButton: {
     backgroundColor: "#FFC2B4",
     border: "2px solid #156064",
     opacity: "0.5",
+  },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #156064",
+    borderRadius: theme.spacing(2),
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2),
+    opacity: ".75",
+  },
+  title: {
+    padding: theme.spacing(0),
+    marginTop: theme.spacing(0),
+    marginBottom: theme.spacing(0),
+    fontWeight: "bolder",
+    variant: "h2",
+    display: "flex",
+    justifyContent: "center",
   },
 }));
 
@@ -31,15 +64,8 @@ const Detector = () => {
   const canvasRef = useRef();
   const dispatch = useDispatch();
 
-
   // can later make this more generalizable
-  let summaryOfScores = {
-    right_hipright_knee: 0,
-    right_shoulderright_hip: 0,
-    left_shoulderright_shoulder: 0,
-    reps: 0,
-  };
-
+  let summaryOfScores = {};
   let time, maxTime;
   let noseHeight = 0;
   let status = "counted";
@@ -48,7 +74,13 @@ const Detector = () => {
 
   let [finished, setFinished] = useState(false);
   let [ticker, setTicker] = useState();
+  let [exercise, setExercise] = useState("squat");
   const { criteria, instructions } = useSelector((state) => state.pose);
+  const [open, setOpen] = useState(true);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   async function init() {
     const detectorConfig = {
@@ -67,10 +99,21 @@ const Detector = () => {
 
   useEffect(() => {
     async function getPoseInfoAndCriteria() {
-      await dispatch(getPose({ poseName: "pushup" }));
+      await dispatch(getPose({ poseName: exercise }));
     }
     getPoseInfoAndCriteria();
-  }, []);
+  }, [exercise]);
+
+  useEffect(() => {
+    if (criteria) {
+      let test = Object.values(criteria);
+      test.forEach((key, value) => {
+        let parsedSpec = JSON.parse(key.spec);
+        summaryOfScores[Object.keys(parsedSpec)] = 0;
+      });
+      setOpen(true);
+    }
+  }, [criteria]);
 
   async function getPoses(detector) {
     if (
@@ -108,7 +151,7 @@ const Detector = () => {
         if (status === "rising" && poses[0].keypoints[0].y < noseHeight + 30) {
           status = "counted";
           reps++;
-          const result = await evaluateExercise(angleArray, squatCriteria);
+          const result = await evaluateExercise(angleArray, criteria);
           Object.keys(result).forEach((angle) => {
             if (result[angle]) {
               summaryOfScores[angle]++;
@@ -239,6 +282,10 @@ const Detector = () => {
     drawSkeleton(poses[0].keypoints);
   }
 
+  function handleChange(e) {
+    setExercise(e.target.value);
+  }
+
   return (
     <div>
       <div>
@@ -267,6 +314,52 @@ const Detector = () => {
               objectFit: "cover",
             }}
           />
+          <label
+            htmlFor="exercises"
+            style={{
+              position: "fixed",
+              zIndex: 10,
+              opacity: "0.8",
+              top: "8%",
+            }}
+          >
+            Choose an Exercise:
+          </label>
+          <select
+            name="exercises"
+            style={{
+              position: "fixed",
+              zIndex: 10,
+              top: "10%",
+              opacity: "0.5",
+            }}
+            onChange={handleChange}
+          >
+            <option value="squat">Squat</option>
+            <option value="pushup">Push-Up</option>
+          </select>
+          <div>
+            <Modal
+              aria-labelledby="transition-modal-title"
+              aria-describedby="transition-modal-description"
+              className={classes.modal}
+              open={open}
+              onClose={handleClose}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+            >
+              <Slide in={open} direction="left">
+                <div className={classes.paper}>
+                  <Typography className={classes.title}>
+                    {instructions}
+                  </Typography>
+                </div>
+              </Slide>
+            </Modal>
+          </div>
         </div>
         {/* <div
           style={{

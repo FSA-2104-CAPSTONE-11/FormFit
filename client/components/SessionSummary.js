@@ -4,7 +4,11 @@ import { getHistory } from "../store/poseHistory";
 import NavbarOffset from "./NavbarOffset";
 
 const SessionSummary = (props) => {
-  if (props) console.log("props", props.location.state);
+  if (props) {
+    const criteria = useSelector((state) => state.pose.criteria);
+    console.log("props", props.location.state);
+    console.log(criteria);
+  }
 
   return <h1>Some summary this is!</h1>;
 };
