@@ -55,7 +55,8 @@ const Data = () => {
         (session) => session.pose.name === "squat"
       );
       exerciseSessions.push(squatSessions);
-    } else if (poseSessions.some((session) => session.pose.name === "pushup")) {
+    }
+    if (poseSessions.some((session) => session.pose.name === "pushup")) {
       const pushupSessions = poseSessions.filter(
         (session) => session.pose.name === "pushup"
       );
