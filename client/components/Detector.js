@@ -22,6 +22,9 @@ import { getPose } from "../store/pose";
 import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
   roundButton: {
     backgroundColor: "#FFC2B4",
     border: "2px solid #156064",
@@ -104,28 +107,13 @@ const Detector = () => {
   }, [exercise]);
 
   useEffect(() => {
-    // if (instructions) {
-    //   const notify = () =>
-    //     toast.warn(`${instructions}`, {
-    //       position: "top-center",
-    //       autoClose: 10000,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     });
-    //   notify();
-    // }
-  }, [instructions]);
-
-  useEffect(() => {
     if (criteria) {
       let test = Object.values(criteria);
       test.forEach((key, value) => {
         let parsedSpec = JSON.parse(key.spec);
         summaryOfScores[Object.keys(parsedSpec)] = 0;
       });
+      setOpen(true);
     }
   }, [criteria]);
 
