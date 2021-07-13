@@ -104,7 +104,11 @@ const Detector = () => {
     }
     getPoseInfoAndCriteria();
   }, [exercise]);
-
+useEffect(() => {
+    if (criteria) {
+        setOpen(true);
+    }
+  }, [criteria]);
   async function getPoses(detector) {
     if (
       typeof webcamRef.current !== "undefined" &&
