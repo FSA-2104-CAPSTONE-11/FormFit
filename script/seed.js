@@ -44,7 +44,7 @@ async function seed() {
       quickDescription: "knees must reach 90 degrees",
       longDescription:
         "the angle between your knees, the floor, and your hips must reach 90 degrees. That means your thigh should be parallel to the ground.",
-      spec: JSON.stringify({ right_hipright_knee: [0.5, null, 5, "require"] }),
+      spec: JSON.stringify({ right_hipright_knee: [0.5, null, 10, "require"] }),
       poseId: 1,
     }),
     Criteria.create({
@@ -110,18 +110,18 @@ async function seed() {
   ]);
 
   // Creating PoseSessions
-  const poseSessions = []
+  const poseSessions = [];
   for (let i = 0; i < 25; i++) {
     const newSesh = await PoseSession.create({
       reps: Math.floor(Math.random() * 20) + 5,
       score: 1,
-      feedback: Math.random() < .5 ? "keep it up" : "never do that, c'mon",
-      length: Math.floor(Math.random() * 30) ,
-      userId: Math.random() < .5 ? 1 : 2,
-      poseId: Math.random() < .5 ? 1 : 2,
+      feedback: Math.random() < 0.5 ? "keep it up" : "never do that, c'mon",
+      length: Math.floor(Math.random() * 30),
+      userId: Math.random() < 0.5 ? 1 : 2,
+      poseId: Math.random() < 0.5 ? 1 : 2,
       date: new Date(2021, 6, Math.floor(Math.random() * 7) + 6),
-    })
-    poseSessions.push(newSesh)
+    });
+    poseSessions.push(newSesh);
   }
 
   console.log(`seeded ${users.length} users`);
