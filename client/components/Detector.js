@@ -31,7 +31,6 @@ const Detector = () => {
   const canvasRef = useRef();
   const dispatch = useDispatch();
 
-
   // can later make this more generalizable
   let summaryOfScores = {
     right_hipright_knee: 0,
@@ -67,7 +66,7 @@ const Detector = () => {
 
   useEffect(() => {
     async function getPoseInfoAndCriteria() {
-      await dispatch(getPose({ poseName: "pushup" }));
+      await dispatch(getPose({ poseName: "squat" }));
     }
     getPoseInfoAndCriteria();
   }, []);
@@ -108,7 +107,7 @@ const Detector = () => {
         if (status === "rising" && poses[0].keypoints[0].y < noseHeight + 30) {
           status = "counted";
           reps++;
-          const result = await evaluateExercise(angleArray, squatCriteria);
+          const result = await evaluateExercise(angleArray, criteria);
           Object.keys(result).forEach((angle) => {
             if (result[angle]) {
               summaryOfScores[angle]++;
@@ -135,14 +134,10 @@ const Detector = () => {
             canvasRef.current.height
           );
 
-          // const result = await evaluateExercise(angleArray, squatCriteria);
-          // setScore(summaryOfScores);
           setRepInfo(results);
           setSummary(summaryOfScores);
-
           setFinished(true);
           noseHeight = 0;
-          // time = maxTime;
         }
       }
     }
@@ -268,19 +263,7 @@ const Detector = () => {
             }}
           />
         </div>
-        {/* <div
-          style={{
-            position: "fixed",
-            top: "3%",
-            left: "80%",
-            zIndex: 10,
-            objectFit: "cover",
-          }}
-        >
-          Timer:
-        </div> */}
         {finished ? (
-          // <Scoreboard openStatus={true} scoreProp={score} />
           <Redirect
             to={{
               pathname: "/summary",
