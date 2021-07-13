@@ -11,8 +11,6 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import StartButton from "./StartButton";
 import evaluateExercise from "./Evaluator";
 import Scoreboard from "./Scoreboard";
@@ -290,7 +288,6 @@ const Detector = () => {
 
   return (
     <div>
-      <ToastContainer />
       <div>
         <div>
           <Webcam
