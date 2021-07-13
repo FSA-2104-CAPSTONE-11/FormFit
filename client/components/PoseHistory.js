@@ -69,44 +69,48 @@ const History = () => {
       </h1>
       {isLoggedIn ? (
         <div>
-          {poseHistory.map((pose) => {
-            return (
-              <Accordion key={pose.id}>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                >
-                  <div className={classes.column}>
-                    <Typography className={classes.heading}>
-                      {alterDate(pose.createdAt)}
+          {poseHistory && poseHistory.length ? (
+            poseHistory.map((pose) => {
+              return (
+                <Accordion key={pose.id}>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <div className={classes.column}>
+                      <Typography className={classes.heading}>
+                        {alterDate(pose.createdAt)}
+                      </Typography>
+                    </div>
+                    <div className={classes.column}>
+                      <Typography className={classes.heading}>
+                        Score: {pose.score}
+                      </Typography>
+                    </div>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography className={classes.body} component={"span"}>
+                      <ul style={{ listStyleType: "none", padding: 0 }}>
+                        <li>
+                          <strong>Time:</strong>
+                          {` ${pose.createdAt.slice(11, 16)} EST`}
+                        </li>
+                        <li>
+                          <strong>Duration:</strong> {pose.length} seconds
+                        </li>
+                        <li>
+                          <strong>Feedback:</strong> {pose.feedback}
+                        </li>
+                      </ul>
                     </Typography>
-                  </div>
-                  <div className={classes.column}>
-                    <Typography className={classes.heading}>
-                      Score: {pose.score}
-                    </Typography>
-                  </div>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Typography className={classes.body} component={"span"}>
-                    <ul style={{ listStyleType: "none", padding: 0 }}>
-                      <li>
-                        <strong>Time:</strong>
-                        {` ${pose.createdAt.slice(11, 16)} EST`}
-                      </li>
-                      <li>
-                        <strong>Duration:</strong> {pose.length} seconds
-                      </li>
-                      <li>
-                        <strong>Feedback:</strong> {pose.feedback}
-                      </li>
-                    </ul>
-                  </Typography>
-                </AccordionDetails>
-              </Accordion>
-            );
-          })}
+                  </AccordionDetails>
+                </Accordion>
+              );
+            })
+          ) : (
+            <div/>
+          )}
         </div>
       ) : (
         <Redirect to="/login" />
