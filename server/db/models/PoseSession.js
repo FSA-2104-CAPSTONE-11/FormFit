@@ -16,6 +16,10 @@ const PoseSession = db.define("poseSession", {
   length: {
     type: Sequelize.FLOAT,
   },
+  date: {
+    type: Sequelize.DATEONLY,
+    defaultValue: new Date,
+  },
 });
 
 module.exports = PoseSession;
