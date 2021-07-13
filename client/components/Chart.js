@@ -14,9 +14,10 @@ const Chart = (props) => {
   const exercise = props.exercise;
 
   const alterDate = (createdAt) => {
+    const year = Number(createdAt.slice(0, 4));
     const monthIndex = createdAt.slice(5, 7) - 1;
     const day = Number(createdAt.slice(8, 10));
-    const event = new Date(monthIndex, day);
+    const event = new Date(year, monthIndex, day);
     const options = {month: "short", day: "numeric"};
     return event.toLocaleDateString("US-en", options);
   };
