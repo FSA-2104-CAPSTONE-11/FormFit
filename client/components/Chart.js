@@ -11,7 +11,7 @@ import {
 
 const Chart = (props) => {
   const theme = useTheme();
-  const exercise = props.exercise;
+  const exercise = props.exercise
 
   const alterDate = (createdAt) => {
     const year = Number(createdAt.slice(0, 4));
@@ -31,7 +31,7 @@ const Chart = (props) => {
   const fillData = () => {
     exercise.forEach((session) =>
       data.push(
-        createData(alterDate(session.createdAt), session.score / session.reps)
+        createData(alterDate(session.date), session.score / session.reps)
       )
     );
   };
