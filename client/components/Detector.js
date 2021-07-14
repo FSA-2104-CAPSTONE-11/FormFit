@@ -77,7 +77,9 @@ const Detector = () => {
   let [finished, setFinished] = useState(false);
   let [ticker, setTicker] = useState();
   let [exercise, setExercise] = useState("squat");
-  const { criteria, instructions } = useSelector((state) => state.pose);
+  const { criteria, instructions, name: poseName, id: poseId } = useSelector(
+    (state) => state.pose
+  );
   const [openInstructions, setOpenInstructions] = useState(true);
 
   async function init() {
@@ -348,7 +350,7 @@ const Detector = () => {
               <Redirect
                 to={{
                   pathname: "/summary",
-                  state: { summary, repInfo },
+                  state: { summary, repInfo, poseName, poseId },
                 }}
               />
             ) : (

@@ -69,10 +69,14 @@ const SessionSummary = (props) => {
   const cardClasses = useCardStyles();
   const [reps, setReps] = useState([]);
   const [summary, setSummary] = useState();
+  const [poseName, setPoseName] = useState();
+  const [poseId, setPoseId] = useState();
 
   useEffect(() => {
     setReps(props.location.state.repInfo || []);
     setSummary(props.location.state.summary || {});
+    setPoseName(props.location.state.poseName || "");
+    setPoseId(props.location.state.poseId);
   }, []);
 
   const dispatch = useDispatch();
@@ -81,11 +85,10 @@ const SessionSummary = (props) => {
   let count = 0;
 
   const handleSave = () => {
-    console.log("handling Save");
     dispatch(
       addToHistory({
         reps: reps.length,
-        // poseId,
+        poseId,
         feedback: JSON.stringify(summary),
       })
     );
@@ -107,6 +110,14 @@ const SessionSummary = (props) => {
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
                       You completed {reps.length} reps!
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      <strong>Exercise: </strong>
+                      {poseName}
                     </Typography>
                     <Typography
                       variant="body2"
