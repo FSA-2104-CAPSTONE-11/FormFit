@@ -35,6 +35,11 @@ async function seed() {
       instructions:
         "To do a push up, position your hands about shoulder width apart. Try to keep your back and legs straight as you go down to the ground before you push yourself back up. That is one rep!",
     }),
+    Pose.create({
+      name: "situp",
+      instructions:
+        "To do a sit up, sit on your butt with your feet on the ground and knees bent. Then slowly control yourself as you roll your back to the ground and then squeeze your core as you bring yourself back up to the starting position. That is one rep!",
+    }),
   ]);
 
   // Creating Criteria
@@ -107,6 +112,36 @@ async function seed() {
       }),
       poseId: 2,
     }),
+    Criteria.create({
+      name: "up-position",
+      quickDescription: "perpendicular back",
+      longDescription:
+        "When you are in the 'up position', your back should be atleast 75deg!",
+      spec: JSON.stringify({
+        right_shoulderright_hip: [0.5, 75, null, "require"],
+      }),
+      poseId: 3,
+    }),
+    Criteria.create({
+      name: "down-position",
+      quickDescription: "horizontal back",
+      longDescription:
+        "When you are in the down position your back should be flat with the ground, that includes your neck!",
+      spec: JSON.stringify({
+        left_shoulderleft_hip: [0.5, null, 5, "require"],
+      }),
+      poseId: 3,
+    }),
+    Criteria.create({
+      name: "bent legs",
+      quickDescription: "your legs stay bent",
+      longDescription:
+        "During the duration of a situp, your legs shouldnt move too much if at all. Try to keep them bent the whole time!",
+      spec: JSON.stringify({
+        right_hipright_knee: [0.5, null, 10, "avoid"],
+      }),
+      poseId: 3,
+    }),
   ]);
 
   // Creating PoseSessions
@@ -115,14 +150,26 @@ async function seed() {
     const repNum = Math.floor(Math.random() * 20) + 5;
     const newSesh = await PoseSession.create({
       reps: repNum,
-      score: Math.floor(repNum * 3 * .8),
-      feedback: Math.random() < .5 ? "keep it up" : "never do that, c'mon",
+      score: Math.floor(repNum * 3 * 0.8),
+      feedback: Math.random() < 0.5 ? "keep it up" : "never do that, c'mon",
       length: Math.floor(Math.random() * 30 + 5),
-      userId: Math.random() < .5 ? 1 : 2,
-      poseId: Math.random() < .5 ? 1 : 2,
+      userId: Math.random() < 0.5 ? 1 : 2,
+      poseId: Math.random() < 0.5 ? 1 : 2,
       date: new Date(2021, 6, Math.floor(Math.random() * 7) + 6),
     });
     poseSessions.push(newSesh);
+  }
+  for (let i = 0; i < 10; i++) {
+    const sitUpSesh = await PoseSession.create({
+      reps: 10,
+      score: Math.floor(Math.random() * (4 - 0 + 1)) + 0,
+      feedback: Math.random() < 0.5 ? "keep it up" : "never do that, c'mon",
+      length: Math.floor(Math.random() * 30 + 5),
+      userId: Math.random() < 0.5 ? 1 : 2,
+      poseId: 3,
+      date: new Date(2021, 6, Math.floor(Math.random() * 7) + 6),
+    });
+    poseSessions.push(sitUpSesh);
   }
 
   console.log(`seeded ${users.length} users`);

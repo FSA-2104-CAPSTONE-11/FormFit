@@ -332,6 +332,7 @@ const Detector = () => {
               >
                 <option value="squat">Squat</option>
                 <option value="pushup">Push-Up</option>
+                <option value="situp">Sit-Up</option>
               </select>
               {openInstructions ? (
                 <Instructions
