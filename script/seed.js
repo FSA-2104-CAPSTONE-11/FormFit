@@ -38,7 +38,7 @@ async function seed() {
     Pose.create({
       name: "situp",
       instructions:
-        "To do a sit up, sit on your but with your feet on the ground and bent knees. Then slowly control yourself as you roll your back to the ground and then squeeze your core as you bring yourself back up to the starting position. That is one rep!",
+        "To do a sit up, sit on your butt with your feet on the ground and knees bent. Then slowly control yourself as you roll your back to the ground and then squeeze your core as you bring yourself back up to the starting position. That is one rep!",
     }),
   ]);
 
