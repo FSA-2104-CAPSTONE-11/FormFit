@@ -70,7 +70,6 @@ const SessionSummary = () => {
   const accordionClasses = useAccordionStyles();
   const cardClasses = useCardStyles();
   let [details, setDetails] = useState([]);
-  let temp = [];
 
   const {
     id: poseId,
@@ -85,8 +84,6 @@ const SessionSummary = () => {
       for (const [key, value] of Object.entries(shortDescription)) {
         details.push(Object.values(value)[2]);
       }
-      //setDetails(temp);
-      console.log(`details`, details);
     }
   }, [shortDescription]);
 
@@ -114,7 +111,6 @@ const SessionSummary = () => {
 
   return (
     <div>
-      {console.log(details)}
       {isLoggedIn ? (
         <div>
           <div>
@@ -154,7 +150,6 @@ const SessionSummary = () => {
                     <div>
                       {summary &&
                         Object.keys(summary).map((criterion) => {
-                          console.log(`summary`, summary);
                           count++;
                           if (criterion !== "reps") {
                             return (
