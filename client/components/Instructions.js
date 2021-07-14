@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "auto",
     display: "flex",
     width: "25%",
+    minWidth: 80,
   },
 }));
 
