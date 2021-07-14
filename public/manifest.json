@@ -1,12 +1,12 @@
 {
-  "short_name": "Squatter",
+  "short_name": "FormFit",
   "name": "Exercise Assistant PWA",
   "icons": [
     {
-    "src": "/images/logo.png",
-    "type": "image/png",
-    "sizes": "1024x1024",
-    "purpose": "any maskable"
+      "src": "/images/logo.png",
+      "type": "image/png",
+      "sizes": "1024x1024",
+      "purpose": "any maskable"
     }
   ],
   "start_url": ".",
