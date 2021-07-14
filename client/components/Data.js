@@ -64,7 +64,7 @@ const Data = () => {
     }
     if (poseSessions.some((session) => session.pose.name === "situp")) {
       const sitUpSessions = poseSessions.filter(
-        (session) => session.pose.name === "situp"
+        (session) => session.pose && session.pose.name === "situp"
       );
       exerciseSessions.push(sitUpSessions);
     }
