@@ -10,6 +10,7 @@ import Paper from "@material-ui/core/Paper";
 import Link from "@material-ui/core/Link";
 import Data from "./Data";
 import { Redirect } from "react-router";
+import NotLoggedIn from "./NotLoggedIn";
 
 function Copyright() {
   return (
@@ -76,7 +77,7 @@ export const Home = () => {
           </main>
         </div>
       ) : (
-        <Redirect to="/login" />
+        <NotLoggedIn />
       )}
     </div>
   );
