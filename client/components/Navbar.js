@@ -1,13 +1,13 @@
-import React, {useState} from "react";
-import {useSelector, useDispatch} from "react-redux";
-import {handleLogout} from "../store";
-import {makeStyles, useTheme} from "@material-ui/core/styles";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { handleLogout } from "../store";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import {useMediaQuery} from "@material-ui/core";
+import { useMediaQuery } from "@material-ui/core";
 import history from "../history";
 import clsx from "clsx";
 import Drawer from "@material-ui/core/Drawer";
@@ -28,6 +28,10 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    "& .MuiPaper-root": {
+      backgroundColor: "transparent",
+      boxShadow: "none",
+    },
   },
   appBar: {
     background: "transparent",
@@ -114,54 +118,54 @@ const Navbar = () => {
           </Typography>
         </Toolbar>
       </AppBar>
-        <Drawer
-          className={classes.drawer}
-          variant="persistent"
-          anchor="left"
-          open={open}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
-          <div className={classes.drawerHeader}>
-            <IconButton onClick={handleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
-          <List>
-            <ListItem button onClick={() => handleMenuClick("/home")}>
-              <ListItemIcon>
-                <HomeIcon />
-              </ListItemIcon>
-              <ListItemText primary="Home" />
-            </ListItem>
-            <ListItem button onClick={() => handleMenuClick("/detector")}>
-              <ListItemIcon>
-                <VideocamIcon />
-              </ListItemIcon>
-              <ListItemText primary="Detect Squats Here" />
-            </ListItem>
-            <ListItem button onClick={() => handleMenuClick("/history")}>
-              <ListItemIcon>
-                <BarChartIcon />
-              </ListItemIcon>
-              <ListItemText primary="Pose History" />
-            </ListItem>
-            <ListItem button onClick={() => handleMenuClick("/profile")}>
-              <ListItemIcon>
-                <AccountCircleIcon />
-              </ListItemIcon>
-              <ListItemText primary="My Profile" />
-            </ListItem>
-            <Divider />
-            <ListItem button onClick={handleClickLogout}>
-              <ListItemIcon>
-                <ExitToAppIcon />
-              </ListItemIcon>
-              <ListItemText primary="Logout" />
-            </ListItem>
-          </List>
-        </Drawer>
+      <Drawer
+        className={classes.drawer}
+        variant="persistent"
+        anchor="left"
+        open={open}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        <div className={classes.drawerHeader}>
+          <IconButton onClick={handleDrawerClose}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
+        <List>
+          <ListItem button onClick={() => handleMenuClick("/home")}>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItem>
+          <ListItem button onClick={() => handleMenuClick("/detector")}>
+            <ListItemIcon>
+              <VideocamIcon />
+            </ListItemIcon>
+            <ListItemText primary="Detect Squats Here" />
+          </ListItem>
+          <ListItem button onClick={() => handleMenuClick("/history")}>
+            <ListItemIcon>
+              <BarChartIcon />
+            </ListItemIcon>
+            <ListItemText primary="Pose History" />
+          </ListItem>
+          <ListItem button onClick={() => handleMenuClick("/profile")}>
+            <ListItemIcon>
+              <AccountCircleIcon />
+            </ListItemIcon>
+            <ListItemText primary="My Profile" />
+          </ListItem>
+          <Divider />
+          <ListItem button onClick={handleClickLogout}>
+            <ListItemIcon>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItem>
+        </List>
+      </Drawer>
     </div>
   );
 };

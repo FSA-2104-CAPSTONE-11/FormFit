@@ -10,7 +10,10 @@ import {
   Button,
   Grid,
   Typography,
+  FormControl,
+  Select,
 } from "@material-ui/core";
+import MenuItem from "@material-ui/core/MenuItem";
 import StartButton from "./StartButton";
 import evaluateExercise from "./Evaluator";
 import Scoreboard from "./Scoreboard";
@@ -22,6 +25,8 @@ import { useDispatch, useSelector } from "react-redux";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    display: "flex",
+    flexWrap: "wrap",
   },
   roundButton: {
     backgroundColor: "#FFC2B4",
@@ -49,6 +54,17 @@ const useStyles = makeStyles((theme) => ({
     variant: "h2",
     display: "flex",
     justifyContent: "center",
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 140,
+  },
+  dropdownStyle: {
+    backgroundColor: "transparent",
+    boxShadow: "none",
+  },
+  menuItemStyle: {
+    display: "block",
   },
 }));
 
@@ -104,9 +120,9 @@ const Detector = () => {
     }
     getPoseInfoAndCriteria();
   }, [exercise]);
-useEffect(() => {
+  useEffect(() => {
     if (criteria) {
-        setOpen(true);
+      setOpen(true);
     }
   }, [criteria]);
   async function getPoses(detector) {
@@ -310,30 +326,41 @@ useEffect(() => {
                   objectFit: "cover",
                 }}
               />
-              <label
-                htmlFor="exercises"
-                style={{
-                  position: "fixed",
-                  zIndex: 10,
-                  opacity: "0.8",
-                  top: "8%",
-                }}
-              >
-                Choose an Exercise:
-              </label>
-              <select
-                name="exercises"
-                style={{
-                  position: "fixed",
-                  zIndex: 10,
-                  top: "10%",
-                  opacity: "0.5",
-                }}
-                onChange={handleChange}
-              >
-                <option value="squat">Squat</option>
-                <option value="pushup">Push-Up</option>
-              </select>
+              <form className={classes.root}>
+                <FormControl className={classes.formControl}>
+                  <Select
+                    value={exercise}
+                    onChange={handleChange}
+                    style={{
+                      position: "fixed",
+                      zIndex: 10,
+                      marginLeft: 40,
+                      marginTop: 50,
+                      color: "black",
+                      fontWeight: "bolder",
+                    }}
+                    MenuProps={{
+                      classes: { paper: classes.dropdownStyle },
+                      anchorOrigin: {
+                        vertical: "bottom",
+                        horizontal: "left",
+                      },
+                      transformOrigin: {
+                        vertical: "top",
+                        horizontal: "left",
+                      },
+                      getContentAnchorEl: null,
+                    }}
+                  >
+                    <MenuItem className={classes.menuItemStyle} value="squat">
+                      Squat
+                    </MenuItem>
+                    <MenuItem className={classes.menuItemStyle} value="pushup">
+                      Push-Up
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </form>
               <div>
                 <Modal
                   aria-labelledby="transition-modal-title"
@@ -403,7 +430,8 @@ useEffect(() => {
           </IconButton>
         </div>
       ) : (
-        <Redirect to="/login" />
+        <div></div>
+        // <Redirect to="/login" />
       )}
     </div>
   );
