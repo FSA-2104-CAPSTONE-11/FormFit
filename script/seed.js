@@ -114,7 +114,7 @@ async function seed() {
     }),
     // Criteria.create({
     //   name: 'abs',
-    //   quickDescription: ""
+    //   quickDescription: "",
     // })
   ]);
 
