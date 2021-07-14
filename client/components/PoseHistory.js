@@ -41,18 +41,7 @@ const History = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.id);
   const poseHistory = useSelector((state) => state.history);
 
-  // const [loading, setLoading] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(isLoggedIn);
-
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   setLoading(false);
-  //   setLoggedIn(isLoggedIn);
-  // });
-
-  // console.log("loggedIn", loggedIn);
-  // console.log("loading", loading);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -125,7 +114,6 @@ const History = () => {
           )}
         </div>
       ) : (
-        // <Redirect to="/login" />
         <NotLoggedIn />
       )}
     </div>
