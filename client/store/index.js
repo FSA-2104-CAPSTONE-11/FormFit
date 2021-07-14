@@ -5,9 +5,10 @@ import auth from "./auth";
 import history from "./poseHistory";
 import user from "./user";
 import pose from "./pose";
+import poseSession from "./poseSession";
 
 export default configureStore({
-  reducer: { auth, history, user, pose },
+  reducer: { auth, history, user, pose, poseSession },
   middleware: [thunkMiddleware],
   devTools: true,
 });
