@@ -11,6 +11,7 @@ import Link from "@material-ui/core/Link";
 import Data from "./Data";
 import { Redirect } from "react-router";
 import NotLoggedIn from "./NotLoggedIn";
+import Disclaimer from "./Disclaimer";
 
 function Copyright() {
   return (
@@ -77,7 +78,7 @@ export const Home = () => {
           </main>
         </div>
       ) : (
-        <NotLoggedIn />
+        <Disclaimer />
       )}
     </div>
   );
