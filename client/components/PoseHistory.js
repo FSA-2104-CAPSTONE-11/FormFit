@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getHistory } from "../store/poseHistory";
 import NotLoggedIn from "./NotLoggedIn";
