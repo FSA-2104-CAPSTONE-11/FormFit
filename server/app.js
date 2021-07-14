@@ -2,7 +2,15 @@ const path = require("path");
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
-module.exports = app;
+
+const redis = require("redis");
+
+let client = redis.createClient();
+client.on("connect", function () {
+  console.log("Connected to Redis");
+});
+
+module.exports = { app, client };
 
 // redirect http requests to https
 if (process.env.NODE_ENV === "production") {
