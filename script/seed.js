@@ -112,10 +112,36 @@ async function seed() {
       }),
       poseId: 2,
     }),
-    // Criteria.create({
-    //   name: 'abs',
-    //   quickDescription: "",
-    // })
+    Criteria.create({
+      name: "up-position",
+      quickDescription: "perpendicular back",
+      longDescription:
+        "When you are in the 'up position', your back should be atleast 75deg!",
+      spec: JSON.stringify({
+        right_shoulderright_hip: [0.5, 75, null, "require"],
+      }),
+      poseId: 3,
+    }),
+    Criteria.create({
+      name: "down-position",
+      quickDescription: "horizontal back",
+      longDescription:
+        "When you are in the down position your back should be flat with the ground, that includes your neck!",
+      spec: JSON.stringify({
+        left_shoulderleft_hip: [0.5, null, 5, "require"],
+      }),
+      poseId: 3,
+    }),
+    Criteria.create({
+      name: "bent legs",
+      quickDescription: "your legs stay bent",
+      longDescription:
+        "During the duration of a situp, your legs shouldnt move too much if at all. Try to keep them bent the whole time!",
+      spec: JSON.stringify({
+        right_hipright_knee: [0.5, null, 10, "avoid"],
+      }),
+      poseId: 3,
+    }),
   ]);
 
   // Creating PoseSessions
@@ -132,6 +158,18 @@ async function seed() {
       date: new Date(2021, 6, Math.floor(Math.random() * 7) + 6),
     });
     poseSessions.push(newSesh);
+  }
+  for (let i = 0; i < 10; i++) {
+    const sitUpSesh = await PoseSession.create({
+      reps: 10,
+      score: Math.ceil(Math.random()),
+      feedback: Math.random() < 0.5 ? "keep it up" : "never do that, c'mon",
+      length: Math.floor(Math.random() * 30 + 5),
+      userId: Math.random() < 0.5 ? 1 : 2,
+      poseId: 3,
+      date: new Date(2021, 6, Math.floor(Math.random() * 7) + 6),
+    });
+    poseSessions.push(sitUpSesh);
   }
 
   console.log(`seeded ${users.length} users`);
