@@ -28,17 +28,17 @@ async function seed() {
     Pose.create({
       name: "squat",
       instructions:
-        "in order to squat, directly face the camera, and drop your butt backwards towards the ground until your thighs are at least level with the floor. Keep your back upright and shoulders level the whole time. Then, stand back up straight. That is one rep!",
+        "Stand 6 - 8ft away and face the camera! Keep your back and shoulders level as you squat as low as you can. When you come back up, that is 1 rep!",
     }),
     Pose.create({
       name: "pushup",
       instructions:
-        "To do a push up, position your hands about shoulder width apart. Try to keep your back and legs straight as you go down to the ground before you push yourself back up. That is one rep!",
+        "Position the camera level with yourself 6-8ft away. Then face the camera and start in the up position. Remember to have control as you go down, and when you come up that is 1 rep!",
     }),
     Pose.create({
       name: "situp",
       instructions:
-        "To do a sit up, sit on your butt with your feet on the ground and knees bent. Then slowly control yourself as you roll your back to the ground and then squeeze your core as you bring yourself back up to the starting position. That is one rep!",
+        "Start in the up position with the camera on level ground aimed at your side, atleast 6ft away. Then go down and all the way back up for 1 rep!",
     }),
   ]);
 
