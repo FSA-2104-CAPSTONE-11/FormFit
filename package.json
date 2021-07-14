@@ -1,7 +1,7 @@
 {
-  "name": "squatter",
+  "name": "formfit",
   "version": "2.0.0",
-  "description": "Some boilerplate code to get you started - get shakin'!",
+  "description": "An exercise assistant app to help users improve their form!",
   "main": "index.js",
   "scripts": {
     "build": "webpack",

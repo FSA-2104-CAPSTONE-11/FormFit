@@ -50,19 +50,31 @@ const Data = () => {
   // when poseSessions is loaded, filter by exercise and add to exerciseSessions array
   const exerciseSessions = [];
   if (poseSessions) {
-    if (poseSessions.some((session) => session.pose.name === "squat")) {
+    if (
+      poseSessions.some(
+        (session) => session.pose && session.pose.name === "squat"
+      )
+    ) {
       const squatSessions = poseSessions.filter(
         (session) => session.pose && session.pose.name === "squat"
       );
       exerciseSessions.push(squatSessions);
     }
-    if (poseSessions.some((session) => session.pose.name === "pushup")) {
+    if (
+      poseSessions.some(
+        (session) => session.pose && session.pose.name === "pushup"
+      )
+    ) {
       const pushupSessions = poseSessions.filter(
         (session) => session.pose && session.pose.name === "pushup"
       );
       exerciseSessions.push(pushupSessions);
     }
-    if (poseSessions.some((session) => session.pose.name === "situp")) {
+    if (
+      poseSessions.some(
+        (session) => session.pose && session.pose.name === "situp"
+      )
+    ) {
       const sitUpSessions = poseSessions.filter(
         (session) => session.pose && session.pose.name === "situp"
       );

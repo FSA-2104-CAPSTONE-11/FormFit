@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getHistory } from "../store/poseHistory";
 import { Redirect } from "react-router";
 import NotLoggedIn from "./NotLoggedIn";
+import { addToHistory } from "../store/poseHistory";
 
 // style imports
 import { makeStyles } from "@material-ui/core/styles";
@@ -68,14 +69,30 @@ const SessionSummary = (props) => {
   const cardClasses = useCardStyles();
   const [reps, setReps] = useState([]);
   const [summary, setSummary] = useState();
+  const [poseName, setPoseName] = useState();
+  const [poseId, setPoseId] = useState();
 
   useEffect(() => {
     setReps(props.location.state.repInfo || []);
     setSummary(props.location.state.summary || {});
+    setPoseName(props.location.state.poseName || "");
+    setPoseId(props.location.state.poseId);
   }, []);
+
+  const dispatch = useDispatch();
 
   const isLoggedIn = useSelector((state) => !!state.auth.id);
   let count = 0;
+
+  const handleSave = () => {
+    dispatch(
+      addToHistory({
+        reps: reps.length,
+        poseId,
+        feedback: JSON.stringify(summary),
+      })
+    );
+  };
 
   return (
     <div>
@@ -89,37 +106,51 @@ const SessionSummary = (props) => {
                 title="History Image"
               />
               {
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    You completed {reps.length} reps!
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    <strong>Requirement Breakdown:</strong>{" "}
-                  </Typography>
-                  <div>
-                    {summary &&
-                      Object.keys(summary).map((criterion) => {
-                        count++;
-                        if (criterion !== "reps") {
-                          return (
-                            <Typography
-                              variant="body2"
-                              color="textSecondary"
-                              component="p"
-                              key={count}
-                            >
-                              <strong>{criterion}: </strong>
-                              {(summary[criterion] / reps.length) * 100}%
-                            </Typography>
-                          );
-                        }
-                      })}
-                  </div>
-                </CardContent>
+                <div>
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      You completed {reps.length} reps!
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      <strong>Exercise: </strong>
+                      {poseName}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      <strong>Requirement Breakdown:</strong>{" "}
+                    </Typography>
+                    <div>
+                      {summary &&
+                        Object.keys(summary).map((criterion) => {
+                          count++;
+                          if (criterion !== "reps") {
+                            return (
+                              <Typography
+                                variant="body2"
+                                color="textSecondary"
+                                component="p"
+                                key={count}
+                              >
+                                <strong>{criterion}: </strong>
+                                {(summary[criterion] / reps.length) * 100}%
+                              </Typography>
+                            );
+                          }
+                        })}
+                    </div>
+                  </CardContent>
+                  <CardActions>
+                    <Button onClick={handleSave}>Save Session</Button>
+                    <Button>Delete Session</Button>
+                  </CardActions>
+                </div>
               }
             </Card>
           </div>

@@ -93,56 +93,31 @@ const AuthForm = (props) => {
       {isLoggedIn ? (
         <Redirect to="/home" />
       ) : (
-     <div>
-        <Container component="main" maxWidth="xs" className={classes.main}>
-          <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              {displayName}
-            </Typography>
-            <form
-              className={classes.form}
-              name={name}
-              noValidate
-              onSubmit={handleSubmit}
-            >
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                label="Username"
-                name="username"
-                autoComplete="username"
-                autoFocus
-                InputLabelProps={{
-                  style: { color: "#156064" },
-                  classes: {
-                    root: classes.cssLabel,
-                    focused: classes.cssFocused,
-                  },
-                }}
-                InputProps={{
-                  classes: {
-                    root: classes.cssOutlinedInput,
-                    focused: classes.cssFocused,
-                    notchedOutline: classes.notchedOutline,
-                  },
-                }}
-              />
-              {name === "signup" ? (
+        <div>
+          <Container component="main" maxWidth="xs" className={classes.main}>
+            <div className={classes.paper}>
+              <Avatar className={classes.avatar}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                {displayName}
+              </Typography>
+              <form
+                className={classes.form}
+                name={name}
+                noValidate
+                onSubmit={handleSubmit}
+              >
                 <TextField
                   variant="outlined"
                   margin="normal"
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  id="username"
+                  label="Username"
+                  name="username"
+                  autoComplete="username"
+                  autoFocus
                   InputLabelProps={{
                     style: { color: "#156064" },
                     classes: {
@@ -158,39 +133,64 @@ const AuthForm = (props) => {
                     },
                   }}
                 />
-              ) : (
-                <div></div>
-              )}
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                InputLabelProps={{
-                  style: { color: "#156064" },
-                  classes: {
-                    root: classes.cssLabel,
-                    focused: classes.cssFocused,
-                  },
-                }}
-                InputProps={{
-                  classes: {
-                    root: classes.cssOutlinedInput,
-                    focused: classes.cssFocused,
-                    notchedOutline: classes.notchedOutline,
-                  },
-                }}
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-               
+                {name === "signup" ? (
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    InputLabelProps={{
+                      style: { color: "#156064" },
+                      classes: {
+                        root: classes.cssLabel,
+                        focused: classes.cssFocused,
+                      },
+                    }}
+                    InputProps={{
+                      classes: {
+                        root: classes.cssOutlinedInput,
+                        focused: classes.cssFocused,
+                        notchedOutline: classes.notchedOutline,
+                      },
+                    }}
+                  />
+                ) : (
+                  <div></div>
+                )}
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  InputLabelProps={{
+                    style: { color: "#156064" },
+                    classes: {
+                      root: classes.cssLabel,
+                      focused: classes.cssFocused,
+                    },
+                  }}
+                  InputProps={{
+                    classes: {
+                      root: classes.cssOutlinedInput,
+                      focused: classes.cssFocused,
+                      notchedOutline: classes.notchedOutline,
+                    },
+                  }}
+                />
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Remember me"
+                />
+
                 {error && error.response && <div> {error.response.data} </div>}
 
                 <Button
@@ -234,7 +234,7 @@ const AuthForm = (props) => {
               <Typography variant="body2" color="textSecondary" align="center">
                 {"Copyright © "}
                 <Link color="inherit" href="/">
-                  Squatter
+                  FormFit
                 </Link>{" "}
                 {new Date().getFullYear()}
                 {"."}
