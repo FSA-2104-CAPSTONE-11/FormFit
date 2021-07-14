@@ -104,9 +104,9 @@ const Detector = () => {
     }
     getPoseInfoAndCriteria();
   }, [exercise]);
-useEffect(() => {
+  useEffect(() => {
     if (criteria) {
-        setOpen(true);
+      setOpen(true);
     }
   }, [criteria]);
   async function getPoses(detector) {
@@ -333,6 +333,7 @@ useEffect(() => {
               >
                 <option value="squat">Squat</option>
                 <option value="pushup">Push-Up</option>
+                <option value="situp">Sit-Up</option>
               </select>
               <div>
                 <Modal

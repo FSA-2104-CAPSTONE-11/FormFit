@@ -35,6 +35,11 @@ async function seed() {
       instructions:
         "To do a push up, position your hands about shoulder width apart. Try to keep your back and legs straight as you go down to the ground before you push yourself back up. That is one rep!",
     }),
+    Pose.create({
+      name: "situp",
+      instructions:
+        "To do a sit up, sit on your but with your feet on the ground and bent knees. Then slowly control yourself as you roll your back to the ground and then squeeze your core as you bring yourself back up to the starting position. That is one rep!",
+    }),
   ]);
 
   // Creating Criteria
@@ -107,6 +112,10 @@ async function seed() {
       }),
       poseId: 2,
     }),
+    // Criteria.create({
+    //   name: 'abs',
+    //   quickDescription: ""
+    // })
   ]);
 
   // Creating PoseSessions
@@ -115,11 +124,11 @@ async function seed() {
     const repNum = Math.floor(Math.random() * 20) + 5;
     const newSesh = await PoseSession.create({
       reps: repNum,
-      score: Math.floor(repNum * 3 * .8),
-      feedback: Math.random() < .5 ? "keep it up" : "never do that, c'mon",
+      score: Math.floor(repNum * 3 * 0.8),
+      feedback: Math.random() < 0.5 ? "keep it up" : "never do that, c'mon",
       length: Math.floor(Math.random() * 30 + 5),
-      userId: Math.random() < .5 ? 1 : 2,
-      poseId: Math.random() < .5 ? 1 : 2,
+      userId: Math.random() < 0.5 ? 1 : 2,
+      poseId: Math.random() < 0.5 ? 1 : 2,
       date: new Date(2021, 6, Math.floor(Math.random() * 7) + 6),
     });
     poseSessions.push(newSesh);
