@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from "react";
-import {useSelector, useDispatch} from "react-redux";
-import {getUser} from "../store/user";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getUser } from "../store/user";
 import Chart from "./Chart";
 import AllExerciseChart from "./AllExerciseChart";
-import {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Data = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.id);
-  const {poseSessions} = useSelector((state) => state.user);
+  const { poseSessions } = useSelector((state) => state.user);
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -52,13 +52,13 @@ const Data = () => {
   if (poseSessions) {
     if (poseSessions.some((session) => session.pose.name === "squat")) {
       const squatSessions = poseSessions.filter(
-        (session) => session.pose.name === "squat"
+        (session) => session.pose && session.pose.name === "squat"
       );
       exerciseSessions.push(squatSessions);
     }
     if (poseSessions.some((session) => session.pose.name === "pushup")) {
       const pushupSessions = poseSessions.filter(
-        (session) => session.pose.name === "pushup"
+        (session) => session.pose && session.pose.name === "pushup"
       );
       exerciseSessions.push(pushupSessions);
     }
