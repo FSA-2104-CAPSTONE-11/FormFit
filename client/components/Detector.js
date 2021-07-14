@@ -1,8 +1,8 @@
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import "@tensorflow/tfjs-backend-webgl";
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
-import {IconButton, SvgIcon, makeStyles} from "@material-ui/core";
+import { IconButton, SvgIcon, makeStyles } from "@material-ui/core";
 import {
   Modal,
   Backdrop,
@@ -75,13 +75,15 @@ const Detector = () => {
   let [ticker, setTicker] = useState();
   let [exercise, setExercise] = useState("squat");
 
-  const { criteria, instructions, name: poseName, id: poseId } = useSelector(
-    (state) => state.pose
-  );
+  const {
+    criteria,
+    instructions,
+    name: poseName,
+    id: poseId,
+  } = useSelector((state) => state.pose);
 
   const [openInstructions, setOpenInstructions] = useState(true);
-  const [detector, setDetector] = useState()
-
+  const [detector, setDetector] = useState();
 
   async function init() {
     const detectorConfig = {
@@ -91,16 +93,16 @@ const Detector = () => {
       poseDetection.SupportedModels.MoveNet,
       detectorConfig
     );
-    setDetector(detector)
+    setDetector(detector);
   }
 
   useEffect(() => {
-    init()
-  }, [])
+    init();
+  }, []);
 
   useEffect(() => {
     async function getPoseInfoAndCriteria() {
-      await dispatch(getPose({poseName: exercise}));
+      await dispatch(getPose({ poseName: exercise }));
     }
     getPoseInfoAndCriteria();
   }, [exercise]);
@@ -188,7 +190,7 @@ const Detector = () => {
 
   function handleClick() {
     setFinished(false);
-    time = 150;
+    time = 60;
     maxTime = time;
     setAngleArray([]);
     requestAnimationFrame(async () => {
@@ -197,15 +199,15 @@ const Detector = () => {
   }
 
   function countDown() {
-    let count = 5
-    let timer = setInterval(function(){
+    let count = 5;
+    let timer = setInterval(function () {
       if (count <= 0) {
-        clearInterval(timer)
-        handleClick()
+        clearInterval(timer);
+        handleClick();
       }
-      setTicker(count)
-      count -= 1
-    }, 1000)
+      setTicker(count);
+      count -= 1;
+    }, 1000);
   }
 
   function drawKeypoint(keypoint) {
@@ -264,7 +266,7 @@ const Detector = () => {
       );
 
       if (kp1.score > 0.5 && kp2.score > 0.5) {
-        angleArray.push({[name]: [adjacentPairAngle, kp1.score, kp2.score]});
+        angleArray.push({ [name]: [adjacentPairAngle, kp1.score, kp2.score] });
       }
 
       // If score is null, just show the keypoint.
@@ -371,28 +373,32 @@ const Detector = () => {
                 opacity: "0.5",
               }}
             >
-              <h1><strong>{ticker}</strong></h1>
+              <h1>
+                <strong>{ticker}</strong>
+              </h1>
             </div>
           </div>
-          {detector ? (<IconButton
-            className={classes.roundButton}
-            id="start"
-            type="button"
-            style={{
-              cursor: "pointer",
-              position: "fixed",
-              zIndex: 10,
-              objectFit: "cover",
-              height: "80px",
-              width: "80px",
-              top: "85%",
-              left: "calc(50% - 40px)",
-              padding: "0px",
-            }}
-            onClick={() => countDown()}
-          >
-            <StartButton />
-          </IconButton>) : (
+          {detector ? (
+            <IconButton
+              className={classes.roundButton}
+              id="start"
+              type="button"
+              style={{
+                cursor: "pointer",
+                position: "fixed",
+                zIndex: 10,
+                objectFit: "cover",
+                height: "80px",
+                width: "80px",
+                top: "85%",
+                left: "calc(50% - 40px)",
+                padding: "0px",
+              }}
+              onClick={() => countDown()}
+            >
+              <StartButton />
+            </IconButton>
+          ) : (
             <div></div>
           )}
         </div>
