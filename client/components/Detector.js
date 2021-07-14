@@ -19,6 +19,7 @@ import NotLoggedIn from "./NotLoggedIn";
 import { Redirect } from "react-router";
 import { getPose } from "../store/pose";
 import { useDispatch, useSelector } from "react-redux";
+import { createPose } from "../store/poseSession";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,9 +58,6 @@ const Detector = () => {
   const classes = useStyles();
   const [score, setScore] = useState({});
   const [angleArray, setAngleArray] = useState([]);
-
-  const [summary, setSummary] = useState({});
-  const [repInfo, setRepInfo] = useState([]);
 
   const isLoggedIn = useSelector((state) => !!state.auth.id);
 
@@ -177,8 +175,7 @@ const Detector = () => {
             canvasRef.current.height
           );
 
-          setRepInfo(results);
-          setSummary(summaryOfScores);
+          dispatch(createPose({ results, summaryOfScores }));
           setFinished(true);
           noseHeight = 0;
         }
@@ -346,16 +343,7 @@ const Detector = () => {
                 <div></div>
               )}
             </div>
-            {finished ? (
-              <Redirect
-                to={{
-                  pathname: "/summary",
-                  state: { summary, repInfo, poseName, poseId },
-                }}
-              />
-            ) : (
-              <div></div>
-            )}
+            {finished ? <Redirect to="/summary" /> : <div></div>}
             <div
               id="ticker"
               style={{
