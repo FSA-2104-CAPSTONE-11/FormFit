@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getHistory } from "../store/poseHistory";
 import { Redirect } from "react-router";
+import NotLoggedIn from "./NotLoggedIn";
 
 // style imports
 import { makeStyles } from "@material-ui/core/styles";
@@ -78,99 +79,105 @@ const SessionSummary = (props) => {
 
   return (
     <div>
-      <div>
-        <Card className={cardClasses.root}>
-          <CardMedia
-            className={cardClasses.media2}
-            image="https://thumb9.shutterstock.com/image-photo/stock-vector-vector-illustration-of-squat-vector-icon-or-symbol-250nw-600173141.jpg"
-            title="History Image"
-          />
-          {
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                You completed {reps.length} reps!
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                <strong>Requirement Breakdown:</strong>{" "}
-              </Typography>
-              <div>
-                {summary &&
-                  Object.keys(summary).map((criterion) => {
-                    count++;
-                    if (criterion !== "reps") {
-                      return (
-                        <Typography
-                          variant="body2"
-                          color="textSecondary"
-                          component="p"
-                          key={count}
-                        >
-                          <strong>{criterion}: </strong>
-                          {(summary[criterion] / reps.length) * 100}%
-                        </Typography>
-                      );
-                    }
-                  })}
-              </div>
-            </CardContent>
-          }
-        </Card>
-      </div>
       {isLoggedIn ? (
-        <div className={accordionClasses.root}>
-          {reps.map((rep) => {
-            let perfect = true;
-            Object.keys(rep).forEach((angle) => {
-              if (angle !== true) perfect = false;
-            });
-            return (
-              <Accordion key={reps.indexOf(rep)}>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                >
-                  <div className={accordionClasses.column}>
-                    <Typography className={accordionClasses.heading}>
-                      Rep {reps.indexOf(rep) + 1}
-                    </Typography>
-                  </div>
-                  <div className={accordionClasses.column}>
-                    {perfect ? (
-                      <Typography className={accordionClasses.heading}>
-                        Perfect!
-                      </Typography>
-                    ) : (
-                      <Typography className={accordionClasses.heading}>
-                        Click to see your feedback!
-                      </Typography>
-                    )}
-                  </div>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Typography
-                    className={accordionClasses.body}
-                    component={"span"}
-                  >
-                    <ul style={{ listStyleType: "none", padding: 0 }}>
-                      {Object.keys(rep).map((angle) => {
-                        count++;
-                        return (
-                          <li key={count}>
-                            <strong>{angle} </strong>
-                            {`${rep[angle]}`}
-                          </li>
-                        );
-                      })}
-                    </ul>
+        <div>
+          <div>
+            <Card className={cardClasses.root}>
+              <CardMedia
+                className={cardClasses.media2}
+                image="https://thumb9.shutterstock.com/image-photo/stock-vector-vector-illustration-of-squat-vector-icon-or-symbol-250nw-600173141.jpg"
+                title="History Image"
+              />
+              {
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    You completed {reps.length} reps!
                   </Typography>
-                </AccordionDetails>
-              </Accordion>
-            );
-          })}
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    <strong>Requirement Breakdown:</strong>{" "}
+                  </Typography>
+                  <div>
+                    {summary &&
+                      Object.keys(summary).map((criterion) => {
+                        count++;
+                        if (criterion !== "reps") {
+                          return (
+                            <Typography
+                              variant="body2"
+                              color="textSecondary"
+                              component="p"
+                              key={count}
+                            >
+                              <strong>{criterion}: </strong>
+                              {(summary[criterion] / reps.length) * 100}%
+                            </Typography>
+                          );
+                        }
+                      })}
+                  </div>
+                </CardContent>
+              }
+            </Card>
+          </div>
+          <div className={accordionClasses.root}>
+            {reps.map((rep) => {
+              let perfect = true;
+              Object.keys(rep).forEach((angle) => {
+                if (angle !== true) perfect = false;
+              });
+              return (
+                <Accordion key={reps.indexOf(rep)}>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <div className={accordionClasses.column}>
+                      <Typography className={accordionClasses.heading}>
+                        Rep {reps.indexOf(rep) + 1}
+                      </Typography>
+                    </div>
+                    <div className={accordionClasses.column}>
+                      {perfect ? (
+                        <Typography className={accordionClasses.heading}>
+                          Perfect!
+                        </Typography>
+                      ) : (
+                        <Typography className={accordionClasses.heading}>
+                          Click to see your feedback!
+                        </Typography>
+                      )}
+                    </div>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography
+                      className={accordionClasses.body}
+                      component={"span"}
+                    >
+                      <ul style={{ listStyleType: "none", padding: 0 }}>
+                        {Object.keys(rep).map((angle) => {
+                          count++;
+                          return (
+                            <li key={count}>
+                              <strong>{angle} </strong>
+                              {`${rep[angle]}`}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+              );
+            })}
+          </div>
         </div>
       ) : (
-        <Redirect to="/login" />
+        <NotLoggedIn />
       )}
     </div>
   );

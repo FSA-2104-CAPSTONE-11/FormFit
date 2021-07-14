@@ -13,8 +13,9 @@ import {
 } from "@material-ui/core";
 import StartButton from "./StartButton";
 import evaluateExercise from "./Evaluator";
-import Scoreboard from "./Scoreboard";
+import Instructions from "./Instructions";
 import SessionSummary from "./SessionSummary";
+import NotLoggedIn from "./NotLoggedIn";
 import { Redirect } from "react-router";
 import { getPose } from "../store/pose";
 import { useDispatch, useSelector } from "react-redux";
@@ -77,11 +78,7 @@ const Detector = () => {
   let [ticker, setTicker] = useState();
   let [exercise, setExercise] = useState("squat");
   const { criteria, instructions } = useSelector((state) => state.pose);
-  const [open, setOpen] = useState(true);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const [openInstructions, setOpenInstructions] = useState(true);
 
   async function init() {
     const detectorConfig = {
@@ -104,11 +101,13 @@ const Detector = () => {
     }
     getPoseInfoAndCriteria();
   }, [exercise]);
+
   useEffect(() => {
     if (criteria) {
-      setOpen(true);
+      setOpenInstructions(true);
     }
   }, [criteria]);
+
   async function getPoses(detector) {
     if (
       typeof webcamRef.current !== "undefined" &&
@@ -335,28 +334,15 @@ const Detector = () => {
                 <option value="pushup">Push-Up</option>
                 <option value="situp">Sit-Up</option>
               </select>
-              <div>
-                <Modal
-                  aria-labelledby="transition-modal-title"
-                  aria-describedby="transition-modal-description"
-                  className={classes.modal}
-                  open={open}
-                  onClose={handleClose}
-                  closeAfterTransition
-                  BackdropComponent={Backdrop}
-                  BackdropProps={{
-                    timeout: 500,
-                  }}
-                >
-                  <Slide in={open} direction="left">
-                    <div className={classes.paper}>
-                      <Typography className={classes.title}>
-                        {instructions}
-                      </Typography>
-                    </div>
-                  </Slide>
-                </Modal>
-              </div>
+              {openInstructions ? (
+                <Instructions
+                  instructions={instructions}
+                  openStatus={openInstructions}
+                  closeMe={() => setOpenInstructions(false)}
+                />
+              ) : (
+                <div></div>
+              )}
             </div>
             {finished ? (
               <Redirect
@@ -404,7 +390,7 @@ const Detector = () => {
           </IconButton>
         </div>
       ) : (
-        <Redirect to="/login" />
+        <NotLoggedIn />
       )}
     </div>
   );

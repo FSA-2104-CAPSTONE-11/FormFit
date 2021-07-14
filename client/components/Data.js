@@ -52,13 +52,13 @@ const Data = () => {
   if (poseSessions) {
     if (poseSessions.some((session) => session.pose.name === "squat")) {
       const squatSessions = poseSessions.filter(
-        (session) => session.pose.name === "squat"
+        (session) => session.pose && session.pose.name === "squat"
       );
       exerciseSessions.push(squatSessions);
     }
     if (poseSessions.some((session) => session.pose.name === "pushup")) {
       const pushupSessions = poseSessions.filter(
-        (session) => session.pose.name === "pushup"
+        (session) => session.pose && session.pose.name === "pushup"
       );
       exerciseSessions.push(pushupSessions);
     }
