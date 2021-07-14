@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getHistory } from "../store/poseHistory";
+import NotLoggedIn from "./NotLoggedIn";
 
 // style imports
 import { makeStyles } from "@material-ui/core/styles";
@@ -109,11 +110,11 @@ const History = () => {
               );
             })
           ) : (
-            <div/>
+            <div />
           )}
         </div>
       ) : (
-        <Redirect to="/login" />
+        <NotLoggedIn />
       )}
     </div>
   );

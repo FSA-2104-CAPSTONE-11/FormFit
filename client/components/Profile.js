@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from "react";
-import {useSelector, useDispatch} from "react-redux";
-import {getUser, updateUser} from "../store/user";
-import {makeStyles} from "@material-ui/core/styles";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getUser, updateUser } from "../store/user";
+import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import { Redirect } from "react-router";
+import NotLoggedIn from "./NotLoggedIn";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,7 +67,7 @@ const Profile = () => {
     let maxEl = poseSessions[0].pose.name,
       maxCount = 1;
     for (let i = 0; i < poseSessions.length; i++) {
-      let el = poseSessions[i].pose.name;
+      let el = poseSessions[i].pose && poseSessions[i].pose.name;
       if (modeMap[el] === null) modeMap[el] = 1;
       else modeMap[el]++;
       if (modeMap[el] > maxCount) {
@@ -230,7 +231,7 @@ const Profile = () => {
           </Card>
         </div>
       ) : (
-        <Redirect to="/login" />
+        <NotLoggedIn />
       )}
     </div>
   );

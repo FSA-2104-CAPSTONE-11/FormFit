@@ -15,6 +15,7 @@ import StartButton from "./StartButton";
 import evaluateExercise from "./Evaluator";
 import Instructions from "./Instructions";
 import SessionSummary from "./SessionSummary";
+import NotLoggedIn from "./NotLoggedIn";
 import { Redirect } from "react-router";
 import { getPose } from "../store/pose";
 import { useDispatch, useSelector } from "react-redux";
@@ -100,11 +101,13 @@ const Detector = () => {
     }
     getPoseInfoAndCriteria();
   }, [exercise]);
+
   useEffect(() => {
     if (criteria) {
       setOpenInstructions(true);
     }
   }, [criteria]);
+
   async function getPoses(detector) {
     if (
       typeof webcamRef.current !== "undefined" &&
@@ -386,7 +389,7 @@ const Detector = () => {
           </IconButton>
         </div>
       ) : (
-        <Redirect to="/login" />
+        <NotLoggedIn />
       )}
     </div>
   );
