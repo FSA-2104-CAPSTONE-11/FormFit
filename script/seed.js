@@ -73,12 +73,12 @@ async function seed() {
       poseId: 1,
     }),
     Criteria.create({
-      name: "back",
-      quickDescription: "back stays level",
+      name: "level-shoulders",
+      quickDescription: "shoulders stay level",
       longDescription:
-        "Through out the whole duration of a pushup, your back can get as even with the ground, but shouldnt exceed a 35deg angle!",
+        "Through out the whole duration of a pushup, your shoulders should not tilt past 25deg!",
       spec: JSON.stringify({
-        right_shoulderright_hip: [0.8, 35, null, "avoid"],
+        left_shoulderright_shoulder: [0.8, 25, null, "avoid"],
       }),
       poseId: 2,
     }),
@@ -88,27 +88,27 @@ async function seed() {
       longDescription:
         "When pushing yourself up from the down position of a pushup, you know you are at the top when your tricep forms a 90deg angle with the ground!",
       spec: JSON.stringify({
-        right_shoulderright_elbow: [0.5, 85, null, "require"],
+        right_shoulderright_elbow: [0.5, 80, null, "require"],
       }),
       poseId: 2,
     }),
     Criteria.create({
-      name: "legs",
-      quickDescription: "legs stay level",
+      name: "level-hips",
+      quickDescription: "hips stay level",
       longDescription:
-        "Through out the whole duration of a pushup, your legs can get as even with the ground, but shouldnt exceed a 35deg angle!",
+        "Through out the whole duration of a pushup, your hips should not tilt past 25deg!",
       spec: JSON.stringify({
-        right_hipright_knee: [0.6, 35, null, "avoid"],
+        left_hipright_hip: [0.6, 25, null, "avoid"],
       }),
       poseId: 2,
     }),
     Criteria.create({
       name: "forearm",
-      quickDescription: "forearm never dips below perpendicular level",
+      quickDescription: "forearm never becomes even with the ground",
       longDescription:
-        "Through out the whole duration of a pushup, your forearm shouldn't go below a 75deg angle!",
+        "Through out the whole duration of a pushup, your forearm shouldn't go below a 20deg angle!",
       spec: JSON.stringify({
-        right_elbowright_wrist: [0.8, null, 75, "avoid"],
+        right_elbowright_wrist: [0.8, null, 20, "avoid"],
       }),
       poseId: 2,
     }),
