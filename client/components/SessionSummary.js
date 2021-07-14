@@ -69,11 +69,26 @@ const useAccordionStyles = makeStyles((theme) => ({
 const SessionSummary = () => {
   const accordionClasses = useAccordionStyles();
   const cardClasses = useCardStyles();
+  let [details, setDetails] = useState([]);
+  let temp = [];
 
-  const { id: poseId, name: poseName } = useSelector((state) => state.pose);
+  const {
+    id: poseId,
+    name: poseName,
+    criteria: shortDescription,
+  } = useSelector((state) => state.pose);
   const { results: reps, summaryOfScores: summary } = useSelector(
     (state) => state.poseSession
   );
+  useEffect(() => {
+    if (shortDescription) {
+      for (const [key, value] of Object.entries(shortDescription)) {
+        details.push(Object.values(value)[2]);
+      }
+      //setDetails(temp);
+      console.log(`details`, details);
+    }
+  }, [shortDescription]);
 
   const dispatch = useDispatch();
 
@@ -99,6 +114,7 @@ const SessionSummary = () => {
 
   return (
     <div>
+      {console.log(details)}
       {isLoggedIn ? (
         <div>
           <div>
@@ -138,6 +154,7 @@ const SessionSummary = () => {
                     <div>
                       {summary &&
                         Object.keys(summary).map((criterion) => {
+                          console.log(`summary`, summary);
                           count++;
                           if (criterion !== "reps") {
                             return (
@@ -147,7 +164,7 @@ const SessionSummary = () => {
                                 component="p"
                                 key={count}
                               >
-                                <strong>{criterion}: </strong>
+                                <strong>{details[count - 1]}: </strong>
                                 {(summary[criterion] / reps.length) * 100}%
                               </Typography>
                             );
