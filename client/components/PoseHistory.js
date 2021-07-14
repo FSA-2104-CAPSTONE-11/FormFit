@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getHistory } from "../store/poseHistory";
+import NotLoggedIn from "./NotLoggedIn";
 
 // style imports
 import { makeStyles } from "@material-ui/core/styles";
@@ -40,7 +41,18 @@ const History = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.id);
   const poseHistory = useSelector((state) => state.history);
 
+  // const [loading, setLoading] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(isLoggedIn);
+
   const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   setLoading(false);
+  //   setLoggedIn(isLoggedIn);
+  // });
+
+  // console.log("loggedIn", loggedIn);
+  // console.log("loading", loading);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -109,11 +121,12 @@ const History = () => {
               );
             })
           ) : (
-            <div/>
+            <div />
           )}
         </div>
       ) : (
-        <Redirect to="/login" />
+        // <Redirect to="/login" />
+        <NotLoggedIn />
       )}
     </div>
   );
