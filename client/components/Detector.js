@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import StartButton from "./StartButton";
 import evaluateExercise from "./Evaluator";
-import Scoreboard from "./Scoreboard";
+import Instructions from "./Instructions";
 import SessionSummary from "./SessionSummary";
 import NotLoggedIn from "./NotLoggedIn";
 import { Redirect } from "react-router";
@@ -78,11 +78,7 @@ const Detector = () => {
   let [ticker, setTicker] = useState();
   let [exercise, setExercise] = useState("squat");
   const { criteria, instructions } = useSelector((state) => state.pose);
-  const [open, setOpen] = useState(true);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const [openInstructions, setOpenInstructions] = useState(true);
 
   async function init() {
     const detectorConfig = {
@@ -108,7 +104,7 @@ const Detector = () => {
 
   useEffect(() => {
     if (criteria) {
-      setOpen(true);
+      setOpenInstructions(true);
     }
   }, [criteria]);
 
@@ -337,28 +333,15 @@ const Detector = () => {
                 <option value="squat">Squat</option>
                 <option value="pushup">Push-Up</option>
               </select>
-              <div>
-                <Modal
-                  aria-labelledby="transition-modal-title"
-                  aria-describedby="transition-modal-description"
-                  className={classes.modal}
-                  open={open}
-                  onClose={handleClose}
-                  closeAfterTransition
-                  BackdropComponent={Backdrop}
-                  BackdropProps={{
-                    timeout: 500,
-                  }}
-                >
-                  <Slide in={open} direction="left">
-                    <div className={classes.paper}>
-                      <Typography className={classes.title}>
-                        {instructions}
-                      </Typography>
-                    </div>
-                  </Slide>
-                </Modal>
-              </div>
+              {openInstructions ? (
+                <Instructions
+                  instructions={instructions}
+                  openStatus={openInstructions}
+                  closeMe={() => setOpenInstructions(false)}
+                />
+              ) : (
+                <div></div>
+              )}
             </div>
             {finished ? (
               <Redirect
