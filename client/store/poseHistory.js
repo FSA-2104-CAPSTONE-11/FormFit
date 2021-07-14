@@ -23,6 +23,26 @@ export const getHistory = createAsyncThunk("/api/history", async () => {
   }
 });
 
+export const addToHistory = createAsyncThunk(
+  "/api/history",
+  async (arg, thunkAPI) => {
+    try {
+      const token = window.localStorage.getItem(TOKEN);
+      if (token) {
+        const { dispatch } = thunkAPI;
+        await axios.post("/api/history", arg, {
+          headers: {
+            authorization: token,
+          },
+        });
+        dispatch(getHistory());
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+);
+
 /**
  * REDUCER
  */
@@ -37,6 +57,9 @@ const historySlice = createSlice({
   },
   extraReducers: {
     [getHistory.fulfilled]: (state, action) => {
+      return action.payload;
+    },
+    [addToHistory.fulfilled]: (state, action) => {
       return action.payload;
     },
   },
