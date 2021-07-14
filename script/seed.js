@@ -162,7 +162,7 @@ async function seed() {
   for (let i = 0; i < 10; i++) {
     const sitUpSesh = await PoseSession.create({
       reps: 10,
-      score: Math.ceil(Math.random()),
+      score: Math.floor(Math.random() * (4 - 0 + 1)) + 0,
       feedback: Math.random() < 0.5 ? "keep it up" : "never do that, c'mon",
       length: Math.floor(Math.random() * 30 + 5),
       userId: Math.random() < 0.5 ? 1 : 2,
