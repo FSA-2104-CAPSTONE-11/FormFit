@@ -1,8 +1,8 @@
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import "@tensorflow/tfjs-backend-webgl";
-import React, { useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Webcam from "react-webcam";
-import { IconButton, SvgIcon, makeStyles } from "@material-ui/core";
+import {IconButton, SvgIcon, makeStyles} from "@material-ui/core";
 import {
   Modal,
   Backdrop,
@@ -56,7 +56,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Detector = () => {
   const classes = useStyles();
-  const [score, setScore] = useState({});
   const [angleArray, setAngleArray] = useState([]);
 
   const isLoggedIn = useSelector((state) => !!state.auth.id);
@@ -75,10 +74,14 @@ const Detector = () => {
   let [finished, setFinished] = useState(false);
   let [ticker, setTicker] = useState();
   let [exercise, setExercise] = useState("squat");
+
   const { criteria, instructions, name: poseName, id: poseId } = useSelector(
     (state) => state.pose
   );
+
   const [openInstructions, setOpenInstructions] = useState(true);
+  const [detector, setDetector] = useState()
+
 
   async function init() {
     const detectorConfig = {
@@ -88,16 +91,16 @@ const Detector = () => {
       poseDetection.SupportedModels.MoveNet,
       detectorConfig
     );
-    if (detector) {
-      requestAnimationFrame(async () => {
-        await getPoses(detector);
-      });
-    }
+    setDetector(detector)
   }
 
   useEffect(() => {
+    init()
+  }, [])
+
+  useEffect(() => {
     async function getPoseInfoAndCriteria() {
-      await dispatch(getPose({ poseName: exercise }));
+      await dispatch(getPose({poseName: exercise}));
     }
     getPoseInfoAndCriteria();
   }, [exercise]);
@@ -108,7 +111,7 @@ const Detector = () => {
     }
   }, [criteria]);
 
-  async function getPoses(detector) {
+  async function getPoses() {
     if (
       typeof webcamRef.current !== "undefined" &&
       webcamRef.current !== null &&
@@ -162,7 +165,7 @@ const Detector = () => {
           time--;
           setTicker(time);
           requestAnimationFrame(async () => {
-            await getPoses(detector);
+            await getPoses();
           });
           drawCanvas(poses, videoWidth, videoHeight, canvasRef);
         }
@@ -184,13 +187,25 @@ const Detector = () => {
   }
 
   function handleClick() {
-    setTicker("LOADING");
     setFinished(false);
-    setScore({});
     time = 150;
     maxTime = time;
     setAngleArray([]);
-    init();
+    requestAnimationFrame(async () => {
+      await getPoses();
+    });
+  }
+
+  function countDown() {
+    let count = 5
+    let timer = setInterval(function(){
+      if (count <= 0) {
+        clearInterval(timer)
+        handleClick()
+      }
+      setTicker(count)
+      count -= 1
+    }, 1000)
   }
 
   function drawKeypoint(keypoint) {
@@ -249,7 +264,7 @@ const Detector = () => {
       );
 
       if (kp1.score > 0.5 && kp2.score > 0.5) {
-        angleArray.push({ [name]: [adjacentPairAngle, kp1.score, kp2.score] });
+        angleArray.push({[name]: [adjacentPairAngle, kp1.score, kp2.score]});
       }
 
       // If score is null, just show the keypoint.
@@ -356,10 +371,10 @@ const Detector = () => {
                 opacity: "0.5",
               }}
             >
-              {ticker}
+              <h1><strong>{ticker}</strong></h1>
             </div>
           </div>
-          <IconButton
+          {detector ? (<IconButton
             className={classes.roundButton}
             id="start"
             type="button"
@@ -374,10 +389,12 @@ const Detector = () => {
               left: "calc(50% - 40px)",
               padding: "0px",
             }}
-            onClick={() => handleClick()}
+            onClick={() => countDown()}
           >
             <StartButton />
-          </IconButton>
+          </IconButton>) : (
+            <div></div>
+          )}
         </div>
       ) : (
         <NotLoggedIn />
