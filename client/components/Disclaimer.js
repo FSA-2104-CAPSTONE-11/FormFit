@@ -29,21 +29,9 @@ function Disclaimer() {
     <Card className={classes.root}>
       <CardContent className={classes.actions}>
         <Typography variant="body2" component="p">
-          Welcome to FormFit
+          Logo Goes here
         </Typography>
       </CardContent>
-      <CardActions className={classes.actions}>
-        <Link to="/login">
-          <Button fullWidth={true} size="medium">
-            Login
-          </Button>
-        </Link>
-        <Link to="/signup">
-          <Button fullWidth={true} size="medium">
-            Sign Up
-          </Button>
-        </Link>
-      </CardActions>
     </Card>
   );
 }
