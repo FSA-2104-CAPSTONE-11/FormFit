@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getHistory } from "../store/poseHistory";
 import { Redirect } from "react-router";
 import NotLoggedIn from "./NotLoggedIn";
+import { addToHistory } from "../store/poseHistory";
 
 // style imports
 import { makeStyles } from "@material-ui/core/styles";
@@ -74,8 +75,21 @@ const SessionSummary = (props) => {
     setSummary(props.location.state.summary || {});
   }, []);
 
+  const dispatch = useDispatch();
+
   const isLoggedIn = useSelector((state) => !!state.auth.id);
   let count = 0;
+
+  const handleSave = () => {
+    console.log("handling Save");
+    dispatch(
+      addToHistory({
+        reps: reps.length,
+        // poseId,
+        feedback: JSON.stringify(summary),
+      })
+    );
+  };
 
   return (
     <div>
@@ -89,37 +103,43 @@ const SessionSummary = (props) => {
                 title="History Image"
               />
               {
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    You completed {reps.length} reps!
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    <strong>Requirement Breakdown:</strong>{" "}
-                  </Typography>
-                  <div>
-                    {summary &&
-                      Object.keys(summary).map((criterion) => {
-                        count++;
-                        if (criterion !== "reps") {
-                          return (
-                            <Typography
-                              variant="body2"
-                              color="textSecondary"
-                              component="p"
-                              key={count}
-                            >
-                              <strong>{criterion}: </strong>
-                              {(summary[criterion] / reps.length) * 100}%
-                            </Typography>
-                          );
-                        }
-                      })}
-                  </div>
-                </CardContent>
+                <div>
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      You completed {reps.length} reps!
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      <strong>Requirement Breakdown:</strong>{" "}
+                    </Typography>
+                    <div>
+                      {summary &&
+                        Object.keys(summary).map((criterion) => {
+                          count++;
+                          if (criterion !== "reps") {
+                            return (
+                              <Typography
+                                variant="body2"
+                                color="textSecondary"
+                                component="p"
+                                key={count}
+                              >
+                                <strong>{criterion}: </strong>
+                                {(summary[criterion] / reps.length) * 100}%
+                              </Typography>
+                            );
+                          }
+                        })}
+                    </div>
+                  </CardContent>
+                  <CardActions>
+                    <Button onClick={handleSave}>Save Session</Button>
+                    <Button>Delete Session</Button>
+                  </CardActions>
+                </div>
               }
             </Card>
           </div>
