@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getHistory } from "../store/poseHistory";
 import NotLoggedIn from "./NotLoggedIn";
+import { format } from "timeago.js";
 
 // style imports
 import { makeStyles } from "@material-ui/core/styles";
@@ -40,6 +41,8 @@ const History = () => {
 
   const isLoggedIn = useSelector((state) => !!state.auth.id);
   const poseHistory = useSelector((state) => state.history);
+  let poseName;
+  let feedback;
 
   const dispatch = useDispatch();
 
@@ -48,16 +51,6 @@ const History = () => {
       dispatch(getHistory());
     }
   }, [isLoggedIn]);
-
-  // function to manually alter each date we render
-  const alterDate = (createdAt) => {
-    const year = Number(createdAt.slice(0, 4));
-    const monthIndex = createdAt.slice(5, 7) - 1;
-    const day = Number(createdAt.slice(8, 10));
-    const event = new Date(year, monthIndex, day);
-    const options = { weekday: "short", month: "short", day: "numeric" };
-    return event.toLocaleDateString("US-en", options);
-  };
 
   return (
     <div className={classes.root}>
@@ -72,6 +65,26 @@ const History = () => {
         <div>
           {poseHistory && poseHistory.length ? (
             poseHistory.map((pose) => {
+              if (pose.poseId === 1) {
+                poseName = "Squat";
+              }
+              if (pose.poseId === 2) {
+                poseName = "PushUp";
+              }
+              if (pose.poseId === 3) {
+                poseName = "Situp";
+              }
+              if (pose.reps <= 1 && pose.score === 0) {
+                feedback = "You can do better than that!";
+              }
+              if (pose.reps < 3 && pose.score < pose.reps) {
+                feedback = "You did some reps, but not perfect! Try again!";
+              }
+              if (pose.reps > 0 && pose.reps === pose.score) {
+                feedback = "WOW! Perfect! Keep it up!";
+              } else {
+                feedback = "Nice amount of reps! Now work on that form!";
+              }
               return (
                 <Accordion key={pose.id}>
                   <AccordionSummary
@@ -81,7 +94,7 @@ const History = () => {
                   >
                     <div className={classes.column}>
                       <Typography className={classes.heading}>
-                        {alterDate(pose.createdAt)}
+                        {format(pose.createdAt)}
                       </Typography>
                     </div>
                     <div className={classes.column}>
@@ -94,14 +107,14 @@ const History = () => {
                     <Typography className={classes.body} component={"span"}>
                       <ul style={{ listStyleType: "none", padding: 0 }}>
                         <li>
-                          <strong>Time:</strong>
-                          {` ${pose.createdAt.slice(11, 16)} EST`}
+                          <strong>Exercise:</strong> {poseName}
                         </li>
                         <li>
-                          <strong>Duration:</strong> {pose.length} seconds
+                          <strong>Reps: </strong>
+                          {pose.reps}
                         </li>
                         <li>
-                          <strong>Feedback:</strong> {pose.feedback}
+                          <strong>Feedback:</strong> {feedback}
                         </li>
                       </ul>
                     </Typography>
