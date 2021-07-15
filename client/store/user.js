@@ -60,7 +60,6 @@ const userSlice = createSlice({
   },
   extraReducers: {
     [getUser.fulfilled]: (state, action) => {
-      console.log("extra reducer")
       return action.payload;
     },
     [updateUser.fulfilled]: (state, action) => {
