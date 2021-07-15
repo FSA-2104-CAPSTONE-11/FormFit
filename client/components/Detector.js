@@ -313,8 +313,8 @@ const Detector = () => {
     drawSkeleton(poses[0].keypoints);
   }
 
-  function handleChange(e) {
-    setExercise(e.target.value);
+  function handleChange(newExercise) {
+    setExercise(newExercise);
   }
 
   return (
@@ -349,7 +349,7 @@ const Detector = () => {
               />
               <ExerciseSelector
                 exercise={exercise}
-                changeMe={(e) => handleChange(e)}
+                changeMe={(newExercise) => handleChange(newExercise)}
               />
               {openInstructions ? (
                 <Instructions

@@ -13,8 +13,8 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 140,
   },
   dropdownStyle: {
-    backgroundColor: "transparent",
     boxShadow: "none",
+    backgroundColor: "#ffffff",
   },
   menuItemStyle: {
     display: "block",
@@ -24,47 +24,50 @@ const useStyles = makeStyles((theme) => ({
 function ExerciseSelector({ exercise, changeMe }) {
   const classes = useStyles();
 
-  function handleChange(e) {
-    changeMe(e.target.value);
+  function handleChange(event) {
+    changeMe(event.target.value);
   }
 
   return (
     <form className={classes.root}>
       <FormControl className={classes.formControl}>
-        <Select
-          value={exercise}
-          onChange={handleChange}
-          style={{
-            position: "fixed",
-            zIndex: 10,
-            marginLeft: 40,
-            marginTop: 50,
-            color: "black",
-            fontWeight: "bolder",
-          }}
-          MenuProps={{
-            classes: { paper: classes.dropdownStyle },
-            anchorOrigin: {
-              vertical: "bottom",
-              horizontal: "left",
-            },
-            transformOrigin: {
-              vertical: "top",
-              horizontal: "left",
-            },
-            getContentAnchorEl: null,
-          }}
-        >
-          <MenuItem className={classes.menuItemStyle} value="squat">
-            Squat
-          </MenuItem>
-          <MenuItem className={classes.menuItemStyle} value="pushup">
-            Push-Up
-          </MenuItem>
-          <MenuItem className={classes.menuItemStyle} value="situp">
-            Sit-Up
-          </MenuItem>
-        </Select>
+        <div className={classes.formControl}>
+          <Select
+            value={exercise}
+            onChange={handleChange}
+            style={{
+              position: "fixed",
+              zIndex: 10,
+              marginLeft: 40,
+              marginTop: 50,
+              color: "black",
+              fontWeight: "bolder",
+              backgroundColor: "white"
+            }}
+            MenuProps={{
+              classes: { paper: classes.dropdownStyle },
+              anchorOrigin: {
+                vertical: "bottom",
+                horizontal: "left",
+              },
+              transformOrigin: {
+                vertical: "top",
+                horizontal: "left",
+              },
+              getContentAnchorEl: null,
+            }}
+          >
+            <MenuItem className={classes.menuItemStyle} value="squat">
+              Squat
+            </MenuItem>
+            <MenuItem className={classes.menuItemStyle} value="pushup">
+              Push-Up
+            </MenuItem>
+            <MenuItem className={classes.menuItemStyle} value="situp">
+              Sit-Up
+            </MenuItem>
+          </Select>
+        </div>
       </FormControl>
     </form>
   );

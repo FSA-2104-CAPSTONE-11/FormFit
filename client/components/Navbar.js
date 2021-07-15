@@ -68,13 +68,14 @@ const Navbar = () => {
           [classes.appBarShift]: open,
         })}
       >
-        <Toolbar>
+        <Toolbar variant="dense">
           <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
             className={clsx(classes.menuButton, open && classes.hide)}
+            style={{margin: "0px", padding: "0px 8px 0px 8px"}}
           >
             <MenuIcon />
           </IconButton>
