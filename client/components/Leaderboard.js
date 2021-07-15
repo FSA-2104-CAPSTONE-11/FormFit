@@ -12,6 +12,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import NavbarOffset from './NavbarOffset';
 
 // style classes
 const StyledTableCell = withStyles((theme) => ({
@@ -55,6 +56,7 @@ const Leaderboard = () => {
 
   return (
     <div>
+      <NavbarOffset />
       {isLoggedIn ? (
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="customized table">

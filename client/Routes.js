@@ -9,6 +9,7 @@ import Profile from "./components/Profile";
 import History from "./components/PoseHistory";
 import SessionSummary from "./components/SessionSummary";
 import Leaderboard from "./components/Leaderboard";
+import LogoLoad from "./components/LogoLoad";
 
 /**
  * COMPONENT
@@ -29,7 +30,7 @@ const Routes = () => {
     <div>
       <Switch>
         <Route exact path="/">
-          <Home />
+          <LogoLoad />
         </Route>
         <Route exact path="/home">
           <Home />

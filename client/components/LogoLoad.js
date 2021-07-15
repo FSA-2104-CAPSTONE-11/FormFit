@@ -7,20 +7,18 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import history from "../history";
+import FullLogo from "./FullLogo";
+import NavbarOffset from "./NavbarOffset";
 
 const useStyles = makeStyles({
-  root: {
-    width: "90%",
-    marginLeft: "auto",
-    marginRight: "auto",
+  container: {
     display: "flex",
     justifyContent: "center",
+    alignItems: "center",
+    width: "calc(100% - 30px)",
   },
-  actions: {
+  logo: {
     display: "flex",
-    justifyContent: "center",
-    flexDirection: "column",
-    maxWidth: "50%",
   },
 });
 
@@ -31,14 +29,14 @@ function LogoLoad() {
       history.push("/login");
     }, 3000);
   });
+
   return (
-    <Card className={classes.root}>
-      <CardContent className={classes.actions}>
-        <Typography variant="body2" component="p">
-          Logo Goes here
-        </Typography>
-      </CardContent>
-    </Card>
+    <div>
+      <NavbarOffset />
+      <div className={classes.container}>
+        <FullLogo className={classes.logo} />
+      </div>
+    </div>
   );
 }
 
