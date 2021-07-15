@@ -2,7 +2,7 @@ const router = require("express").Router();
 const requireToken = require("./gatekeeping");
 module.exports = router;
 const { client } = require("../app");
-var _ = require("lodash");
+let _ = require("lodash");
 
 // GET api/leaderboard (protected for logged in user)
 router.get("/", requireToken, (req, res, next) => {
