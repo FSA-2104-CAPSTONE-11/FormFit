@@ -1,8 +1,8 @@
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import "@tensorflow/tfjs-backend-webgl";
-import React, { useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Webcam from "react-webcam";
-import { IconButton, SvgIcon, makeStyles } from "@material-ui/core";
+import {IconButton, SvgIcon, makeStyles} from "@material-ui/core";
 import {
   Modal,
   Backdrop,
@@ -16,10 +16,10 @@ import evaluateExercise from "./Evaluator";
 import Instructions from "./Instructions";
 import SessionSummary from "./SessionSummary";
 import NotLoggedIn from "./NotLoggedIn";
-import { Redirect } from "react-router";
-import { getPose } from "../store/pose";
-import { useDispatch, useSelector } from "react-redux";
-import { createPose } from "../store/poseSession";
+import {Redirect} from "react-router";
+import {getPose} from "../store/pose";
+import {useDispatch, useSelector} from "react-redux";
+import {createPose} from "../store/poseSession";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,12 +98,15 @@ const Detector = () => {
   }
 
   useEffect(() => {
-    init();
+    init()
+    return () => {
+      init();
+    };
   }, []);
 
   useEffect(() => {
     async function getPoseInfoAndCriteria() {
-      await dispatch(getPose({ poseName: exercise }));
+      await dispatch(getPose({poseName: exercise}));
     }
     getPoseInfoAndCriteria();
   }, [exercise]);
@@ -169,8 +172,6 @@ const Detector = () => {
         }
 
         if (time > 0) {
-          time--;
-          setTicker(time);
           requestAnimationFrame(async () => {
             await getPoses();
           });
@@ -185,7 +186,7 @@ const Detector = () => {
             canvasRef.current.height
           );
 
-          dispatch(createPose({ results, summaryOfScores, goodReps }));
+          dispatch(createPose({results, summaryOfScores, goodReps}));
           setFinished(true);
           noseHeight = 0;
         }
@@ -193,25 +194,40 @@ const Detector = () => {
     }
   }
 
+  function detectorTimer() {
+    let timer = setInterval(function () {
+      if (time === 0) {
+        clearInterval(timer);
+      }
+      setTicker(time);
+      time -= 1;
+    }, 1000);
+  }
+
   function handleClick() {
     setFinished(false);
-    time = 60;
+    time = 15;
     maxTime = time;
     setAngleArray([]);
     requestAnimationFrame(async () => {
       await getPoses();
     });
+    detectorTimer();
   }
 
   function countDown() {
     let count = 5;
     let timer = setInterval(function () {
-      if (count <= 0) {
+      if (count > 0) {
+        setTicker(count);
+        count -= 1;
+      } else if (count === 0) {
+        setTicker("GO!");
+        count -= 1;
+      } else {
         clearInterval(timer);
         handleClick();
       }
-      setTicker(count);
-      count -= 1;
     }, 1000);
   }
 
@@ -271,7 +287,7 @@ const Detector = () => {
       );
 
       if (kp1.score > 0.5 && kp2.score > 0.5) {
-        angleArray.push({ [name]: [adjacentPairAngle, kp1.score, kp2.score] });
+        angleArray.push({[name]: [adjacentPairAngle, kp1.score, kp2.score]});
       }
 
       // If score is null, just show the keypoint.
