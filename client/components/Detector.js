@@ -169,8 +169,6 @@ const Detector = () => {
         }
 
         if (time > 0) {
-          time--;
-          setTicker(time);
           requestAnimationFrame(async () => {
             await getPoses();
           });
@@ -193,25 +191,40 @@ const Detector = () => {
     }
   }
 
+  function detectorTimer() {
+    let timer = setInterval(function() {
+      if (time === 0) {
+        clearInterval(timer);
+      }
+      setTicker(time);
+      time -= 1
+    }, 1000);
+  }
+
   function handleClick() {
     setFinished(false);
-    time = 60;
+    time = 15;
     maxTime = time;
     setAngleArray([]);
     requestAnimationFrame(async () => {
       await getPoses();
     });
+    detectorTimer();
   }
 
   function countDown() {
     let count = 5;
     let timer = setInterval(function () {
-      if (count <= 0) {
+      if (count > 1 ) {
+        setTicker(count)
+        count -= 1
+      } else if (count === 1) {
+        setTicker("GO!");
+        count -= 1;
+      } else {
         clearInterval(timer);
         handleClick();
       }
-      setTicker(count);
-      count -= 1;
     }, 1000);
   }
 
