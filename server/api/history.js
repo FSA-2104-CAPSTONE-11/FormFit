@@ -2,6 +2,7 @@ const router = require("express").Router();
 const {
   models: { User, PoseSession },
 } = require("../db");
+const { client } = require("../app");
 const requireToken = require("./gatekeeping");
 
 // GET api/history (protected for logged in user)
@@ -24,6 +25,18 @@ router.post("/", requireToken, async (req, res, next) => {
   try {
     const { reps, feedback, poseId, score } = req.body;
 
+    // Leaderboard / Redis piece
+    const args = ["overallLeaderboard", score, req.user.username];
+
+    client.zadd(args, async (err, result) => {
+      if (err) {
+        console.log("error updating leaderboard", err);
+      } else {
+        console.log("we did it", result);
+      }
+    });
+
+    // SQL
     const pose = await PoseSession.create({
       reps,
       feedback,

@@ -8,6 +8,7 @@ import Detector from "./components/Detector";
 import Profile from "./components/Profile";
 import History from "./components/PoseHistory";
 import SessionSummary from "./components/SessionSummary";
+import Leaderboard from "./components/Leaderboard";
 
 /**
  * COMPONENT
@@ -53,6 +54,9 @@ const Routes = () => {
           path="/summary"
           render={(props) => <SessionSummary {...props} />}
         />
+        <Route exact path="/leaderboard">
+          <Leaderboard />
+        </Route>
       </Switch>
     </div>
   );

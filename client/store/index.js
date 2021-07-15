@@ -6,9 +6,10 @@ import history from "./poseHistory";
 import user from "./user";
 import pose from "./pose";
 import poseSession from "./poseSession";
+import leaderboard from "./leaderboard";
 
 export default configureStore({
-  reducer: { auth, history, user, pose, poseSession },
+  reducer: { auth, history, user, pose, poseSession, leaderboard },
   middleware: [thunkMiddleware],
   devTools: true,
 });
