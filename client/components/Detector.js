@@ -218,7 +218,7 @@ const Detector = () => {
   function countDown() {
     let count = 5;
     let timer = setInterval(function () {
-      if (count > 1) {
+      if (count > 0) {
         setTicker(count);
         count -= 1;
       } else if (count === 1) {
