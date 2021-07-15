@@ -4,6 +4,7 @@ const {
   db,
   models: { User, PoseSession, Pose, Criteria },
 } = require("../server/db");
+const axios = require("axios");
 
 /**
  * seed - this function clears the database, updates tables to
@@ -147,18 +148,27 @@ async function seed() {
   // Creating PoseSessions
   const poseSessions = [];
   for (let i = 0; i < 25; i++) {
-    const repNum = Math.floor(Math.random() * 20) + 5;
+    const reps = Math.floor(Math.random() * 20) + 5;
+    const score = Math.floor(reps * 0.8);
+    const feedback =
+      Math.random() < 0.5 ? "keep it up" : "never do that, c'mon";
+    const length = Math.floor(Math.random() * 30 + 5);
+    const userId = Math.random() < 0.5 ? 1 : 2;
+    let poseId = Math.ceil(Math.random() * 3);
+    const date = new Date(2021, 6, Math.floor(Math.random() * 7) + 6);
+
     const newSesh = await PoseSession.create({
-      reps: repNum,
-      score: Math.floor(repNum * 3 * 0.8),
-      feedback: Math.random() < 0.5 ? "keep it up" : "never do that, c'mon",
-      length: Math.floor(Math.random() * 30 + 5),
-      userId: Math.random() < 0.5 ? 1 : 2,
-      poseId: Math.random() < 0.5 ? 1 : 2,
-      date: new Date(2021, 6, Math.floor(Math.random() * 7) + 6),
+      reps,
+      score,
+      feedback,
+      length,
+      userId,
+      poseId,
+      date,
     });
     poseSessions.push(newSesh);
   }
+
   for (let i = 0; i < 10; i++) {
     const sitUpSesh = await PoseSession.create({
       reps: 10,
