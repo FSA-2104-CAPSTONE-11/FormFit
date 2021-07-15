@@ -1,27 +1,15 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { handleLogout } from "../store";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import React, {useState} from "react";
+import {useDispatch} from "react-redux";
+import {handleLogout} from "../store";
+import DrawerComponent from "./Drawer";
+import {makeStyles, useTheme} from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import { useMediaQuery } from "@material-ui/core";
-import history from "../history";
 import clsx from "clsx";
-import Drawer from "@material-ui/core/Drawer";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import BarChartIcon from "@material-ui/icons/BarChart";
-import HomeIcon from "@material-ui/icons/Home";
-import VideocamIcon from "@material-ui/icons/Videocam";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import Divider from "@material-ui/core/Divider";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 const drawerWidth = 240;
 
@@ -51,27 +39,12 @@ const useStyles = makeStyles((theme) => ({
   hide: {
     display: "none",
   },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  drawerHeader: {
-    display: "flex",
-    alignItems: "center",
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: "flex-end",
-  },
 }));
 
 const Navbar = () => {
   const classes = useStyles();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  // const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -84,11 +57,6 @@ const Navbar = () => {
 
   const handleClickLogout = () => {
     dispatch(handleLogout());
-  };
-
-  const handleMenuClick = (pageURL) => {
-    setOpen(false);
-    history.push(pageURL);
   };
 
   return (
@@ -114,54 +82,25 @@ const Navbar = () => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={open}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <List>
-          <ListItem button onClick={() => handleMenuClick("/home")}>
-            <ListItemIcon>
-              <HomeIcon />
-            </ListItemIcon>
-            <ListItemText primary="Home" />
-          </ListItem>
-          <ListItem button onClick={() => handleMenuClick("/detector")}>
-            <ListItemIcon>
-              <VideocamIcon />
-            </ListItemIcon>
-            <ListItemText primary="Detect Squats Here" />
-          </ListItem>
-          <ListItem button onClick={() => handleMenuClick("/history")}>
-            <ListItemIcon>
-              <BarChartIcon />
-            </ListItemIcon>
-            <ListItemText primary="Pose History" />
-          </ListItem>
-          <ListItem button onClick={() => handleMenuClick("/profile")}>
-            <ListItemIcon>
-              <AccountCircleIcon />
-            </ListItemIcon>
-            <ListItemText primary="My Profile" />
-          </ListItem>
-          <Divider />
-          <ListItem button onClick={handleClickLogout}>
-            <ListItemIcon>
-              <ExitToAppIcon />
-            </ListItemIcon>
-            <ListItemText primary="Logout" />
-          </ListItem>
-        </List>
-      </Drawer>
+      {open ? (
+        <ClickAwayListener onClickAway={handleDrawerClose}>
+          <div>
+            <DrawerComponent
+              open={open}
+              setOpen={() => setOpen(false)}
+              handleClickLogout={() => handleClickLogout()}
+              handleDrawerClose={() => handleDrawerClose()}
+            />
+          </div>
+        </ClickAwayListener>
+      ) : (
+        <DrawerComponent
+          open={open}
+          setOpen={() => setOpen(false)}
+          handleClickLogout={() => handleClickLogout()}
+          handleDrawerClose={() => handleDrawerClose()}
+        />
+      )}
     </div>
   );
 };
