@@ -221,7 +221,7 @@ const Detector = () => {
       if (count > 0) {
         setTicker(count);
         count -= 1;
-      } else if (count === 1) {
+      } else if (count === 0) {
         setTicker("GO!");
         count -= 1;
       } else {
