@@ -207,18 +207,11 @@ async function seed() {
     temp.push(newSesh);
   }
   temp2 = temp.sort(function (a, b) {
-    //console.log(`a.date`, a.date);
-    //console.log(`b.date`, b.date);
     return a.date - b.date;
   });
   for (let i = 0; i < temp2.length; i++) {
     poseSessions.push(await PoseSession.create({ ...temp2[i] }));
-    //console.log(`poseSessions`, poseSessions.length);
   }
-  //poseSessions.push(temp2);
-
-  //console.log(`temp`, temp);
-  //poseSessions.push(newSesh);
 
   console.log(`seeded ${users.length} users`);
   console.log(`seeded ${poseSessions.length} poseSessions`);
