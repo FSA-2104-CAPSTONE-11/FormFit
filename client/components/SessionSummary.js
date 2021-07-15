@@ -91,6 +91,7 @@ const SessionSummary = () => {
 
   const isLoggedIn = useSelector((state) => !!state.auth.id);
   let count = 0;
+  let newCount = 0;
 
   const handleSave = () => {
     dispatch(
@@ -213,10 +214,12 @@ const SessionSummary = () => {
                       >
                         <ul style={{ listStyleType: "none", padding: 0 }}>
                           {Object.keys(rep).map((angle) => {
-                            count++;
+                            newCount++;
                             return (
-                              <li key={count}>
-                                <strong>{angle} </strong>
+                              <li key={newCount}>
+                                <strong>
+                                  {details[newCount % details.length]}:{" "}
+                                </strong>
                                 {`${rep[angle]}`}
                               </li>
                             );

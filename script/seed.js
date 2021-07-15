@@ -46,7 +46,7 @@ async function seed() {
   const criteria = await Promise.all([
     Criteria.create({
       name: "knees",
-      quickDescription: "knees must reach 90 degrees",
+      quickDescription: "Knees reach 90 degrees",
       longDescription:
         "the angle between your knees, the floor, and your hips must reach 90 degrees. That means your thigh should be parallel to the ground.",
       spec: JSON.stringify({ right_hipright_knee: [0.5, null, 10, "require"] }),
@@ -54,7 +54,7 @@ async function seed() {
     }),
     Criteria.create({
       name: "shoulders",
-      quickDescription: "shoulders remain level",
+      quickDescription: "Shoulders remain level",
       longDescription:
         "your shoulders should be at roughly the same height at all points during the squat. If your upper half begins to tilt, you will fail this test",
       spec: JSON.stringify({
@@ -64,7 +64,7 @@ async function seed() {
     }),
     Criteria.create({
       name: "torso",
-      quickDescription: "torso remains upright",
+      quickDescription: "Torso remains upright",
       longDescription:
         "while your legs lower you to the ground, your upper body should remain upright. Your back should be flat, and your eyes should be looking straight forward, not towards the ground.",
       spec: JSON.stringify({
@@ -74,7 +74,7 @@ async function seed() {
     }),
     Criteria.create({
       name: "level-shoulders",
-      quickDescription: "shoulders stay level",
+      quickDescription: "Shoulders stay level",
       longDescription:
         "Through out the whole duration of a pushup, your shoulders should not tilt past 25deg!",
       spec: JSON.stringify({
@@ -84,7 +84,7 @@ async function seed() {
     }),
     Criteria.create({
       name: "tricep",
-      quickDescription: "tricep should become perpendicular with the ground",
+      quickDescription: "Arms become fully extended",
       longDescription:
         "When pushing yourself up from the down position of a pushup, you know you are at the top when your tricep forms a 90deg angle with the ground!",
       spec: JSON.stringify({
@@ -94,7 +94,7 @@ async function seed() {
     }),
     Criteria.create({
       name: "level-hips",
-      quickDescription: "hips stay level",
+      quickDescription: "Hips stay level",
       longDescription:
         "Through out the whole duration of a pushup, your hips should not tilt past 25deg!",
       spec: JSON.stringify({
@@ -104,7 +104,7 @@ async function seed() {
     }),
     Criteria.create({
       name: "forearm",
-      quickDescription: "forearm never becomes even with the ground",
+      quickDescription: "Forearms stay perpendicular to ground",
       longDescription:
         "Through out the whole duration of a pushup, your forearm shouldn't go below a 20deg angle!",
       spec: JSON.stringify({
@@ -114,7 +114,7 @@ async function seed() {
     }),
     Criteria.create({
       name: "up-position",
-      quickDescription: "perpendicular back",
+      quickDescription: "Back gets perpendicular to ground",
       longDescription:
         "When you are in the 'up position', your back should be atleast 75deg!",
       spec: JSON.stringify({
@@ -124,7 +124,7 @@ async function seed() {
     }),
     Criteria.create({
       name: "down-position",
-      quickDescription: "horizontal back",
+      quickDescription: "Back gets horizontal to ground",
       longDescription:
         "When you are in the down position your back should be flat with the ground, that includes your neck!",
       spec: JSON.stringify({
@@ -134,7 +134,7 @@ async function seed() {
     }),
     Criteria.create({
       name: "bent legs",
-      quickDescription: "your legs stay bent",
+      quickDescription: "Legs stay bent",
       longDescription:
         "During the duration of a situp, your legs shouldnt move too much if at all. Try to keep them bent the whole time!",
       spec: JSON.stringify({
