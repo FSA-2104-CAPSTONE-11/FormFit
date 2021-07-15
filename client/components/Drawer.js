@@ -12,6 +12,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import VideocamIcon from "@material-ui/icons/Videocam";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import StarIcon from "@material-ui/icons/Star";
 import Divider from "@material-ui/core/Divider";
 import history from "../history";
 
@@ -36,65 +37,70 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DrawerComponent = (props) => {
-    const classes = useStyles();
-    const {open, setOpen, handleClickLogout, handleDrawerClose} = props
+  const classes = useStyles();
+  const { open, setOpen, handleClickLogout, handleDrawerClose } = props;
 
-    const handleMenuClick = (pageURL) => {
-        setOpen(false);
-        history.push(pageURL);
-      };
+  const handleMenuClick = (pageURL) => {
+    setOpen(false);
+    history.push(pageURL);
+  };
 
   return (
     <Drawer
-    className={classes.drawer}
-    variant="persistent"
-    anchor="left"
-    open={open}
-    classes={{
-      paper: classes.drawerPaper,
-    }}
-  >
-    <div className={classes.drawerHeader}>
-      <IconButton onClick={handleDrawerClose}>
-        <ChevronLeftIcon />
-      </IconButton>
-    </div>
-    <List>
-      <ListItem button onClick={() => handleMenuClick("/home")}>
-        <ListItemIcon>
-          <HomeIcon />
-        </ListItemIcon>
-        <ListItemText primary="Home" />
-      </ListItem>
-      <ListItem button onClick={() => handleMenuClick("/detector")}>
-        <ListItemIcon>
-          <VideocamIcon />
-        </ListItemIcon>
-        <ListItemText primary="Form My Fit™" />
-      </ListItem>
-      <ListItem button onClick={() => handleMenuClick("/history")}>
-        <ListItemIcon>
-          <BarChartIcon />
-        </ListItemIcon>
-        <ListItemText primary="Pose History" />
-      </ListItem>
-      <ListItem button onClick={() => handleMenuClick("/profile")}>
-        <ListItemIcon>
-          <AccountCircleIcon />
-        </ListItemIcon>
-        <ListItemText primary="My Profile" />
-      </ListItem>
-      <Divider />
-      <ListItem button onClick={handleClickLogout}>
-        <ListItemIcon>
-          <ExitToAppIcon />
-        </ListItemIcon>
-        <ListItemText primary="Logout" />
-      </ListItem>
-    </List>
-  </Drawer>
-  )
-
-}
+      className={classes.drawer}
+      variant="persistent"
+      anchor="left"
+      open={open}
+      classes={{
+        paper: classes.drawerPaper,
+      }}
+    >
+      <div className={classes.drawerHeader}>
+        <IconButton onClick={handleDrawerClose}>
+          <ChevronLeftIcon />
+        </IconButton>
+      </div>
+      <List>
+        <ListItem button onClick={() => handleMenuClick("/home")}>
+          <ListItemIcon>
+            <HomeIcon />
+          </ListItemIcon>
+          <ListItemText primary="Home" />
+        </ListItem>
+        <ListItem button onClick={() => handleMenuClick("/detector")}>
+          <ListItemIcon>
+            <VideocamIcon />
+          </ListItemIcon>
+          <ListItemText primary="Form My Fit™" />
+        </ListItem>
+        <ListItem button onClick={() => handleMenuClick("/history")}>
+          <ListItemIcon>
+            <BarChartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Pose History" />
+        </ListItem>
+        <ListItem button onClick={() => handleMenuClick("/leaderboard")}>
+          <ListItemIcon>
+            <StarIcon />
+          </ListItemIcon>
+          <ListItemText primary="Leaderboard" />
+        </ListItem>
+        <ListItem button onClick={() => handleMenuClick("/profile")}>
+          <ListItemIcon>
+            <AccountCircleIcon />
+          </ListItemIcon>
+          <ListItemText primary="My Profile" />
+        </ListItem>
+        <Divider />
+        <ListItem button onClick={handleClickLogout}>
+          <ListItemIcon>
+            <ExitToAppIcon />
+          </ListItemIcon>
+          <ListItemText primary="Logout" />
+        </ListItem>
+      </List>
+    </Drawer>
+  );
+};
 
 export default DrawerComponent;
