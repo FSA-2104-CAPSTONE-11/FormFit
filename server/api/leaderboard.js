@@ -2,6 +2,7 @@ const router = require("express").Router();
 const requireToken = require("./gatekeeping");
 module.exports = router;
 const { client } = require("../app");
+var _ = require("lodash");
 
 // GET api/leaderboard (protected for logged in user)
 router.get("/", requireToken, (req, res, next) => {
@@ -12,7 +13,7 @@ router.get("/", requireToken, (req, res, next) => {
       console.log("is there an error?");
       res.status(404).send(err);
     } else {
-      res.status(200).send(result);
+      res.status(200).send(_.chunk(result, 2));
     }
   });
 });
