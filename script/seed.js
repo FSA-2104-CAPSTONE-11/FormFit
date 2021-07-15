@@ -197,7 +197,7 @@ async function seed() {
       score: Math.floor(repNum * 0.8),
       feedback: Math.random() < 0.5 ? "keep it up" : "never do that, c'mon",
       length: Math.floor(Math.random() * 30 + 5),
-      userId: Math.random() < 0.5 ? 1 : 2,
+      userId: Math.ceil(Math.random() * 10),
       poseId: Math.random() < 0.5 ? 1 : 2,
       date: new Date(2021, 6, Math.floor(Math.random() * 7) + 6),
     });
@@ -209,7 +209,7 @@ async function seed() {
       score: Math.ceil(Math.random() * 10),
       feedback: Math.random() < 0.5 ? "keep it up" : "never do that, c'mon",
       length: Math.floor(Math.random() * 30 + 5),
-      userId: Math.random() < 0.5 ? 1 : 2,
+      userId: Math.ceil(Math.random() * 10),
       poseId: 3,
       date: new Date(2021, 6, Math.floor(Math.random() * 7) + 6),
     });
