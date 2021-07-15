@@ -189,32 +189,37 @@ async function seed() {
   ]);
 
   // Creating PoseSessions
-  const poseSessions = [];
-  for (let i = 0; i < 25; i++) {
+  let poseSessions = [];
+  let temp = [];
+  let temp2 = [];
+  for (let i = 0; i < 1000; i++) {
     const repNum = Math.floor(Math.random() * 20) + 5;
-    const newSesh = await PoseSession.create({
+    const poseNum = Math.random();
+    const newSesh = {
       reps: repNum,
       score: Math.floor(repNum * 0.8),
       feedback: Math.random() < 0.5 ? "keep it up" : "never do that, c'mon",
       length: Math.floor(Math.random() * 30 + 5),
       userId: Math.ceil(Math.random() * 10),
-      poseId: Math.random() < 0.5 ? 1 : 2,
-      date: new Date(2021, 6, Math.floor(Math.random() * 7) + 6),
-    });
-    poseSessions.push(newSesh);
+      poseId: poseNum < 0.33 ? 1 : poseNum > 0.66 ? 2 : 3,
+      date: new Date(+new Date() - Math.floor(Math.random() * 10000000000)),
+    };
+    //console.log(newSesh);
+    temp.push(newSesh);
   }
-  for (let i = 0; i < 10; i++) {
-    const sitUpSesh = await PoseSession.create({
-      reps: 10,
-      score: Math.ceil(Math.random() * 10),
-      feedback: Math.random() < 0.5 ? "keep it up" : "never do that, c'mon",
-      length: Math.floor(Math.random() * 30 + 5),
-      userId: Math.ceil(Math.random() * 10),
-      poseId: 3,
-      date: new Date(2021, 6, Math.floor(Math.random() * 7) + 6),
-    });
-    poseSessions.push(sitUpSesh);
+  temp2 = temp.sort(function (a, b) {
+    //console.log(`a.date`, a.date);
+    //console.log(`b.date`, b.date);
+    return a.date - b.date;
+  });
+  for (let i = 0; i < temp2.length; i++) {
+    poseSessions.push(await PoseSession.create({ ...temp2[i] }));
+    //console.log(`poseSessions`, poseSessions.length);
   }
+  //poseSessions.push(temp2);
+
+  //console.log(`temp`, temp);
+  //poseSessions.push(newSesh);
 
   console.log(`seeded ${users.length} users`);
   console.log(`seeded ${poseSessions.length} poseSessions`);

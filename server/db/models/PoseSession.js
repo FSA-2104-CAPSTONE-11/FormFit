@@ -17,8 +17,8 @@ const PoseSession = db.define("poseSession", {
     type: Sequelize.FLOAT,
   },
   date: {
-    type: Sequelize.DATEONLY,
-    defaultValue: new Date,
+    type: Sequelize.DATE,
+    defaultValue: new Date(),
   },
 });
 
