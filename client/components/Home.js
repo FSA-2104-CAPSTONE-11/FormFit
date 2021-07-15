@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
 import Data from "./Data";
-import LogoLoad from "./LogoLoad";
+import { Redirect } from "react-router-dom";
 
 function Copyright() {
   return (
@@ -74,7 +74,7 @@ export const Home = () => {
           </main>
         </div>
       ) : (
-        <LogoLoad />
+        <Redirect to="/login" />
       )}
     </div>
   );
