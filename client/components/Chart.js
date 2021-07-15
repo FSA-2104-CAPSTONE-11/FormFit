@@ -25,7 +25,6 @@ const Chart = (props) => {
   // Generate Exercise Data
   const data = [];
   const createData = (date, score) => {
-    console.log(`date`, date, score);
     return { date, score };
   };
 
