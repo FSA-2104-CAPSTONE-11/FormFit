@@ -34,7 +34,7 @@ function LogoLoad() {
     <div>
       <NavbarOffset />
       <div className={classes.container}>
-        <FullLogo className={classes.logo} ratio={1} />
+        <FullLogo className={classes.logo} />
       </div>
     </div>
   );
