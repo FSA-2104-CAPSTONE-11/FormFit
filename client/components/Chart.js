@@ -33,7 +33,6 @@ const Chart = (props) => {
       data.push(
         createData(alterDate(session.date), session.score / session.reps)
       );
-      console.log(`session`, session);
     });
   };
 
