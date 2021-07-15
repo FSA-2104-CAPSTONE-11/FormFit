@@ -204,7 +204,6 @@ async function seed() {
       poseId: poseNum < 0.33 ? 1 : poseNum > 0.66 ? 2 : 3,
       date: new Date(+new Date() - Math.floor(Math.random() * 10000000000)),
     };
-    //console.log(newSesh);
     temp.push(newSesh);
   }
   temp2 = temp.sort(function (a, b) {
