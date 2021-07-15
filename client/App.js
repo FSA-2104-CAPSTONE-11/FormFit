@@ -8,14 +8,14 @@ import {makeStyles} from "@material-ui/core/styles";
 const customTheme = createTheme({
   palette: {
     primary: {
-      main: "#f0f4c3",
+      main: "#0e3047",
       dark: "#156064",
     },
     secondary: {
       main: "#9e9d24",
     },
     background: {
-      default: "#f0f4c3",
+      default: "#0e3047",
     },
   },
 });
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   content: {
-    flexGrow: 1, 
+    flexGrow: 1,
     marginLeft: -drawerWidth,
   }
 }));
