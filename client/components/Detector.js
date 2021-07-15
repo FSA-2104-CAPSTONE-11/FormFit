@@ -76,9 +76,12 @@ const Detector = () => {
   let [ticker, setTicker] = useState();
   let [exercise, setExercise] = useState("squat");
 
-  const { criteria, instructions, name: poseName, id: poseId } = useSelector(
-    (state) => state.pose
-  );
+  const {
+    criteria,
+    instructions,
+    name: poseName,
+    id: poseId,
+  } = useSelector((state) => state.pose);
 
   const [openInstructions, setOpenInstructions] = useState(true);
   const [detector, setDetector] = useState();
@@ -192,7 +195,7 @@ const Detector = () => {
 
   function handleClick() {
     setFinished(false);
-    time = 150;
+    time = 60;
     maxTime = time;
     setAngleArray([]);
     requestAnimationFrame(async () => {

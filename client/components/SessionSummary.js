@@ -69,18 +69,33 @@ const useAccordionStyles = makeStyles((theme) => ({
 const SessionSummary = () => {
   const accordionClasses = useAccordionStyles();
   const cardClasses = useCardStyles();
+  let [details, setDetails] = useState([]);
 
-  const { id: poseId, name: poseName } = useSelector((state) => state.pose);
   const {
+    id: poseId,
+    name: poseName,
+    criteria: shortDescription,
+  } = useSelector((state) => state.pose);
+  
+ const {
     results: reps,
     summaryOfScores: summary,
     goodReps: score,
   } = useSelector((state) => state.poseSession);
+  
+  useEffect(() => {
+    if (shortDescription) {
+      for (const [key, value] of Object.entries(shortDescription)) {
+        details.push(Object.values(value)[2]);
+      }
+    }
+  }, [shortDescription]);
 
   const dispatch = useDispatch();
 
   const isLoggedIn = useSelector((state) => !!state.auth.id);
   let count = 0;
+  let newCount = 0;
 
   const handleSave = () => {
     dispatch(
@@ -151,7 +166,7 @@ const SessionSummary = () => {
                                 component="p"
                                 key={count}
                               >
-                                <strong>{criterion}: </strong>
+                                <strong>{details[count - 1]}: </strong>
                                 {(summary[criterion] / reps.length) * 100}%
                               </Typography>
                             );
@@ -205,10 +220,12 @@ const SessionSummary = () => {
                       >
                         <ul style={{ listStyleType: "none", padding: 0 }}>
                           {Object.keys(rep).map((angle) => {
-                            count++;
+                            newCount++;
                             return (
-                              <li key={count}>
-                                <strong>{angle} </strong>
+                              <li key={newCount}>
+                                <strong>
+                                  {details[newCount % details.length]}:{" "}
+                                </strong>
                                 {`${rep[angle]}`}
                               </li>
                             );
