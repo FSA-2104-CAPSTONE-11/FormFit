@@ -22,13 +22,14 @@ router.get("/", requireToken, async (req, res, next) => {
 // POST api/history (protected, related to user and exercise)
 router.post("/", requireToken, async (req, res, next) => {
   try {
-    const { reps, feedback, poseId } = req.body;
+    const { reps, feedback, poseId, score } = req.body;
 
     const pose = await PoseSession.create({
       reps,
       feedback,
       poseId,
       userId: req.user.id,
+      score,
     });
 
     res.send(pose);

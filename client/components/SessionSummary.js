@@ -76,9 +76,13 @@ const SessionSummary = () => {
     name: poseName,
     criteria: shortDescription,
   } = useSelector((state) => state.pose);
-  const { results: reps, summaryOfScores: summary } = useSelector(
-    (state) => state.poseSession
-  );
+  
+ const {
+    results: reps,
+    summaryOfScores: summary,
+    goodReps: score,
+  } = useSelector((state) => state.poseSession);
+  
   useEffect(() => {
     if (shortDescription) {
       for (const [key, value] of Object.entries(shortDescription)) {
@@ -99,6 +103,7 @@ const SessionSummary = () => {
         reps: reps.length,
         poseId,
         feedback: JSON.stringify(summary),
+        score,
       })
     );
     dispatch(deletePose());
@@ -126,7 +131,8 @@ const SessionSummary = () => {
                   <CardContent>
                     {reps ? (
                       <Typography gutterBottom variant="h5" component="h2">
-                        You completed {reps.length} reps!
+                        You completed {reps.length} reps! Your score was {score}
+                        , as you passed a majority of the specs that many times.
                       </Typography>
                     ) : (
                       <Typography gutterBottom variant="h5" component="h2">

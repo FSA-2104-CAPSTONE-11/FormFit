@@ -69,6 +69,7 @@ const Detector = () => {
   let noseHeight = 0;
   let status = "counted";
   let reps = 0;
+  let goodReps = 0;
   let results = [];
 
   let [finished, setFinished] = useState(false);
@@ -150,15 +151,19 @@ const Detector = () => {
           status = "counted";
           reps++;
           const result = await evaluateExercise(angleArray, criteria);
+          let isThisRepGood = 0;
           Object.keys(result).forEach((angle) => {
             if (result[angle] && summaryOfScores[angle]) {
               summaryOfScores[angle]++;
+              isThisRepGood++;
             } else if (result[angle]) {
               summaryOfScores[angle] = 1;
-            } else {
+              isThisRepGood++;
+            } else if (!summaryOfScores[angle]) {
               summaryOfScores[angle] = 0;
             }
           });
+          if (isThisRepGood > 1) goodReps++;
           summaryOfScores.reps = reps;
           results.push(result);
         }
@@ -180,7 +185,7 @@ const Detector = () => {
             canvasRef.current.height
           );
 
-          dispatch(createPose({ results, summaryOfScores }));
+          dispatch(createPose({ results, summaryOfScores, goodReps }));
           setFinished(true);
           noseHeight = 0;
         }
