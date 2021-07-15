@@ -70,7 +70,7 @@ const DrawerComponent = (props) => {
         <ListItemIcon>
           <VideocamIcon />
         </ListItemIcon>
-        <ListItemText primary="Form My Fit" />
+        <ListItemText primary="Form My Fit™" />
       </ListItem>
       <ListItem button onClick={() => handleMenuClick("/history")}>
         <ListItemIcon>
