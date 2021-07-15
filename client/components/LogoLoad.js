@@ -30,7 +30,6 @@ function LogoLoad() {
     }, 3000);
   });
 
-  console.log(ratio)
   return (
     <div>
       <NavbarOffset />
