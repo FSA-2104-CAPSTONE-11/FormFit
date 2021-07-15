@@ -1,8 +1,8 @@
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import "@tensorflow/tfjs-backend-webgl";
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
-import {IconButton, SvgIcon, makeStyles} from "@material-ui/core";
+import { IconButton, SvgIcon, makeStyles } from "@material-ui/core";
 import {
   Modal,
   Backdrop,
@@ -16,10 +16,11 @@ import evaluateExercise from "./Evaluator";
 import Instructions from "./Instructions";
 import SessionSummary from "./SessionSummary";
 import NotLoggedIn from "./NotLoggedIn";
-import {Redirect} from "react-router";
-import {getPose} from "../store/pose";
-import {useDispatch, useSelector} from "react-redux";
-import {createPose} from "../store/poseSession";
+import { Redirect } from "react-router";
+import { getPose } from "../store/pose";
+import { useDispatch, useSelector } from "react-redux";
+import { createPose } from "../store/poseSession";
+import ExerciseSelector from "./ExerciseSelector";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,7 +99,7 @@ const Detector = () => {
   }
 
   useEffect(() => {
-    init()
+    init();
     return () => {
       init();
     };
@@ -106,7 +107,7 @@ const Detector = () => {
 
   useEffect(() => {
     async function getPoseInfoAndCriteria() {
-      await dispatch(getPose({poseName: exercise}));
+      await dispatch(getPose({ poseName: exercise }));
     }
     getPoseInfoAndCriteria();
   }, [exercise]);
@@ -186,7 +187,7 @@ const Detector = () => {
             canvasRef.current.height
           );
 
-          dispatch(createPose({results, summaryOfScores, goodReps}));
+          dispatch(createPose({ results, summaryOfScores, goodReps }));
           setFinished(true);
           noseHeight = 0;
         }
@@ -287,7 +288,7 @@ const Detector = () => {
       );
 
       if (kp1.score > 0.5 && kp2.score > 0.5) {
-        angleArray.push({[name]: [adjacentPairAngle, kp1.score, kp2.score]});
+        angleArray.push({ [name]: [adjacentPairAngle, kp1.score, kp2.score] });
       }
 
       // If score is null, just show the keypoint.
@@ -346,31 +347,10 @@ const Detector = () => {
                   objectFit: "cover",
                 }}
               />
-              <label
-                htmlFor="exercises"
-                style={{
-                  position: "fixed",
-                  zIndex: 10,
-                  opacity: "0.8",
-                  top: "8%",
-                }}
-              >
-                Choose an Exercise:
-              </label>
-              <select
-                name="exercises"
-                style={{
-                  position: "fixed",
-                  zIndex: 10,
-                  top: "10%",
-                  opacity: "0.5",
-                }}
-                onChange={handleChange}
-              >
-                <option value="squat">Squat</option>
-                <option value="pushup">Push-Up</option>
-                <option value="situp">Sit-Up</option>
-              </select>
+              <ExerciseSelector
+                exercise={exercise}
+                changeMe={(e) => handleChange(e)}
+              />
               {openInstructions ? (
                 <Instructions
                   instructions={instructions}

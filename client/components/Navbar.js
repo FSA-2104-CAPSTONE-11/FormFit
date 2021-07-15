@@ -16,6 +16,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    backgroundColor: "transparent",
   },
   appBar: {
     background: "transparent",
