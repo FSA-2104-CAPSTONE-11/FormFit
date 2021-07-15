@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { getUser } from "../store/user";
+import React, {useState, useEffect} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {getUser} from "../store/user";
 import Chart from "./Chart";
-import AllExerciseChart from "./AllExerciseChart";
-import { makeStyles } from "@material-ui/core/styles";
+import {SessionsPieChart, RepsPieChart} from "./AllExerciseChart";
+import {makeStyles} from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Data = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.id);
-  const { poseSessions } = useSelector((state) => state.user);
+  const {poseSessions} = useSelector((state) => state.user);
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -135,12 +135,20 @@ const Data = () => {
             );
           })}
           <Grid container spacing={3}>
-            <Grid item xs={12} md={12} lg={12}>
+            <Grid item xs={12} md={6} lg={6}>
               <Paper elevation={5} className={fixedHeightPaper}>
                 <Typography component="h2" variant="h6" gutterBottom>
-                  All Exercises
+                  All Exercise Sessions
                 </Typography>
-                <AllExerciseChart exerciseSessions={exerciseSessions} />
+                <SessionsPieChart exerciseSessions={exerciseSessions} />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={6} lg={6}>
+              <Paper elevation={5} className={fixedHeightPaper}>
+                <Typography component="h2" variant="h6" gutterBottom>
+                  All Exercise Reps
+                </Typography>
+                <RepsPieChart exerciseSessions={exerciseSessions} />
               </Paper>
             </Grid>
           </Grid>
@@ -151,7 +159,7 @@ const Data = () => {
             <Grid item xs={12} md={6} lg={6}>
               <Paper elevation={5} className={fixedHeightPaper}>
                 <Typography component="h2" variant="h6" gutterBottom>
-                  You have no saved sessions yet!
+                  You have no sessions saved yet!
                 </Typography>
                 <Button size="small" variant="contained" color="primary">
                   <Link href="/detector" color="inherit">
