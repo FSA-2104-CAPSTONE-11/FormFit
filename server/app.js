@@ -5,7 +5,13 @@ const app = express();
 
 const redis = require("redis");
 
-let client = redis.createClient();
+let client;
+if (process.env.NODE_ENV === "production") {
+  client = redis.createClient(process.env.REDIS_URL);
+} else {
+  client = redis.createClient();
+}
+
 client.on("connect", function () {
   console.log("Connected to Redis");
 });
@@ -24,7 +30,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // logging middleware
-app.use(morgan("dev"));
+app.use(morgan("common"));
 
 // body parsing middleware
 app.use(express.json());
