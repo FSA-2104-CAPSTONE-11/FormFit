@@ -15,11 +15,55 @@ async function seed() {
 
   // Creating Users
   const users = await Promise.all([
-    User.create({ username: "cody", email: "cody@gmail.com", password: "123" }),
+    User.create({
+      username: "cody",
+      email: "cody@gmail.com",
+      password: "123",
+    }),
     User.create({
       username: "murphy",
       email: "murphy@gmail.com",
       password: "123",
+    }),
+    User.create({
+      username: "Squatter55",
+      email: "Squatter55@gmail.com",
+      password: "Squatter55",
+    }),
+    User.create({
+      username: "Xpose",
+      email: "X@Pose.com",
+      password: "Xpose",
+    }),
+    User.create({
+      username: "Sparky",
+      email: "Sparky@gmail.com",
+      password: "Sparky",
+    }),
+    User.create({
+      username: "Cabot",
+      email: "Cabot@cruisin.com",
+      password: "Cabot",
+    }),
+    User.create({
+      username: "Squatter54",
+      email: "Squatter54@gmail.com",
+      password: "Squatter54",
+    }),
+    User.create({
+      username: "TheDeepSquatter1",
+      email: "TDS@gmail.com",
+      password: "TheDeepSquatter1",
+    }),
+    User.create({
+      username: "Tee",
+      email: "Tee@gmail.com",
+      password: "Tee",
+    }),
+    User.create({
+      username: "Liya",
+      email: "Liya@gmail.com",
+      password: "Liya",
     }),
   ]);
 
