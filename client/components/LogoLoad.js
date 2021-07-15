@@ -10,8 +10,6 @@ import history from "../history";
 import FullLogo from "./FullLogo";
 import NavbarOffset from "./NavbarOffset";
 
-const ratio = window.innerWidth * .8;
-
 const useStyles = makeStyles({
   container: {
     display: "flex",
