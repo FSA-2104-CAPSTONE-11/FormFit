@@ -15,6 +15,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import StarIcon from "@material-ui/icons/Star";
 import Divider from "@material-ui/core/Divider";
 import history from "../history";
+import { useSelector } from "react-redux";
 
 const drawerWidth = 240;
 
@@ -40,6 +41,8 @@ const DrawerComponent = (props) => {
   const classes = useStyles();
   const { open, setOpen, handleClickLogout, handleDrawerClose } = props;
 
+  const username = useSelector((state) => state.auth.username);
+
   const handleMenuClick = (pageURL) => {
     setOpen(false);
     history.push(pageURL);
@@ -61,6 +64,10 @@ const DrawerComponent = (props) => {
         </IconButton>
       </div>
       <List>
+        <ListItem>
+          <ListItemText primary={`Welcome, ${username}`} />
+        </ListItem>
+        <Divider />
         <ListItem button onClick={() => handleMenuClick("/home")}>
           <ListItemIcon>
             <HomeIcon />
