@@ -56,10 +56,8 @@ const Chart = (props) => {
     });
     console.log(`weekData`, weekData);
     return weekData;
-
-    //console.log(mapData);
   };
-  //fillData();
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <ComposedChart
@@ -78,8 +76,8 @@ const Chart = (props) => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="reps" barSize={20} fill="#7CC6FE" />
-        <Area type="monotone" dataKey="score" fill="#5DFDCB" stroke="#5DFDCB" />
+        <Bar dataKey="reps" barSize={20} fill="#9B5DE5" />
+        <Area type="monotone" dataKey="score" fill="#7CC6FE" stroke="#7CC6FE" />
       </ComposedChart>
     </ResponsiveContainer>
   );
