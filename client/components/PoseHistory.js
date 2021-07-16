@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getHistory } from "../store/poseHistory";
 import NotLoggedIn from "./NotLoggedIn";
@@ -44,6 +44,11 @@ const History = () => {
   let poseName;
   let feedback;
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [posesPerPage, setPosesPerPage] = useState(10);
+
+  // const [orderedHistory, setOrderedHistory] = useState([]);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -51,6 +56,11 @@ const History = () => {
       dispatch(getHistory());
     }
   }, [isLoggedIn]);
+
+  // get current posts
+  const indexOfLastPose = currentPage * posesPerPage;
+  const indexOfFirstPose = indexOfLastPose - posesPerPage;
+  const currentPoses = poseHistory.slice(indexOfFirstPose, indexOfLastPose);
 
   return (
     <div className={classes.root}>
@@ -63,8 +73,8 @@ const History = () => {
       </h1>
       {isLoggedIn ? (
         <div>
-          {poseHistory && poseHistory.length ? (
-            poseHistory.map((pose) => {
+          {currentPoses && currentPoses.length ? (
+            currentPoses.map((pose) => {
               if (pose.poseId === 1) {
                 poseName = "Squat";
               }
