@@ -59,7 +59,10 @@ const History = () => {
   // get current posts
   const indexOfLastPose = currentPage * posesPerPage;
   const indexOfFirstPose = indexOfLastPose - posesPerPage;
-  const currentPoses = poseHistory.slice(indexOfFirstPose, indexOfLastPose);
+  let currentPoses;
+  if (poseHistory && poseHistory.length) {
+    currentPoses = poseHistory.slice(indexOfFirstPose, indexOfLastPose);
+  }
 
   // chnage page
   const paginate = (number) => setCurrentPage(number);
