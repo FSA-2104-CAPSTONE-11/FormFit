@@ -52,7 +52,6 @@ const useStyles = makeStyles((theme) => ({
  * COMPONENT
  */
 export const Home = () => {
-  const username = useSelector((state) => state.auth.username);
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -64,7 +63,6 @@ export const Home = () => {
         <div className={classes.root}>
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
-            <h3>Welcome, {username}</h3>
             <Container maxWidth="lg" className={classes.container}>
               <Data />
               <Box pt={4}>

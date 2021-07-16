@@ -177,11 +177,10 @@ const Data = () => {
                         <ShowChartSharpIcon />
                       </Avatar> */}
                       <Chart exercise={exercise} />
-                      {/* <ThemeProvider theme={theme}>
-                        <Typography component="h2" variant="h6" gutterBottom>
-                          Average Score per Session
-                        </Typography>
-                      </ThemeProvider> */}
+                      <Typography component="h2" variant="h6" gutterBottom>
+                        {exercise[0].pose.name} Sessions this Week
+                      </Typography>
+
                     </Paper>
                   </Grid>
                 </Grid>
