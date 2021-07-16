@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getHistory } from "../store/poseHistory";
 import NotLoggedIn from "./NotLoggedIn";
 import { format } from "timeago.js";
+import Pagination from "./Pagination.js";
 
 // style imports
 import { makeStyles } from "@material-ui/core/styles";
@@ -44,6 +45,9 @@ const History = () => {
   let poseName;
   let feedback;
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [posesPerPage, setPosesPerPage] = useState(10);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -52,19 +56,27 @@ const History = () => {
     }
   }, [isLoggedIn]);
 
+  // get current posts
+  const indexOfLastPose = currentPage * posesPerPage;
+  const indexOfFirstPose = indexOfLastPose - posesPerPage;
+  const currentPoses = poseHistory.slice(indexOfFirstPose, indexOfLastPose);
+
+  // chnage page
+  const paginate = (number) => setCurrentPage(number);
+
   return (
     <div className={classes.root}>
-      <h1
+      {/* <h1
         style={{
           textAlign: "center",
         }}
       >
         My Pose History
-      </h1>
+      </h1> */}
       {isLoggedIn ? (
         <div>
-          {poseHistory && poseHistory.length ? (
-            poseHistory.map((pose) => {
+          {currentPoses && currentPoses.length ? (
+            currentPoses.map((pose) => {
               if (pose.poseId === 1) {
                 poseName = "Squat";
               }
@@ -125,6 +137,11 @@ const History = () => {
           ) : (
             <div />
           )}
+          <Pagination
+            totalPoses={poseHistory.length}
+            paginate={paginate}
+            posesPerPage={posesPerPage}
+          ></Pagination>
         </div>
       ) : (
         <NotLoggedIn />

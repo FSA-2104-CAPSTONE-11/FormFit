@@ -14,7 +14,9 @@ router.get("/", requireToken, async (req, res, next) => {
       },
       include: PoseSession,
     });
-    res.send(user.poseSessions);
+
+    const orderedPoseSessions = user.poseSessions.reverse();
+    res.send(orderedPoseSessions);
   } catch (err) {
     next(err);
   }
