@@ -132,7 +132,7 @@ const Data = () => {
                       </Avatar>
                       <Chart exercise={exercise} />
                       <Typography component="h2" variant="h6" gutterBottom>
-                        Average Score per Session
+                        15 Most Recent {exercise[0].pose.name} Sessions
                       </Typography>
                     </Paper>
                   </Grid>

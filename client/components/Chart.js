@@ -1,11 +1,16 @@
 import React from "react";
 import { useTheme } from "@material-ui/core/styles";
 import {
-  LineChart,
+  ComposedChart,
   Line,
+  Area,
+  Bar,
   XAxis,
   YAxis,
-  Label,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  Scatter,
   ResponsiveContainer,
 } from "recharts";
 
@@ -24,48 +29,48 @@ const Chart = (props) => {
 
   // Generate Exercise Data
   const data = [];
-  const createData = (date, score) => {
-    return { date, score };
+  let newData = [];
+  const createData = (date, score, reps, id) => {
+    return { date, score, reps, id };
   };
 
+  let id = 0;
   const fillData = () => {
     exercise.forEach((session) => {
       data.push(
-        createData(alterDate(session.date), session.score / session.reps)
+        createData(alterDate(session.date), session.score, session.reps, id)
       );
     });
+    for (let i = data.length - 15; i < data.length; i++) {
+      id++;
+      data[i].id = id;
+      newData.push(data[i]);
+    }
   };
 
   fillData();
 
   return (
-    <ResponsiveContainer>
-      <LineChart
-        data={data}
+    <ResponsiveContainer width="100%" height="100%">
+      <ComposedChart
+        width={500}
+        height={800}
+        data={newData}
         margin={{
-          top: 16,
-          right: 16,
-          bottom: 0,
-          left: 24,
+          top: 20,
+          right: 20,
+          bottom: 20,
+          left: 20,
         }}
       >
-        <XAxis dataKey="date" stroke={theme.palette.text.secondary} />
-        <YAxis stroke={theme.palette.text.secondary}>
-          <Label
-            angle={270}
-            position="left"
-            style={{ textAnchor: "middle", fill: theme.palette.text.primary }}
-          >
-            Score
-          </Label>
-        </YAxis>
-        <Line
-          type="monotone"
-          dataKey="score"
-          stroke={theme.palette.primary.dark}
-          dot={false}
-        />
-      </LineChart>
+        <CartesianGrid stroke="#f5f5f5" />
+        <XAxis dataKey="id" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="reps" barSize={20} fill="#7CC6FE" />
+        <Area type="monotone" dataKey="score" fill="#5DFDCB" stroke="#8884d8" />
+      </ComposedChart>
     </ResponsiveContainer>
   );
 };
