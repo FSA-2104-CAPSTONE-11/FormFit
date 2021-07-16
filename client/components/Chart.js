@@ -1,11 +1,16 @@
 import React from "react";
 import { useTheme } from "@material-ui/core/styles";
 import {
-  LineChart,
+  ComposedChart,
   Line,
+  Area,
+  Bar,
   XAxis,
   YAxis,
-  Label,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  Scatter,
   ResponsiveContainer,
 } from "recharts";
 
@@ -18,54 +23,61 @@ const Chart = (props) => {
     const monthIndex = createdAt.slice(5, 7) - 1;
     const day = Number(createdAt.slice(8, 10));
     const event = new Date(year, monthIndex, day);
-    const options = { month: "short", day: "numeric" };
+    const options = { month: "short", day: "2-digit" };
     return event.toLocaleDateString("US-en", options);
   };
 
   // Generate Exercise Data
   const data = [];
-  const createData = (date, score) => {
-    return { date, score };
+  const createData = (date, score, reps) => {
+    return { date, score, reps };
+  };
+
+  let thisWeek = [];
+  const makeThisWeek = () => {
+    for (let i = 6; i >= 0; i--) {
+      let textDate = new Date(Date.now() - i * 24 * 60 * 60 * 1000).toString();
+      let newDate = textDate.slice(4, 10);
+      thisWeek.push(createData(newDate, 0, 0));
+    }
+    return thisWeek;
   };
 
   const fillData = () => {
+    let weekData = makeThisWeek();
     exercise.forEach((session) => {
-      data.push(
-        createData(alterDate(session.date), session.score / session.reps)
-      );
+      let currentDate = alterDate(session.date);
+      weekData.map((day) => {
+        if (day.date === currentDate) {
+          day.reps += session.reps;
+          day.score += session.score;
+        }
+      });
     });
+    return weekData;
   };
 
-  fillData();
-
   return (
-    <ResponsiveContainer>
-      <LineChart
-        data={data}
+    <ResponsiveContainer width="100%" height="100%">
+      <ComposedChart
+        width={500}
+        height={800}
+        data={fillData()}
         margin={{
-          top: 16,
-          right: 16,
-          bottom: 0,
-          left: 24,
+          top: 20,
+          right: 20,
+          bottom: 20,
+          left: 20,
         }}
       >
-        <XAxis dataKey="date" stroke={theme.palette.text.secondary} />
-        <YAxis stroke={theme.palette.text.secondary}>
-          <Label
-            angle={270}
-            position="left"
-            style={{ textAnchor: "middle", fill: theme.palette.text.primary }}
-          >
-            Score
-          </Label>
-        </YAxis>
-        <Line
-          type="monotone"
-          dataKey="score"
-          stroke={theme.palette.primary.dark}
-          dot={false}
-        />
-      </LineChart>
+        <CartesianGrid stroke="#f5f5f5" />
+        <XAxis dataKey="date" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="reps" barSize={20} fill="#9B5DE5" />
+        <Area type="monotone" dataKey="score" fill="#7CC6FE" stroke="#7CC6FE" />
+      </ComposedChart>
     </ResponsiveContainer>
   );
 };
