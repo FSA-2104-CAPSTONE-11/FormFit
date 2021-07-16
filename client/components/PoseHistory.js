@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getHistory } from "../store/poseHistory";
 import NotLoggedIn from "./NotLoggedIn";
 import { format } from "timeago.js";
+import Pagination from "./Pagination.js";
 
 // style imports
 import { makeStyles } from "@material-ui/core/styles";
@@ -47,8 +48,6 @@ const History = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [posesPerPage, setPosesPerPage] = useState(10);
 
-  // const [orderedHistory, setOrderedHistory] = useState([]);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -62,15 +61,18 @@ const History = () => {
   const indexOfFirstPose = indexOfLastPose - posesPerPage;
   const currentPoses = poseHistory.slice(indexOfFirstPose, indexOfLastPose);
 
+  // chnage page
+  const paginate = (number) => setCurrentPage(number);
+
   return (
     <div className={classes.root}>
-      <h1
+      {/* <h1
         style={{
           textAlign: "center",
         }}
       >
         My Pose History
-      </h1>
+      </h1> */}
       {isLoggedIn ? (
         <div>
           {currentPoses && currentPoses.length ? (
@@ -135,6 +137,11 @@ const History = () => {
           ) : (
             <div />
           )}
+          <Pagination
+            totalPoses={poseHistory.length}
+            paginate={paginate}
+            posesPerPage={posesPerPage}
+          ></Pagination>
         </div>
       ) : (
         <NotLoggedIn />
