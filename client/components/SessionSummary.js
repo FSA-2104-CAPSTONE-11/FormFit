@@ -76,13 +76,13 @@ const SessionSummary = () => {
     name: poseName,
     criteria: shortDescription,
   } = useSelector((state) => state.pose);
-  
- const {
+
+  const {
     results: reps,
     summaryOfScores: summary,
     goodReps: score,
   } = useSelector((state) => state.poseSession);
-  
+
   useEffect(() => {
     if (shortDescription) {
       for (const [key, value] of Object.entries(shortDescription)) {
@@ -167,7 +167,10 @@ const SessionSummary = () => {
                                 key={count}
                               >
                                 <strong>{details[count - 1]}: </strong>
-                                {(summary[criterion] / reps.length) * 100}%
+                                {Math.floor(
+                                  (summary[criterion] / reps.length) * 100
+                                )}
+                                %
                               </Typography>
                             );
                           }
