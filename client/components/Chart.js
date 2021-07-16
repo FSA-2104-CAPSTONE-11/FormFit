@@ -79,7 +79,7 @@ const Chart = (props) => {
         <Tooltip />
         <Legend />
         <Bar dataKey="reps" barSize={20} fill="#7CC6FE" />
-        <Area type="monotone" dataKey="score" fill="#5DFDCB" stroke="#8884d8" />
+        <Area type="monotone" dataKey="score" fill="#5DFDCB" stroke="#5DFDCB" />
       </ComposedChart>
     </ResponsiveContainer>
   );
