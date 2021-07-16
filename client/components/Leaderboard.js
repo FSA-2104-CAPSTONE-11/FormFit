@@ -12,12 +12,12 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import NavbarOffset from './NavbarOffset';
+import NavbarOffset from "./NavbarOffset";
 
 // style classes
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: "#e6b800",
     color: theme.palette.common.white,
   },
   body: {
@@ -35,7 +35,9 @@ const StyledTableRow = withStyles((theme) => ({
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 700,
+    maxWidth: "95%",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
 });
 
@@ -58,8 +60,8 @@ const Leaderboard = () => {
     <div>
       <NavbarOffset />
       {isLoggedIn ? (
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="customized table">
+        <TableContainer component={Paper} className={classes.table}>
+          <Table aria-label="customized table">
             <TableHead>
               <TableRow>
                 <StyledTableCell>Username</StyledTableCell>
