@@ -13,6 +13,7 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Redirect } from "react-router";
+import NavbarOffset from './NavbarOffset';
 
 /**
  * STYLES
@@ -78,6 +79,7 @@ const History = () => {
       </h1> */}
       {isLoggedIn ? (
         <div>
+          <NavbarOffset />
           {currentPoses && currentPoses.length ? (
             currentPoses.map((pose) => {
               if (pose.poseId === 1) {

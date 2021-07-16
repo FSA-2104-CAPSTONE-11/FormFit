@@ -1,8 +1,8 @@
-import React, {useState} from "react";
-import {useDispatch} from "react-redux";
-import {handleLogout} from "../store";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { handleLogout } from "../store";
 import DrawerComponent from "./Drawer";
-import {makeStyles, useTheme} from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -10,6 +10,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import clsx from "clsx";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import ThumbLogo from "./ThumbLogo";
 
 const drawerWidth = 240;
 
@@ -39,6 +40,11 @@ const useStyles = makeStyles((theme) => ({
   },
   hide: {
     display: "none",
+  },
+  logoContainer: {
+    display: "flex",
+    marginLeft: "auto",
+    marginRight: -12,
   },
 }));
 
@@ -75,13 +81,16 @@ const Navbar = () => {
             onClick={handleDrawerOpen}
             edge="start"
             className={clsx(classes.menuButton, open && classes.hide)}
-            style={{margin: "0px", padding: "0px 8px 0px 8px"}}
+            style={{ margin: "0px", padding: "0px 8px 0px 8px" }}
           >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
             FormFit
           </Typography>
+          <IconButton className={classes.logoContainer}>
+            <ThumbLogo />
+          </IconButton>
         </Toolbar>
       </AppBar>
       {open ? (
