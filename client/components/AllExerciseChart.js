@@ -54,9 +54,13 @@ export const SessionsPieChart = (props) => {
 
   fillData();
 
+function smallerText(value, entry) {
+  return (<span style={{fontSize: "0.5rem"}}>{value}</span>)
+}
+
   return (
     <ResponsiveContainer>
-      <PieChart width={400} height={400}>
+      <PieChart>
         <Pie
         isAnimationActive={false}
           data={sessionData}
@@ -64,7 +68,7 @@ export const SessionsPieChart = (props) => {
           // cy={100}
           labelLine={false}
           label={renderCustomizedLabel}
-          outerRadius={80}
+          // outerRadius={80}
           fill="#8884d8"
           dataKey="sessions"
         >
@@ -73,7 +77,9 @@ export const SessionsPieChart = (props) => {
           ))}
         </Pie>
         <Legend
-        layout="vetical" verticalAlign="middle" align="right"
+        layout="horizontal" verticalAlign="bottom" align="center"
+        formatter={smallerText}
+        iconSize="7"
           payload={sessionData.map((item, index) => ({
             id: item.name,
             type: "square",
@@ -105,9 +111,13 @@ export const RepsPieChart = (props) => {
 
   fillData();
 
+  function smallerText(value, entry) {
+    return (<span style={{fontSize: "0.5rem"}}>{value}</span>)
+  }
+
   return (
     <ResponsiveContainer>
-      <PieChart width={400} height={400}>
+      <PieChart>
         <Pie
         isAnimationActive={false}
           data={repsData}
@@ -115,7 +125,7 @@ export const RepsPieChart = (props) => {
           // cy={50}
           labelLine={false}
           label={renderCustomizedLabel}
-          outerRadius={80}
+          // outerRadius={80}
           fill="#8884d8"
           dataKey="reps"
         >
@@ -124,7 +134,9 @@ export const RepsPieChart = (props) => {
           ))}
         </Pie>
         <Legend
-        layout="vetical" verticalAlign="middle" align="right"
+        layout="horizontal" verticalAlign="bottom" align="center"
+        formatter={smallerText}
+        iconSize="7"
           payload={repsData.map((item, index) => ({
             id: item.name,
             type: "square",

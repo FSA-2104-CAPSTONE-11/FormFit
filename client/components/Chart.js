@@ -46,7 +46,7 @@ const Chart = (props) => {
           top: 16,
           right: 16,
           bottom: 0,
-          left: 24,
+          left: 16,
         }}
       >
         <XAxis dataKey="date" stroke={theme.palette.text.secondary} />
