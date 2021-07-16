@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from "react";
-import {useSelector, useDispatch} from "react-redux";
-import {getUser} from "../store/user";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getUser } from "../store/user";
 import Chart from "./Chart";
-import {SessionsPieChart, RepsPieChart} from "./AllExerciseChart";
-import {makeStyles} from "@material-ui/core/styles";
+import { SessionsPieChart, RepsPieChart } from "./AllExerciseChart";
+import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -35,16 +35,23 @@ const useStyles = makeStyles((theme) => ({
 
 const Data = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.id);
-  const {poseSessions} = useSelector((state) => state.user);
+  const { poseSessions } = useSelector((state) => state.user);
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+  const [loaded, setLoaded] = useState(false);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isLoggedIn) {
-      dispatch(getUser());
-    }
+    const fetchUser = async () => {
+      if (isLoggedIn) {
+        await dispatch(getUser());
+        setLoaded(true);
+      }
+    };
+
+    fetchUser();
   }, [isLoggedIn]);
 
   // when poseSessions is loaded, filter by exercise and add to exerciseSessions array
@@ -82,10 +89,9 @@ const Data = () => {
     }
   }
 
-  return (
-    <div>
-      {/* if poseSessions is loaded, map through exerciseSessions array and display data */}
-      {poseSessions && poseSessions.length ? (
+  if (isLoggedIn && loaded === true && poseSessions && poseSessions.length) {
+    return (
+      <div>
         <div>
           {exerciseSessions.map((exercise) => {
             return (
@@ -134,45 +140,53 @@ const Data = () => {
               </div>
             );
           })}
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={6}>
-              <Paper elevation={5} className={fixedHeightPaper}>
-                <Typography component="h2" variant="h6" gutterBottom>
-                  All Exercise Sessions
-                </Typography>
-                <SessionsPieChart exerciseSessions={exerciseSessions} />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={6} lg={6}>
-              <Paper elevation={5} className={fixedHeightPaper}>
-                <Typography component="h2" variant="h6" gutterBottom>
-                  All Exercise Reps
-                </Typography>
-                <RepsPieChart exerciseSessions={exerciseSessions} />
-              </Paper>
-            </Grid>
-          </Grid>
         </div>
-      ) : (
-        <div>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={6}>
-              <Paper elevation={5} className={fixedHeightPaper}>
-                <Typography component="h2" variant="h6" gutterBottom>
-                  You have no sessions saved yet!
-                </Typography>
-                <Button size="small" variant="contained" color="primary">
-                  <Link href="/detector" color="inherit">
-                    Let's get started
-                  </Link>
-                </Button>
-              </Paper>
-            </Grid>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6} lg={6}>
+            <Paper elevation={5} className={fixedHeightPaper}>
+              <Typography component="h2" variant="h6" gutterBottom>
+                All Exercise Sessions
+              </Typography>
+              <SessionsPieChart exerciseSessions={exerciseSessions} />
+            </Paper>
           </Grid>
-        </div>
-      )}
-    </div>
-  );
+          <Grid item xs={12} md={6} lg={6}>
+            <Paper elevation={5} className={fixedHeightPaper}>
+              <Typography component="h2" variant="h6" gutterBottom>
+                All Exercise Reps
+              </Typography>
+              <RepsPieChart exerciseSessions={exerciseSessions} />
+            </Paper>
+          </Grid>
+        </Grid>
+      </div>
+    );
+  } else if (
+    isLoggedIn &&
+    loaded === true &&
+    (!poseSessions || !poseSessions.length)
+  ) {
+    return (
+      <div>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6} lg={6}>
+            <Paper elevation={5} className={fixedHeightPaper}>
+              <Typography component="h2" variant="h6" gutterBottom>
+                You have no sessions saved yet!
+              </Typography>
+              <Button size="small" variant="contained" color="primary">
+                <Link href="/detector" color="inherit">
+                  Let's get started
+                </Link>
+              </Button>
+            </Paper>
+          </Grid>
+        </Grid>
+      </div>
+    );
+  } else {
+    return <div></div>;
+  }
 };
 
 export default Data;
