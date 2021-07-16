@@ -39,10 +39,10 @@ const usePageStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
       marginTop: theme.spacing(2),
+      display: "flex",
+      justifyContent: "center",
+      backgroundColor: "primary",
     },
-  },
-  ul: {
-    color: "white",
   },
 }));
 
@@ -153,10 +153,13 @@ const History = () => {
               count={Math.ceil(poseHistory.length / posesPerPage)}
               onChange={(evt, page) => handleClick(evt, page)}
               variant="outlined"
+              className={pageClasses.ul}
               renderItem={(item) => (
                 <PaginationItem
                   {...item}
-                  classes={{ selected: pageClasses.ul }}
+                  style={{
+                    backgroundColor: "white",
+                  }}
                 />
               )}
             />
