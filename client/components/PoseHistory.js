@@ -86,16 +86,17 @@ const History = () => {
               if (pose.poseId === 3) {
                 poseName = "Situp";
               }
-              if (pose.reps <= 1 && pose.score === 0) {
+              if (pose.score === 0) {
                 feedback = "You can do better than that!";
               }
-              if (pose.reps < 3 && pose.score < pose.reps) {
-                feedback = "You did some reps, but not perfect! Try again!";
+              if (5 < pose.reps && pose.score < 2) {
+                feedback = "You did some reps, but not very well! Try again!";
+              }
+              if (pose.score > 5) {
+                feedback = "Nice work!";
               }
               if (pose.reps > 0 && pose.reps === pose.score) {
                 feedback = "WOW! Perfect! Keep it up!";
-              } else {
-                feedback = "Nice amount of reps! Now work on that form!";
               }
               return (
                 <Accordion key={pose.id}>
