@@ -1,26 +1,21 @@
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import "@tensorflow/tfjs-backend-webgl";
-import React, { useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Webcam from "react-webcam";
-import { IconButton, SvgIcon, makeStyles } from "@material-ui/core";
-import {
-  Modal,
-  Backdrop,
-  Slide,
-  Button,
-  Grid,
-  Typography,
-} from "@material-ui/core";
+import {IconButton, SvgIcon, makeStyles} from "@material-ui/core";
 import StartButton from "./StartButton";
 import evaluateExercise from "./Evaluator";
 import Instructions from "./Instructions";
 import SessionSummary from "./SessionSummary";
 import NotLoggedIn from "./NotLoggedIn";
-import { Redirect } from "react-router";
-import { getPose } from "../store/pose";
-import { useDispatch, useSelector } from "react-redux";
-import { createPose } from "../store/poseSession";
+import {Redirect} from "react-router";
+import {getPose} from "../store/pose";
+import {useDispatch, useSelector} from "react-redux";
+import {createPose} from "../store/poseSession";
 import ExerciseSelector from "./ExerciseSelector";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Typography from "@material-ui/core/Typography";
+import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,10 +48,38 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
   },
+  loading: {
+    display: "flex",
+    color: "white",
+  },
+  Button: {
+    cursor: "pointer",
+    position: "fixed",
+    zIndex: 10,
+    objectFit: "cover",
+    height: "80px",
+    width: "80px",
+    top: "85%",
+    left: "calc(50% - 40px)",
+    padding: "0px",
+  },
+  countDown: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    // left: "50%",
+    // top: "50%",
+    zIndex: 10,
+    objectFit: "cover",
+    color: "white",
+    opacity: "0.9",
+  },
 }));
 
 const Detector = () => {
   const classes = useStyles();
+  const startButton = clsx(classes.roundButton, classes.Button);
+  const loading = clsx(classes.loading, classes.Button);
   const [angleArray, setAngleArray] = useState([]);
 
   const isLoggedIn = useSelector((state) => !!state.auth.id);
@@ -107,7 +130,7 @@ const Detector = () => {
 
   useEffect(() => {
     async function getPoseInfoAndCriteria() {
-      await dispatch(getPose({ poseName: exercise }));
+      await dispatch(getPose({poseName: exercise}));
     }
     getPoseInfoAndCriteria();
   }, [exercise]);
@@ -187,7 +210,7 @@ const Detector = () => {
             canvasRef.current.height
           );
 
-          dispatch(createPose({ results, summaryOfScores, goodReps }));
+          dispatch(createPose({results, summaryOfScores, goodReps}));
           setFinished(true);
           noseHeight = 0;
         }
@@ -288,7 +311,7 @@ const Detector = () => {
       );
 
       if (kp1.score > 0.5 && kp2.score > 0.5) {
-        angleArray.push({ [name]: [adjacentPairAngle, kp1.score, kp2.score] });
+        angleArray.push({[name]: [adjacentPairAngle, kp1.score, kp2.score]});
       }
 
       // If score is null, just show the keypoint.
@@ -362,45 +385,25 @@ const Detector = () => {
               )}
             </div>
             {finished ? <Redirect to="/summary" /> : <div></div>}
-            <div
-              id="ticker"
-              style={{
-                position: "fixed",
-                left: "50%",
-                top: "50%",
-                zIndex: 10,
-                objectFit: "cover",
-                backgroundColor: "white",
-                opacity: "0.5",
-              }}
-            >
-              <h1>
-                <strong>{ticker}</strong>
-              </h1>
+            <div id="ticker" className={classes.countDown}>
+              <Typography component="h2" variant="h1">
+                {ticker}
+              </Typography>
             </div>
           </div>
           {detector ? (
             <IconButton
-              className={classes.roundButton}
+              className={startButton}
               id="start"
               type="button"
-              style={{
-                cursor: "pointer",
-                position: "fixed",
-                zIndex: 10,
-                objectFit: "cover",
-                height: "80px",
-                width: "80px",
-                top: "85%",
-                left: "calc(50% - 40px)",
-                padding: "0px",
-              }}
               onClick={() => countDown()}
             >
               <StartButton />
             </IconButton>
           ) : (
-            <div></div>
+            <div>
+              <CircularProgress className={loading} />
+            </div>
           )}
         </div>
       ) : (
