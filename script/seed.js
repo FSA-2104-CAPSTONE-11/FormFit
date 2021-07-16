@@ -193,11 +193,11 @@ async function seed() {
   let temp = [];
   let temp2 = [];
   for (let i = 0; i < 1000; i++) {
-    const repNum = Math.floor(Math.random() * 20) + 5;
+    let repNum = Math.ceil(Math.random() * 10);
     const poseNum = Math.random();
     const newSesh = {
       reps: repNum,
-      score: Math.floor(repNum * 0.8),
+      score: Math.floor(Math.random() * repNum),
       feedback: Math.random() < 0.5 ? "keep it up" : "never do that, c'mon",
       length: Math.floor(Math.random() * 30 + 5),
       userId: Math.ceil(Math.random() * 10),
