@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { getUser } from "../store/user";
+import React, {useState, useEffect} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {getUser} from "../store/user";
 import Chart from "./Chart";
-import { SessionsPieChart, RepsPieChart } from "./AllExerciseChart";
-import { makeStyles } from "@material-ui/core/styles";
+import {SessionsPieChart, RepsPieChart} from "./AllExerciseChart";
+import {
+  makeStyles,
+  createTheme,
+  responsiveFontSizes,
+  ThemeProvider,
+} from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -14,30 +19,43 @@ import FitnessCenterSharpIcon from "@material-ui/icons/FitnessCenterSharp";
 import ShowChartSharpIcon from "@material-ui/icons/ShowChartSharp";
 import Avatar from "@material-ui/core/Avatar";
 
+let theme = createTheme();
+theme = responsiveFontSizes(theme);
+
 const useStyles = makeStyles((theme) => ({
   paper: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(1),
     display: "flex",
-    overflow: "auto",
+    // overflow: "auto",
     flexDirection: "column",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     alignItems: "center",
   },
-  fixedHeight: {
-    height: 240,
+  paperHeight: {
+    height: 100,
   },
-  avatar: {
-    backgroundColor: theme.palette.background,
-    border: `1px solid ${theme.palette.primary.dark}`,
-    color: theme.palette.primary.dark,
+  piePaperHeight: {
+    height: 200,
+  },
+  // avatar: {
+  //   backgroundColor: theme.palette.background,
+  //   border: `1px solid ${theme.palette.primary.dark}`,
+  //   color: theme.palette.primary.dark,
+  // },
+  noSessions: {
+    display: "flex",
+    overflow: "auto",
+    flexDirection: "row",
+    justifyContent: "center",
   },
 }));
 
 const Data = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.id);
-  const { poseSessions } = useSelector((state) => state.user);
+  const {poseSessions} = useSelector((state) => state.user);
   const classes = useStyles();
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const piePaper = clsx(classes.paper, classes.piePaperHeight);
+  const paper = clsx(classes.paper, classes.paperHeight);
 
   const [loaded, setLoaded] = useState(false);
 
@@ -93,47 +111,76 @@ const Data = () => {
     return (
       <div>
         <div>
+          <Grid container spacing={3}>
+            <Grid item xs={6} md={6} lg={6}>
+              <Paper elevation={5} className={piePaper}>
+                <ThemeProvider theme={theme}>
+                  <Typography component="h2" variant="h6" gutterBottom>
+                    All Sessions
+                  </Typography>
+                </ThemeProvider>
+                <SessionsPieChart exerciseSessions={exerciseSessions} />
+              </Paper>
+            </Grid>
+            <Grid item xs={6} md={6} lg={6}>
+              <Paper elevation={5} className={piePaper}>
+                <ThemeProvider theme={theme}>
+                  <Typography component="h2" variant="h6" gutterBottom>
+                    All Reps
+                  </Typography>
+                </ThemeProvider>
+                <RepsPieChart exerciseSessions={exerciseSessions} />
+              </Paper>
+            </Grid>
+          </Grid>
           {exerciseSessions.map((exercise) => {
             return (
               <div key={exerciseSessions.indexOf(exercise)}>
                 <Grid container spacing={3}>
-                  <Grid item xs={12} md={4} lg={3}>
-                    <Paper elevation={5} className={fixedHeightPaper}>
-                      <Avatar className={classes.avatar}>
+                  {/* <Grid container> */}
+                  <Grid item xs={6} md={3} lg={3} width="xs">
+                    <Paper elevation={5} className={paper}>
+                      {/* <Avatar className={classes.avatar}>
                         <FitnessCenterSharpIcon />
-                      </Avatar>
-                      <Typography component="h2" variant="h1">
-                        {exercise.length}
-                      </Typography>
-                      <Typography component="h2" variant="h6" gutterBottom>
-                        Total {exercise[0].pose.name} sessions
-                      </Typography>
+                      </Avatar> */}
+                      <ThemeProvider theme={theme}>
+                        <Typography component="h3" variant="h4">
+                          {exercise.length}
+                        </Typography>
+                        <Typography variant="subtitle2" gutterBottom>
+                          {exercise[0].pose.name} sessions
+                        </Typography>
+                      </ThemeProvider>
                     </Paper>
                   </Grid>
-                  <Grid item xs={12} md={4} lg={3}>
-                    <Paper elevation={5} className={fixedHeightPaper}>
-                      <Avatar className={classes.avatar}>
+                  <Grid item xs={6} md={3} lg={3} width="xs">
+                    <Paper elevation={5} className={paper}>
+                      {/* <Avatar className={classes.avatar}>
                         <FitnessCenterSharpIcon />
-                      </Avatar>
-                      <Typography component="h2" variant="h1">
-                        {exercise.reduce((a, session) => {
-                          return a + session.reps;
-                        }, 0)}
-                      </Typography>
-                      <Typography component="h2" variant="h6" gutterBottom>
-                        Total {exercise[0].pose.name}s
-                      </Typography>
+                      </Avatar> */}
+                      <ThemeProvider theme={theme}>
+                        <Typography component="h3" variant="h4">
+                          {exercise.reduce((a, session) => {
+                            return a + session.reps;
+                          }, 0)}
+                        </Typography>
+                        <Typography variant="subtitle2" gutterBottom>
+                          {exercise[0].pose.name}s
+                        </Typography>
+                      </ThemeProvider>
                     </Paper>
                   </Grid>
-                  <Grid item xs={12} md={4} lg={6}>
-                    <Paper elevation={5} className={fixedHeightPaper}>
-                      <Avatar className={classes.avatar}>
+                  {/* </Grid> */}
+                  <Grid item xs={12} md={6} lg={6} width="xs">
+                    <Paper elevation={5} className={paper}>
+                      {/* <Avatar className={classes.avatar}>
                         <ShowChartSharpIcon />
-                      </Avatar>
+                      </Avatar> */}
                       <Chart exercise={exercise} />
                       <Typography component="h2" variant="h6" gutterBottom>
                         {exercise[0].pose.name} Sessions this Week
                       </Typography>
+
                     </Paper>
                   </Grid>
                 </Grid>
@@ -141,24 +188,6 @@ const Data = () => {
             );
           })}
         </div>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={6}>
-            <Paper elevation={5} className={fixedHeightPaper}>
-              <Typography component="h2" variant="h6" gutterBottom>
-                All Exercise Sessions
-              </Typography>
-              <SessionsPieChart exerciseSessions={exerciseSessions} />
-            </Paper>
-          </Grid>
-          <Grid item xs={12} md={6} lg={6}>
-            <Paper elevation={5} className={fixedHeightPaper}>
-              <Typography component="h2" variant="h6" gutterBottom>
-                All Exercise Reps
-              </Typography>
-              <RepsPieChart exerciseSessions={exerciseSessions} />
-            </Paper>
-          </Grid>
-        </Grid>
       </div>
     );
   } else if (
@@ -168,9 +197,9 @@ const Data = () => {
   ) {
     return (
       <div>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={6}>
-            <Paper elevation={5} className={fixedHeightPaper}>
+        <Grid container spacing={3} className={classes.noSessions}>
+          <Grid item xs={12} md={12} lg={6} width="xs">
+            <Paper elevation={5} className={paper}>
               <Typography component="h2" variant="h6" gutterBottom>
                 You have no sessions saved yet!
               </Typography>
