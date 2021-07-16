@@ -44,7 +44,12 @@ const useStyles = makeStyles((theme) => ({
   logoContainer: {
     display: "flex",
     marginLeft: "auto",
-    marginRight: -12,
+    marginRight: -12
+  },
+  logo: {
+    justifyContent: "right",
+    alignItems: "right",
+    display: "flex",
   },
 }));
 
@@ -88,9 +93,9 @@ const Navbar = () => {
           <Typography variant="h6" noWrap>
             FormFit
           </Typography>
-          <IconButton className={classes.logoContainer}>
-            <ThumbLogo />
-          </IconButton>
+          <div className={classes.logoContainer}>
+            <ThumbLogo className={classes.logo} />
+          </div>
         </Toolbar>
       </AppBar>
       {open ? (

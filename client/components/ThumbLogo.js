@@ -1,7 +1,7 @@
 import React from "react";
 
 const ThumbLogo = () => (
-  <svg viewBox={`0 0 ${275} ${275}`} height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox={`0 0 ${270} ${270}`} height="30px" width="30px" xmlns="http://www.w3.org/2000/svg">
   <path d="M 129.00,10.51
            C 134.27,9.69 140.97,9.54 146.00,11.47
              174.58,22.41 171.95,63.05 141.00,68.98
@@ -45,7 +45,7 @@ const ThumbLogo = () => (
              104.40,127.00 116.00,96.00 116.00,96.00
              116.00,96.00 193.00,96.00 193.00,96.00
              193.00,96.00 214.00,96.00 214.00,96.00
-             217.97,95.99 219.69,96.44 223.00,94.00 Z" stroke-width="1" stroke="orange" fill="orange" id="Selection"></path>
+             217.97,95.99 219.69,96.44 223.00,94.00 Z" strokeWidth="1" stroke="orange" fill="orange" id="Selection"></path>
   <path d="M 80.00,181.00
            C 80.00,181.00 106.40,115.00 106.40,115.00
              106.40,115.00 115.50,95.02 115.50,95.02
@@ -62,7 +62,7 @@ const ThumbLogo = () => (
              130.61,239.09 127.38,250.06 123.00,253.00
              123.00,253.00 137.70,218.00 137.70,218.00
              137.70,218.00 154.00,181.00 154.00,181.00
-             154.00,181.00 80.00,181.00 80.00,181.00 Z" stroke-width="1" stroke="white" fill="white" id="Selection #1"></path>
+             154.00,181.00 80.00,181.00 80.00,181.00 Z" strokeWidth="1" stroke="white" fill="white" id="Selection #1"></path>
 </svg>
 );
 
