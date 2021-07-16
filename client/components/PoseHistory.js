@@ -3,10 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { getHistory } from "../store/poseHistory";
 import NotLoggedIn from "./NotLoggedIn";
 import { format } from "timeago.js";
-import Pagination from "./Pagination.js";
+import { makeStyles } from "@material-ui/core/styles";
+import Pagination from "@material-ui/lab/Pagination";
+import PaginationItem from "@material-ui/lab/PaginationItem";
 
 // style imports
-import { makeStyles } from "@material-ui/core/styles";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -34,11 +35,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const usePageStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      marginTop: theme.spacing(2),
+    },
+  },
+  ul: {
+    color: "white",
+  },
+}));
+
 /**
  * COMPONENT
  */
 const History = () => {
   const classes = useStyles();
+  const pageClasses = usePageStyles();
 
   const isLoggedIn = useSelector((state) => !!state.auth.id);
   const poseHistory = useSelector((state) => state.history);
@@ -64,18 +77,12 @@ const History = () => {
     currentPoses = poseHistory.slice(indexOfFirstPose, indexOfLastPose);
   }
 
-  // chnage page
-  const paginate = (number) => setCurrentPage(number);
+  const handleClick = (evt, page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div className={classes.root}>
-      {/* <h1
-        style={{
-          textAlign: "center",
-        }}
-      >
-        My Pose History
-      </h1> */}
       {isLoggedIn ? (
         <div>
           {currentPoses && currentPoses.length ? (
@@ -141,11 +148,19 @@ const History = () => {
           ) : (
             <div />
           )}
-          <Pagination
-            totalPoses={poseHistory.length}
-            paginate={paginate}
-            posesPerPage={posesPerPage}
-          ></Pagination>
+          <div className={pageClasses.root}>
+            <Pagination
+              count={Math.ceil(poseHistory.length / posesPerPage)}
+              onChange={(evt, page) => handleClick(evt, page)}
+              variant="outlined"
+              renderItem={(item) => (
+                <PaginationItem
+                  {...item}
+                  classes={{ selected: pageClasses.ul }}
+                />
+              )}
+            />
+          </div>
         </div>
       ) : (
         <NotLoggedIn />
