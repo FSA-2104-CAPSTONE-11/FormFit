@@ -32,7 +32,7 @@ const Routes = () => {
       <Route
         render={({ location }) => (
           <TransitionGroup>
-            <CSSTransition key={location.key} timeout={20000} classNames="fade">
+            <CSSTransition key={location.key} timeout={450} classNames="fade">
               <Switch location={location}>
                 <Route exact path="/">
                   <LogoLoad />

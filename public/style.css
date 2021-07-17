@@ -28,7 +28,7 @@ form div {
 .fade-appear-active,
 .fade-enter.fade-enter-active {
     opacity: 1;
-    transition: opacity 300ms linear 150ms;
+    transition: opacity 450ms linear 150ms;
 }
 
 .fade-exit {
