@@ -17,6 +17,16 @@ import {
 const Chart = (props) => {
   const theme = useTheme();
   const exercise = props.exercise;
+  let barColor;
+  if (exercise[0].pose.name === "squat") {
+    barColor = "#0D95FD";
+  }
+  if (exercise[0].pose.name === "pushup") {
+    barColor = "#9d4edd";
+  }
+  if (exercise[0].pose.name === "situp") {
+    barColor = "#26A96C";
+  }
 
   const alterDate = (createdAt) => {
     const year = Number(createdAt.slice(0, 4));
@@ -54,29 +64,30 @@ const Chart = (props) => {
         }
       });
     });
+    console.log(weekData);
     return weekData;
   };
 
   return (
     <ResponsiveContainer width="100%" height="100%">
       <ComposedChart
-        width={500}
-        height={800}
+        width={100}
+        height={100}
         data={fillData()}
         margin={{
-          top: 20,
-          right: 20,
-          bottom: 20,
-          left: 20,
+          top: 5,
+          right: 5,
+          bottom: 5,
+          left: 5,
         }}
       >
         <CartesianGrid stroke="#f5f5f5" />
         <XAxis dataKey="date" />
         <YAxis />
         <Tooltip />
-        <Legend />
-        <Bar dataKey="reps" barSize={20} fill="#9B5DE5" />
-        <Area type="monotone" dataKey="score" fill="#7CC6FE" stroke="#7CC6FE" />
+        {/* <Legend /> */}
+        <Bar dataKey="reps" barSize={20} fill={barColor} />
+        <Area type="monotone" dataKey="score" fill="#ffc6ff" stroke="#ffc6ff" />
       </ComposedChart>
     </ResponsiveContainer>
   );
