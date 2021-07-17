@@ -98,18 +98,6 @@ const History = () => {
               if (pose.poseId === 3) {
                 poseName = "Situp";
               }
-              if (pose.score === 0) {
-                feedback = "You can do better than that!";
-              }
-              if (5 < pose.reps && pose.score < 2) {
-                feedback = "You did some reps, but not very well! Try again!";
-              }
-              if (pose.score > 5) {
-                feedback = "Nice work!";
-              }
-              if (pose.reps > 0 && pose.reps === pose.score) {
-                feedback = "WOW! Perfect! Keep it up!";
-              }
               return (
                 <Accordion key={pose.id}>
                   <AccordionSummary
@@ -119,7 +107,7 @@ const History = () => {
                   >
                     <div className={classes.column}>
                       <Typography className={classes.heading}>
-                        {format(pose.createdAt)}
+                        {format(pose.date)}
                       </Typography>
                     </div>
                     <div className={classes.column}>
@@ -139,7 +127,7 @@ const History = () => {
                           {pose.reps}
                         </li>
                         <li>
-                          <strong>Feedback:</strong> {feedback}
+                          <strong>Feedback:</strong> {pose.feedback}
                         </li>
                       </ul>
                     </Typography>

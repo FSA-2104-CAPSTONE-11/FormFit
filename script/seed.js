@@ -195,15 +195,41 @@ async function seed() {
   for (let i = 0; i < 1000; i++) {
     let repNum = Math.ceil(Math.random() * 10);
     const poseNum = Math.random();
+    const score = Math.round(Math.random() * repNum);
+    const getFeedback = (repNumber, scoreNumber) => {
+      if (scoreNumber === 0) {
+        return "You can do better than that!";
+      }
+      if (repNumber > 0 && repNumber === scoreNumber) {
+        return "WOW! Perfect! Keep it up!";
+      }
+      if (scoreNumber < 2) {
+        if (5 < repNumber) {
+          return "You did some reps, but not very well! Try again!";
+        } else {
+          return "Great progress, work on upping your reps and improving your form!";
+        }
+      }
+      if (scoreNumber >= 2 && scoreNumber <= 5) {
+        if (5 < repNumber) {
+          return "Now we're moving, keep up the progress!";
+        } else {
+          return "That's a good score, but not many reps!";
+        }
+      }
+      if (scoreNumber > 5) {
+        return "Nice work!";
+      }
+    };
     const newSesh = {
       reps: repNum,
-      score: Math.floor(Math.random() * repNum),
-      feedback: Math.random() < 0.5 ? "keep it up" : "never do that, c'mon",
+      score: score,
+      feedback: getFeedback(repNum, score),
       length: Math.floor(Math.random() * 30 + 5),
       userId: Math.ceil(Math.random() * 10),
       poseId: poseNum < 0.33 ? 1 : poseNum > 0.66 ? 2 : 3,
       date: new Date(
-        Date.now() - Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000
+        Date.now() - Math.floor(Math.random() * 90) * 24 * 60 * 60 * 1000
       ),
     };
     temp.push(newSesh);
