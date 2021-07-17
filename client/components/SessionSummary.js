@@ -93,6 +93,32 @@ const SessionSummary = () => {
 
   const dispatch = useDispatch();
 
+  const getFeedback = (repNumber, scoreNumber) => {
+    if (scoreNumber === 0) {
+      return "You can do better than that!";
+    }
+    if (repNumber > 0 && repNumber === scoreNumber) {
+      return "WOW! Perfect! Keep it up!";
+    }
+    if (scoreNumber < 2) {
+      if (5 < repNumber) {
+        return "You did some reps, but not very well! Try again!";
+      } else {
+        return "Great progress, work on upping your reps and improving your form!";
+      }
+    }
+    if (scoreNumber >= 2 && scoreNumber <= 5) {
+      if (5 < repNumber) {
+        return "Now we're moving, keep up the progress!";
+      } else {
+        return "That's a good score, but not many reps!";
+      }
+    }
+    if (scoreNumber > 5) {
+      return "Nice work!";
+    }
+  };
+
   const isLoggedIn = useSelector((state) => !!state.auth.id);
   let count = 0;
   let newCount = 0;
@@ -102,7 +128,7 @@ const SessionSummary = () => {
       addToHistory({
         reps: reps.length,
         poseId,
-        feedback: JSON.stringify(summary),
+        feedback: getFeedback(reps.length, score),
         score,
       })
     );

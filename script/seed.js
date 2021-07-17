@@ -225,7 +225,6 @@ async function seed() {
       reps: repNum,
       score: score,
       feedback: getFeedback(repNum, score),
-      length: Math.floor(Math.random() * 30 + 5),
       userId: Math.ceil(Math.random() * 10),
       poseId: poseNum < 0.33 ? 1 : poseNum > 0.66 ? 2 : 3,
       date: new Date(
