@@ -1,13 +1,7 @@
 import React from "react";
-import {
-  Legend,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-} from "recharts";
+import { Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28"];
+const COLORS = ["#0D95FD", "#9d4edd", "#26A96C"];
 
 const RADIAN = Math.PI / 180;
 
@@ -20,7 +14,7 @@ const renderCustomizedLabel = ({
   percent,
   index,
 }) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.37;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
@@ -54,15 +48,15 @@ export const SessionsPieChart = (props) => {
 
   fillData();
 
-function smallerText(value, entry) {
-  return (<span style={{fontSize: "0.5rem"}}>{value}</span>)
-}
+  function smallerText(value, entry) {
+    return <span style={{ fontSize: "0.5rem" }}>{value}</span>;
+  }
 
   return (
     <ResponsiveContainer>
       <PieChart>
         <Pie
-        isAnimationActive={false}
+          isAnimationActive={false}
           data={sessionData}
           // cx={100}
           // cy={100}
@@ -77,9 +71,11 @@ function smallerText(value, entry) {
           ))}
         </Pie>
         <Legend
-        layout="horizontal" verticalAlign="bottom" align="center"
-        formatter={smallerText}
-        iconSize="7"
+          layout="horizontal"
+          verticalAlign="bottom"
+          align="center"
+          formatter={smallerText}
+          iconSize="7"
           payload={sessionData.map((item, index) => ({
             id: item.name,
             type: "square",
@@ -112,14 +108,14 @@ export const RepsPieChart = (props) => {
   fillData();
 
   function smallerText(value, entry) {
-    return (<span style={{fontSize: "0.5rem"}}>{value}</span>)
+    return <span style={{ fontSize: "0.5rem" }}>{value}</span>;
   }
 
   return (
     <ResponsiveContainer>
       <PieChart>
         <Pie
-        isAnimationActive={false}
+          isAnimationActive={false}
           data={repsData}
           // cx={50}
           // cy={50}
@@ -134,9 +130,11 @@ export const RepsPieChart = (props) => {
           ))}
         </Pie>
         <Legend
-        layout="horizontal" verticalAlign="bottom" align="center"
-        formatter={smallerText}
-        iconSize="7"
+          layout="horizontal"
+          verticalAlign="bottom"
+          align="center"
+          formatter={smallerText}
+          iconSize="7"
           payload={repsData.map((item, index) => ({
             id: item.name,
             type: "square",
