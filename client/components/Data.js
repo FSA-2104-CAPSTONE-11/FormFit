@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from "react";
-import {useSelector, useDispatch} from "react-redux";
-import {getUser} from "../store/user";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getUser } from "../store/user";
 import Chart from "./Chart";
-import {SessionsPieChart, RepsPieChart} from "./AllExerciseChart";
+import { SessionsPieChart, RepsPieChart } from "./AllExerciseChart";
 import {
   makeStyles,
   createTheme,
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Data = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.id);
-  const {poseSessions} = useSelector((state) => state.user);
+  const { poseSessions } = useSelector((state) => state.user);
   const classes = useStyles();
   const piePaper = clsx(classes.paper, classes.piePaperHeight);
   const paper = clsx(classes.paper, classes.paperHeight);
@@ -147,7 +147,7 @@ const Data = () => {
                         <Typography component="h3" variant="h4">
                           {exercise.length}
                         </Typography>
-                        <Typography variant="subtitle2" gutterBottom>
+                        <Typography variant="h6" gutterBottom>
                           {exercise[0].pose.name} sessions
                         </Typography>
                       </ThemeProvider>
@@ -177,10 +177,9 @@ const Data = () => {
                         <ShowChartSharpIcon />
                       </Avatar> */}
                       <Chart exercise={exercise} />
-                      <Typography component="h2" variant="h6" gutterBottom>
+                      {/* <Typography component="h2" variant="h6">
                         {exercise[0].pose.name} Sessions this Week
-                      </Typography>
-
+                      </Typography> */}
                     </Paper>
                   </Grid>
                 </Grid>
