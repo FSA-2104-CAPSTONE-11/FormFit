@@ -64,7 +64,6 @@ const Chart = (props) => {
         }
       });
     });
-    console.log(weekData);
     return weekData;
   };
 
