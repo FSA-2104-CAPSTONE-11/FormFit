@@ -12,28 +12,30 @@ import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import { Redirect } from "react-router";
 import NotLoggedIn from "./NotLoggedIn";
+import bannerImage from "../../public/situp.png";
+import dataImage from "../../public/dataBanner.jpg";
+import NavbarOffset from "./NavbarOffset";
+import history from "../history";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: 345,
+    width: "40%",
     marginLeft: "auto",
     marginRight: "auto",
-  },
-  media: {
-    height: 280,
-  },
-  media2: {
-    height: 160,
+    minWidth: 345,
   },
   paper: {
-    marginTop: theme.spacing(16),
-    marginBottom: theme.spacing(8),
+    margin: theme.spacing(1),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
   },
-  link: {
+  button: {
     color: "black",
+    padding: theme.spacing(1),
+    margin: theme.spacing(1),
+    width: 200,
+    backgroundColor: "#FFC2B4",
   },
 }));
 
@@ -91,13 +93,56 @@ const Profile = () => {
     <div>
       {isLoggedIn ? (
         <div className={classes.paper}>
+          <NavbarOffset />
+          <Card className={classes.root}>
+            <CardMedia title="Exercise Banner">
+              <img src={bannerImage} style={{ width: "100%" }} />
+            </CardMedia>
+            {poseSessions && poseSessions.length ? (
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  My Activity:
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  <strong>Favorite Exercise:</strong>{" "}
+                  {getFavoriteExercise(poseSessions)}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  <strong>Last Exercise Date:</strong>{" "}
+                  {alterDate(poseSessions[poseSessions.length - 1].createdAt)}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  <strong>Last Exercise Type:</strong>{" "}
+                  {poseSessions[poseSessions.length - 1].pose.name}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  <strong>Last Exercise Score:</strong>{" "}
+                  {poseSessions[poseSessions.length - 1].score}
+                </Typography>
+                <CardActions>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <Button
+                      variant="contained"
+                      className={classes.button}
+                      style={{left: "50%"}}
+                      onClick={() => {
+                        history.push("/history");
+                      }}
+                    >
+                      View All Activity
+                    </Button>
+                  </div>
+                </CardActions>
+              </CardContent>
+            ) : (
+              <div></div>
+            )}
+          </Card>
           <Card className={classes.root}>
             <CardActionArea>
-              <CardMedia
-                className={classes.media}
-                image="https://www.pphfoundation.ca/wp-content/uploads/2018/05/default-avatar-600x600.png"
-                title="User Image"
-              />
+              <CardMedia title="User Data Banner">
+                <img src={dataImage} style={{ width: "100%" }} />
+              </CardMedia>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
                   Personal Info:
@@ -155,33 +200,36 @@ const Profile = () => {
               {!editing ? (
                 <Button
                   size="small"
+                  className={classes.button}
                   variant="contained"
                   color="primary"
                   onClick={() => {
-                    setEditing((editing = true));
+                    setEditing(true);
                   }}
                 >
                   Edit
                 </Button>
               ) : (
-                <div>
+                <div style={{}}>
                   <Button
                     size="small"
+                    className={classes.button}
                     variant="contained"
                     color="primary"
                     onClick={() => {
                       dispatch(updateUser({ newUsername, newEmail }));
-                      setEditing((editing = false));
+                      setEditing(false);
                     }}
                   >
                     Save
                   </Button>
                   <Button
                     size="small"
+                    className={classes.button}
                     variant="contained"
                     color="primary"
                     onClick={() => {
-                      setEditing((editing = false));
+                      setEditing(false);
                     }}
                   >
                     Cancel
@@ -189,45 +237,6 @@ const Profile = () => {
                 </div>
               )}
             </CardActions>
-          </Card>
-          <Card className={classes.root}>
-            <CardMedia
-              className={classes.media2}
-              image="https://thumb9.shutterstock.com/image-photo/stock-vector-vector-illustration-of-squat-vector-icon-or-symbol-250nw-600173141.jpg"
-              title="History Image"
-            />
-            {poseSessions && poseSessions.length ? (
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  My Activity:
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  <strong>Favorite Exercise:</strong>{" "}
-                  {getFavoriteExercise(poseSessions)}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  <strong>Last Exercise Date:</strong>{" "}
-                  {alterDate(poseSessions[poseSessions.length - 1].createdAt)}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  <strong>Last Exercise Type:</strong>{" "}
-                  {poseSessions[poseSessions.length - 1].pose.name}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  <strong>Last Exercise Score:</strong>{" "}
-                  {poseSessions[poseSessions.length - 1].score}
-                </Typography>
-                <CardActions>
-                  <Typography>
-                    <Link href="/history" className={classes.link}>
-                      View All Activity
-                    </Link>
-                  </Typography>
-                </CardActions>
-              </CardContent>
-            ) : (
-              <div></div>
-            )}
           </Card>
         </div>
       ) : (
