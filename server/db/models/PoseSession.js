@@ -13,12 +13,9 @@ const PoseSession = db.define("poseSession", {
   feedback: {
     type: Sequelize.TEXT,
   },
-  length: {
-    type: Sequelize.FLOAT,
-  },
   date: {
     type: Sequelize.DATE,
-    defaultValue: new Date(),
+    defaultValue: Sequelize.NOW,
   },
 });
 
