@@ -51,7 +51,7 @@ const Profile = () => {
     if (isLoggedIn) {
       dispatch(getUser());
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, editing]);
 
   const dispatch = useDispatch();
 
