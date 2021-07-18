@@ -15,12 +15,15 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Card from "@material-ui/core/Card";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
+import NavbarOffset from "./NavbarOffset";
+import headerImage from "../../public/muscleHeader.png";
 
 /**
  * STYLES
@@ -33,15 +36,19 @@ const useCardStyles = makeStyles((theme) => ({
     marginLeft: "auto",
     marginRight: "auto",
   },
-  media2: {
-    height: 160,
-  },
   paper: {
     marginTop: theme.spacing(16),
     marginBottom: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+  },
+  button: {
+    color: "black",
+    display: "block",
+    padding: theme.spacing(1),
+    margin: theme.spacing(1),
+    width: "80%",
   },
 }));
 
@@ -93,6 +100,32 @@ const SessionSummary = () => {
 
   const dispatch = useDispatch();
 
+  const getFeedback = (repNumber, scoreNumber) => {
+    if (scoreNumber === 0) {
+      return "You can do better than that!";
+    }
+    if (repNumber > 0 && repNumber === scoreNumber) {
+      return "WOW! Perfect! Keep it up!";
+    }
+    if (scoreNumber < 2) {
+      if (5 < repNumber) {
+        return "You did some reps, but not very well! Try again!";
+      } else {
+        return "Great progress, work on upping your reps and improving your form!";
+      }
+    }
+    if (scoreNumber >= 2 && scoreNumber <= 5) {
+      if (5 < repNumber) {
+        return "Now we're moving, keep up the progress!";
+      } else {
+        return "That's a good score, but not many reps!";
+      }
+    }
+    if (scoreNumber > 5) {
+      return "Nice work!";
+    }
+  };
+
   const isLoggedIn = useSelector((state) => !!state.auth.id);
   let count = 0;
   let newCount = 0;
@@ -102,7 +135,7 @@ const SessionSummary = () => {
       addToHistory({
         reps: reps.length,
         poseId,
-        feedback: JSON.stringify(summary),
+        feedback: getFeedback(reps.length, score),
         score,
       })
     );
@@ -117,70 +150,96 @@ const SessionSummary = () => {
 
   return (
     <div>
+      <NavbarOffset />
       {isLoggedIn ? (
         <div>
           <div>
             <Card className={cardClasses.root}>
-              <CardMedia
-                className={cardClasses.media2}
-                image="https://thumb9.shutterstock.com/image-photo/stock-vector-vector-illustration-of-squat-vector-icon-or-symbol-250nw-600173141.jpg"
-                title="History Image"
-              />
+              <CardMedia title="Session Summary Image">
+                <img src={headerImage} style={{ width: "100%" }} />
+              </CardMedia>
               {
                 <div>
                   <CardContent>
-                    {reps ? (
-                      <Typography gutterBottom variant="h5" component="h2">
-                        You completed {reps.length} reps! Your score was {score}
-                        , as you passed a majority of the specs that many times.
-                      </Typography>
-                    ) : (
-                      <Typography gutterBottom variant="h5" component="h2">
-                        You completed 0 reps!
-                      </Typography>
-                    )}
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      <strong>Exercise: </strong>
-                      {poseName}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      <strong>Requirement Breakdown:</strong>{" "}
-                    </Typography>
-                    <div>
-                      {summary &&
-                        Object.keys(summary).map((criterion) => {
-                          count++;
-                          if (criterion !== "reps") {
-                            return (
-                              <Typography
-                                variant="body2"
-                                color="textSecondary"
-                                component="p"
-                                key={count}
-                              >
-                                <strong>{details[count - 1]}: </strong>
-                                {Math.floor(
-                                  (summary[criterion] / reps.length) * 100
-                                )}
-                                %
-                              </Typography>
-                            );
-                          }
-                        })}
-                    </div>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} sm={6}>
+                        {reps ? (
+                          <Typography gutterBottom variant="h5" component="h2">
+                            You completed {reps.length} reps! Your score was{" "}
+                            {score}. Click on individual reps below to see
+                            specific feedback.
+                          </Typography>
+                        ) : (
+                          <Typography gutterBottom variant="h5" component="h2">
+                            You completed 0 reps!
+                          </Typography>
+                        )}
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          component="p"
+                        >
+                          <strong>Exercise: </strong>
+                          {poseName}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          component="p"
+                        >
+                          <strong>Requirement Breakdown:</strong>{" "}
+                        </Typography>
+                        <div>
+                          {summary &&
+                            Object.keys(summary).map((criterion) => {
+                              count++;
+                              if (criterion !== "reps") {
+                                return (
+                                  <Typography
+                                    variant="body2"
+                                    color="textSecondary"
+                                    component="p"
+                                    key={count}
+                                  >
+                                    <strong>{details[count - 1]}: </strong>
+                                    {Math.floor(
+                                      (summary[criterion] / reps.length) * 100
+                                    )}
+                                    %
+                                  </Typography>
+                                );
+                              }
+                            })}
+                        </div>
+                      </Grid>
+                        <Grid item xs={12} sm={3}>
+                          <Button
+                            variant="contained"
+                            className={cardClasses.button}
+                            style={{
+                              backgroundColor: "#FFC2B4",
+                            }}
+                            onClick={handleSave}
+                            width="40%"
+                          >
+                            Save Session
+                          </Button>
+                        </Grid>
+                        <Grid item xs={12} sm={3}>
+                          <Button
+                            variant="contained"
+                            style={{
+                              backgroundColor: "red",
+                            }}
+                            className={cardClasses.button}
+                            onClick={handleDelete}
+                            width="40%"
+                          >
+                            Discard Session
+                          </Button>
+                        </Grid>
+                    </Grid>
                   </CardContent>
-                  <CardActions>
-                    <Button onClick={handleSave}>Save Session</Button>
-                    <Button onClick={handleDelete}>Delete Session</Button>
-                  </CardActions>
                 </div>
               }
             </Card>

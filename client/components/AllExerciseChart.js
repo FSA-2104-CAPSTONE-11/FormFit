@@ -48,9 +48,9 @@ export const SessionsPieChart = (props) => {
 
   fillData();
 
-  function smallerText(value, entry) {
-    return <span style={{ fontSize: "0.5rem" }}>{value}</span>;
-  }
+function smallerText(value, entry) {
+  return (<span style={{fontSize: "0.7rem"}}>{value}</span>)
+}
 
   return (
     <ResponsiveContainer>
@@ -58,11 +58,9 @@ export const SessionsPieChart = (props) => {
         <Pie
           isAnimationActive={false}
           data={sessionData}
-          // cx={100}
-          // cy={100}
           labelLine={false}
           label={renderCustomizedLabel}
-          // outerRadius={80}
+          outerRadius={80}
           fill="#8884d8"
           dataKey="sessions"
         >
@@ -71,11 +69,11 @@ export const SessionsPieChart = (props) => {
           ))}
         </Pie>
         <Legend
-          layout="horizontal"
-          verticalAlign="bottom"
-          align="center"
-          formatter={smallerText}
-          iconSize="7"
+
+        layout="horizontal" verticalAlign="bottom" align="right"
+        formatter={smallerText}
+        iconSize="7"
+
           payload={sessionData.map((item, index) => ({
             id: item.name,
             type: "square",
@@ -108,7 +106,7 @@ export const RepsPieChart = (props) => {
   fillData();
 
   function smallerText(value, entry) {
-    return <span style={{ fontSize: "0.5rem" }}>{value}</span>;
+    return (<span style={{fontSize: "0.7rem"}}>{value}</span>)
   }
 
   return (
@@ -117,11 +115,9 @@ export const RepsPieChart = (props) => {
         <Pie
           isAnimationActive={false}
           data={repsData}
-          // cx={50}
-          // cy={50}
           labelLine={false}
           label={renderCustomizedLabel}
-          // outerRadius={80}
+          outerRadius={80}
           fill="#8884d8"
           dataKey="reps"
         >
@@ -138,8 +134,8 @@ export const RepsPieChart = (props) => {
           payload={repsData.map((item, index) => ({
             id: item.name,
             type: "square",
-            value: `${item.name}`,
-            color: COLORS[index % COLORS.length],
+            value: "       ",
+            color: "white",
           }))}
         />
       </PieChart>

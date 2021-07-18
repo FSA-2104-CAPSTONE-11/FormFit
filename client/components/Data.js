@@ -15,9 +15,6 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import clsx from "clsx";
-import FitnessCenterSharpIcon from "@material-ui/icons/FitnessCenterSharp";
-import ShowChartSharpIcon from "@material-ui/icons/ShowChartSharp";
-import Avatar from "@material-ui/core/Avatar";
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
@@ -37,16 +34,31 @@ const useStyles = makeStyles((theme) => ({
   piePaperHeight: {
     height: 200,
   },
-  // avatar: {
-  //   backgroundColor: theme.palette.background,
-  //   border: `1px solid ${theme.palette.primary.dark}`,
-  //   color: theme.palette.primary.dark,
-  // },
   noSessions: {
     display: "flex",
     overflow: "auto",
     flexDirection: "row",
     justifyContent: "center",
+  },
+  pie: {
+    MuiPaper: {
+      square: true,
+    }
+  },
+  chart: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    height: 200,
+    marginBottom: theme.spacing(3),
+  },
+  chartHeader: {
+    height: 50,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
   },
 }));
 
@@ -56,6 +68,8 @@ const Data = () => {
   const classes = useStyles();
   const piePaper = clsx(classes.paper, classes.piePaperHeight);
   const paper = clsx(classes.paper, classes.paperHeight);
+  const pieChart = clsx(classes.pie, classes.chart);
+  const pieChartHeader = clsx(classes.pie, classes.chartHeader);
 
   const [loaded, setLoaded] = useState(false);
 
@@ -111,25 +125,25 @@ const Data = () => {
     return (
       <div>
         <div>
-          <Grid container spacing={3}>
-            <Grid item xs={6} md={6} lg={6}>
-              <Paper elevation={5} className={piePaper}>
+          <Grid container spacing={0}>
+          <Grid item xs={12} md={12} lg={12}>
+              <Paper elevation={5} square={true} className={pieChartHeader}>
                 <ThemeProvider theme={theme}>
                   <Typography component="h2" variant="h6" gutterBottom>
                     All Sessions
                   </Typography>
                 </ThemeProvider>
-                <SessionsPieChart exerciseSessions={exerciseSessions} />
-              </Paper>
-            </Grid>
-            <Grid item xs={6} md={6} lg={6}>
-              <Paper elevation={5} className={piePaper}>
                 <ThemeProvider theme={theme}>
                   <Typography component="h2" variant="h6" gutterBottom>
                     All Reps
                   </Typography>
                 </ThemeProvider>
-                <RepsPieChart exerciseSessions={exerciseSessions} />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper elevation={5} className={pieChart}>
+                    <SessionsPieChart exerciseSessions={exerciseSessions} />
+                    <RepsPieChart exerciseSessions={exerciseSessions} />
               </Paper>
             </Grid>
           </Grid>
@@ -140,9 +154,6 @@ const Data = () => {
                   {/* <Grid container> */}
                   <Grid item xs={6} md={3} lg={3} width="xs">
                     <Paper elevation={5} className={paper}>
-                      {/* <Avatar className={classes.avatar}>
-                        <FitnessCenterSharpIcon />
-                      </Avatar> */}
                       <ThemeProvider theme={theme}>
                         <Typography component="h3" variant="h4">
                           {exercise.length}
@@ -155,9 +166,6 @@ const Data = () => {
                   </Grid>
                   <Grid item xs={6} md={3} lg={3} width="xs">
                     <Paper elevation={5} className={paper}>
-                      {/* <Avatar className={classes.avatar}>
-                        <FitnessCenterSharpIcon />
-                      </Avatar> */}
                       <ThemeProvider theme={theme}>
                         <Typography component="h3" variant="h4">
                           {exercise.reduce((a, session) => {
@@ -172,10 +180,7 @@ const Data = () => {
                   </Grid>
                   {/* </Grid> */}
                   <Grid item xs={12} md={6} lg={6} width="xs">
-                    <Paper elevation={5} className={paper}>
-                      {/* <Avatar className={classes.avatar}>
-                        <ShowChartSharpIcon />
-                      </Avatar> */}
+                    <Paper elevation={5} className={piePaper}>
                       <Chart exercise={exercise} />
                       {/* <Typography component="h2" variant="h6">
                         {exercise[0].pose.name} Sessions this Week
