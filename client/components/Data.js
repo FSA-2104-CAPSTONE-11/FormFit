@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { getUser } from "../store/user";
+import React, {useState, useEffect} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {getUser} from "../store/user";
 import Chart from "./Chart";
-import { SessionsPieChart, RepsPieChart } from "./AllExerciseChart";
+import {SessionsPieChart, RepsPieChart} from "./AllExerciseChart";
+import SessionsData from "./SessionsData";
+import RepsData from "./RepsData";
 import {
   makeStyles,
   createTheme,
@@ -21,16 +23,16 @@ theme = responsiveFontSizes(theme);
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    padding: theme.spacing(1),
+    padding: theme.spacing(3),
     display: "flex",
     // overflow: "auto",
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
-    borderRadius: 20, 
+    borderRadius: 20,
   },
   paperHeight: {
-    height: 100,
+    height: 150,
   },
   piePaperHeight: {
     height: 200,
@@ -40,11 +42,6 @@ const useStyles = makeStyles((theme) => ({
     overflow: "auto",
     flexDirection: "row",
     justifyContent: "center",
-  },
-  pie: {
-    MuiPaper: {
-      square: true,
-    }
   },
   chart: {
     display: "flex",
@@ -61,17 +58,19 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
+    borderRadius: 0,
+  },
+  exercise: {
+    marginBottom: theme.spacing(3),
   },
 }));
 
 const Data = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.id);
-  const { poseSessions } = useSelector((state) => state.user);
+  const {poseSessions} = useSelector((state) => state.user);
   const classes = useStyles();
   const piePaper = clsx(classes.paper, classes.piePaperHeight);
   const paper = clsx(classes.paper, classes.paperHeight);
-  const pieChart = clsx(classes.pie, classes.chart);
-  const pieChartHeader = clsx(classes.pie, classes.chartHeader);
 
   const [loaded, setLoaded] = useState(false);
 
@@ -128,8 +127,8 @@ const Data = () => {
       <div>
         <div>
           <Grid container spacing={0}>
-          <Grid item xs={12} md={12} lg={12}>
-              <Paper elevation={5} square={true} className={pieChartHeader}>
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper elevation={5} className={classes.chartHeader}>
                 <ThemeProvider theme={theme}>
                   <Typography component="h2" variant="h6" gutterBottom>
                     All Sessions
@@ -143,46 +142,28 @@ const Data = () => {
               </Paper>
             </Grid>
             <Grid item xs={12} md={12} lg={12}>
-              <Paper elevation={5} className={pieChart}>
-                    <SessionsPieChart exerciseSessions={exerciseSessions} />
-                    <RepsPieChart exerciseSessions={exerciseSessions} />
+              <Paper elevation={5} className={classes.chart}>
+                <SessionsPieChart exerciseSessions={exerciseSessions} />
+                <RepsPieChart exerciseSessions={exerciseSessions} />
               </Paper>
             </Grid>
           </Grid>
           {exerciseSessions.map((exercise) => {
             return (
               <div key={exerciseSessions.indexOf(exercise)}>
-                <Grid container spacing={3}>
-                  {/* <Grid container> */}
+                <Grid container spacing={1} className={classes.exercise}>
                   <Grid item xs={6} md={3} lg={3} width="xs">
                     <Paper elevation={5} className={paper}>
-                      <ThemeProvider theme={theme}>
-                        <Typography component="h3" variant="h4">
-                          {exercise.length}
-                        </Typography>
-                        <Typography variant="h6" gutterBottom>
-                          {exercise[0].pose.name} sessions
-                        </Typography>
-                      </ThemeProvider>
+                      <SessionsData exercise={exercise} />
                     </Paper>
                   </Grid>
                   <Grid item xs={6} md={3} lg={3} width="xs">
                     <Paper elevation={5} className={paper}>
-                      <ThemeProvider theme={theme}>
-                        <Typography component="h3" variant="h4">
-                          {exercise.reduce((a, session) => {
-                            return a + session.reps;
-                          }, 0)}
-                        </Typography>
-                        <Typography variant="subtitle2" gutterBottom>
-                          {exercise[0].pose.name}s
-                        </Typography>
-                      </ThemeProvider>
+                      <RepsData exercise={exercise} />
                     </Paper>
                   </Grid>
-                  {/* </Grid> */}
                   <Grid item xs={12} md={6} lg={6} width="xs">
-                    <Paper elevation={5} className={piePaper}>
+                    <Paper elevation={5} className={paper}>
                       <Chart exercise={exercise} />
                       {/* <Typography component="h2" variant="h6">
                         {exercise[0].pose.name} Sessions this Week
