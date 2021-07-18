@@ -40,6 +40,7 @@
     "lodash": "^4.17.21",
     "morgan": "^1.10.0",
     "pg": "^8.6.0",
+    "react-transition-group": "^4.4.2",
     "react-webcam": "^5.2.4",
     "recharts": "^2.0.9",
     "redis": "^3.1.2",

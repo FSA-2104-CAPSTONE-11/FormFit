@@ -10,6 +10,7 @@ import History from "./components/PoseHistory";
 import SessionSummary from "./components/SessionSummary";
 import Leaderboard from "./components/Leaderboard";
 import LogoLoad from "./components/LogoLoad";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 /**
  * COMPONENT
@@ -28,37 +29,45 @@ const Routes = () => {
 
   return (
     <div>
-      <Switch>
-        <Route exact path="/">
-          <LogoLoad />
-        </Route>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route path="/login">
-          <AuthForm name="login" />
-        </Route>
-        <Route path="/signup">
-          <AuthForm name="signup" />
-        </Route>
-        <Route exact path="/detector">
-          <Detector />
-        </Route>
-        <Route exact path="/profile">
-          <Profile />
-        </Route>
-        <Route exact path="/history">
-          <History />
-        </Route>
-        <Route
-          exact
-          path="/summary"
-          render={(props) => <SessionSummary {...props} />}
-        />
-        <Route exact path="/leaderboard">
-          <Leaderboard />
-        </Route>
-      </Switch>
+      <Route
+        render={({ location }) => (
+          <TransitionGroup>
+            <CSSTransition key={location.key} timeout={450} classNames="fade">
+              <Switch location={location}>
+                <Route exact path="/">
+                  <LogoLoad />
+                </Route>
+                <Route path="/home">
+                  <Home />
+                </Route>
+                <Route path="/login">
+                  <AuthForm name="login" />
+                </Route>
+                <Route path="/signup">
+                  <AuthForm name="signup" />
+                </Route>
+                <Route exact path="/detector">
+                  <Detector />
+                </Route>
+                <Route exact path="/profile">
+                  <Profile />
+                </Route>
+                <Route exact path="/history">
+                  <History />
+                </Route>
+                <Route
+                  exact
+                  path="/summary"
+                  render={(props) => <SessionSummary {...props} />}
+                />
+                <Route exact path="/leaderboard">
+                  <Leaderboard />
+                </Route>
+              </Switch>
+            </CSSTransition>
+          </TransitionGroup>
+        )}
+      />
     </div>
   );
 };
