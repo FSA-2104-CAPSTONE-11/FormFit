@@ -25,8 +25,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     // overflow: "auto",
     flexDirection: "column",
-    justifyContent: "space-around",
+    justifyContent: "center",
     alignItems: "center",
+    borderRadius: 20, 
   },
   paperHeight: {
     height: 100,
@@ -52,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     height: 200,
     marginBottom: theme.spacing(3),
+    borderRadius: 0,
   },
   chartHeader: {
     height: 50,
