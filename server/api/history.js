@@ -30,7 +30,7 @@ router.post("/", requireToken, async (req, res, next) => {
     // Leaderboard / Redis piece
     const args = ["overallLeaderboard", score, req.user.username];
 
-    client.zadd(args, async (err, result) => {
+    client.zincrby(args, async (err, result) => {
       if (err) {
         console.log("error updating leaderboard", err);
       } else {
