@@ -65,15 +65,19 @@ const Leaderboard = () => {
           <Table aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Username</StyledTableCell>
-                <StyledTableCell align="right">Total Score</StyledTableCell>
+                <StyledTableCell align="left">Rank</StyledTableCell>
+                <StyledTableCell align="center">Username</StyledTableCell>
+                <StyledTableCell align="right">Score</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {leaderboard &&
                 leaderboard.map((user, idx) => (
                   <StyledTableRow key={idx}>
-                    <StyledTableCell component="th" scope="row">
+                    <StyledTableCell component="th" scope="row" align="left">
+                      {idx + 1}
+                    </StyledTableCell>
+                    <StyledTableCell component="th" scope="row" align="center">
                       {user[0]}
                     </StyledTableCell>
                     <StyledTableCell align="right">{user[1]}</StyledTableCell>
