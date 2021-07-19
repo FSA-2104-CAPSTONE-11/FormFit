@@ -31,11 +31,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   button: {
-    color: "black",
     padding: theme.spacing(1),
     margin: theme.spacing(1),
     width: 200,
-    backgroundColor: "#FFC2B4",
+    backgroundColor: "secondary",
   },
 }));
 
@@ -64,20 +63,12 @@ const Profile = () => {
   };
 
   const getFavoriteExercise = (poseSessions) => {
-    if (poseSessions.length === 0) return null;
-    let modeMap = {};
-    let maxEl = poseSessions[0].pose.name,
-      maxCount = 1;
-    for (let i = 0; i < poseSessions.length; i++) {
-      let el = poseSessions[i].pose && poseSessions[i].pose.name;
-      if (modeMap[el] === null) modeMap[el] = 1;
-      else modeMap[el]++;
-      if (modeMap[el] > maxCount) {
-        maxEl = el;
-        maxCount = modeMap[el];
-      }
-    }
-    return maxEl;
+    const exercises = { 1: "Squat", 2: "Push-Up", 3: "Sit-Up" };
+    const counts = [0, 0, 0];
+    poseSessions.map((sesh) => {
+      counts[sesh.poseId - 1]++;
+    });
+    return exercises[counts.indexOf(Math.max(...counts)) + 1];
   };
 
   const alterDate = (createdAt) => {
@@ -119,19 +110,17 @@ const Profile = () => {
                   <strong>Last Exercise Score:</strong>{" "}
                   {poseSessions[poseSessions.length - 1].score}
                 </Typography>
-                <CardActions>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <Button
-                      variant="contained"
-                      className={classes.button}
-                      style={{left: "50%"}}
-                      onClick={() => {
-                        history.push("/history");
-                      }}
-                    >
-                      View All Activity
-                    </Button>
-                  </div>
+                <CardActions style={{ display: "flex", marginLeft: "auto" }}>
+                  <Button
+                    variant="contained"
+                    className={classes.button}
+                    color="primary"
+                    onClick={() => {
+                      history.push("/history");
+                    }}
+                  >
+                    View All Activity
+                  </Button>
                 </CardActions>
               </CardContent>
             ) : (
@@ -139,104 +128,99 @@ const Profile = () => {
             )}
           </Card>
           <Card className={classes.root}>
-            <CardActionArea>
-              <CardMedia title="User Data Banner">
-                <img src={dataImage} style={{ width: "100%" }} />
-              </CardMedia>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  Personal Info:
-                </Typography>
-                {!editing ? (
-                  <div>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      <strong>Username:</strong> {username}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      <strong>Email:</strong> {email}
-                    </Typography>
-                  </div>
-                ) : (
-                  <div>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      <strong>Username:</strong>{" "}
-                      <input
-                        type="text"
-                        name="newUsername"
-                        defaultValue={username}
-                        onChange={onUsernameChange}
-                      />
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      <strong>Email:</strong>{" "}
-                      <input
-                        type="text"
-                        name="email"
-                        defaultValue={email}
-                        onChange={onEmailChange}
-                      />
-                    </Typography>
-                  </div>
-                )}
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
+            <CardMedia title="User Data Banner">
+              <img src={dataImage} style={{ width: "100%" }} />
+            </CardMedia>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="h2">
+                Personal Info:
+              </Typography>
               {!editing ? (
-                <Button
-                  size="small"
-                  className={classes.button}
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    setEditing(true);
-                  }}
-                >
-                  Edit
-                </Button>
+                <div>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    <strong>Username:</strong> {username}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    <strong>Email:</strong> {email}
+                  </Typography>
+                </div>
               ) : (
-                <div style={{}}>
-                  <Button
-                    size="small"
-                    className={classes.button}
-                    variant="contained"
-                    color="primary"
-                    onClick={() => {
-                      dispatch(updateUser({ newUsername, newEmail }));
-                      setEditing(false);
-                    }}
+                <div>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
                   >
-                    Save
-                  </Button>
-                  <Button
-                    size="small"
-                    className={classes.button}
-                    variant="contained"
-                    color="primary"
-                    onClick={() => {
-                      setEditing(false);
-                    }}
+                    <strong>Username:</strong>{" "}
+                    <input
+                      type="text"
+                      name="newUsername"
+                      defaultValue={username}
+                      onChange={onUsernameChange}
+                    />
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
                   >
-                    Cancel
-                  </Button>
+                    <strong>Email:</strong>{" "}
+                    <input
+                      type="text"
+                      name="email"
+                      defaultValue={email}
+                      onChange={onEmailChange}
+                    />
+                  </Typography>
                 </div>
               )}
-            </CardActions>
+              <CardActions style={{ display: "flex", marginLeft: "auto" }}>
+                {!editing ? (
+                  <Button
+                    className={classes.button}
+                    variant="contained"
+                    onClick={() => {
+                      setEditing(true);
+                    }}
+                  >
+                    Edit
+                  </Button>
+                ) : (
+                  <div style={{}}>
+                    <Button
+                      className={classes.button}
+                      variant="contained"
+                      onClick={() => {
+                        dispatch(updateUser({ newUsername, newEmail }));
+                        setEditing(false);
+                      }}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      className={classes.button}
+                      variant="contained"
+                      style={{
+                        backgroundColor: "red",
+                      }}
+                      onClick={() => {
+                        setEditing(false);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                )}
+              </CardActions>
+            </CardContent>
           </Card>
         </div>
       ) : (
