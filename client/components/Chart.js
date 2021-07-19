@@ -18,13 +18,13 @@ const Chart = (props) => {
   const theme = useTheme();
   const exercise = props.exercise;
   let barColor;
-  if (exercise[0].pose.name === "squat") {
+  if (exercise[0].pose.name === "Squat") {
     barColor = "#0D95FD";
   }
-  if (exercise[0].pose.name === "pushup") {
+  if (exercise[0].pose.name === "Push-Up") {
     barColor = "#9d4edd";
   }
-  if (exercise[0].pose.name === "situp") {
+  if (exercise[0].pose.name === "Sit-Up") {
     barColor = "#26A96C";
   }
 

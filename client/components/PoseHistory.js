@@ -14,7 +14,7 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Redirect } from "react-router";
-import NavbarOffset from './NavbarOffset';
+import NavbarOffset from "./NavbarOffset";
 
 /**
  * STYLES
@@ -93,10 +93,10 @@ const History = () => {
                 poseName = "Squat";
               }
               if (pose.poseId === 2) {
-                poseName = "PushUp";
+                poseName = "Push-Up";
               }
               if (pose.poseId === 3) {
-                poseName = "Situp";
+                poseName = "Sit-up";
               }
               return (
                 <Accordion key={pose.id}>

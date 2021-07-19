@@ -23,19 +23,22 @@ const SessionsData = (props) => {
   const classes = useStyles();
   const exercise = props.exercise;
   let avatarColor;
-  if (exercise[0].pose.name === "squat") {
+  if (exercise[0].pose.name === "Squat") {
     avatarColor = "#0D95FD";
   }
-  if (exercise[0].pose.name === "pushup") {
+  if (exercise[0].pose.name === "Push-Up") {
     avatarColor = "#9d4edd";
   }
-  if (exercise[0].pose.name === "situp") {
+  if (exercise[0].pose.name === "Sit-Up") {
     avatarColor = "#26A96C";
   }
 
   return (
     <ThemeProvider theme={theme}>
-      <Avatar className={classes.avatar} style={{backgroundColor: avatarColor,}}>
+      <Avatar
+        className={classes.avatar}
+        style={{ backgroundColor: avatarColor }}
+      >
         <Typography component="h3" variant="h4">
           {exercise.length}
         </Typography>

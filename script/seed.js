@@ -70,17 +70,17 @@ async function seed() {
   // Creating Pose
   const pose = await Promise.all([
     await Pose.create({
-      name: "squat",
+      name: "Squat",
       instructions:
         "Stand 6 - 8ft away and face the camera! Keep your back and shoulders level as you squat as low as you can. When you come back up, that is 1 rep!",
     }),
     await Pose.create({
-      name: "pushup",
+      name: "Push-Up",
       instructions:
         "Position the camera level with yourself 6-8ft away. Then face the camera and start in the up position. Remember to have control as you go down, and when you come up that is 1 rep!",
     }),
     await Pose.create({
-      name: "situp",
+      name: "Sit-Up",
       instructions:
         "Start in the up position with the camera on level ground aimed at your side, atleast 6ft away. Then go down and all the way back up for 1 rep!",
     }),
