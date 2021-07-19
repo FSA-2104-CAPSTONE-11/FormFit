@@ -30,3 +30,20 @@ router.get("/rank", requireToken, (req, res, next) => {
     }
   });
 });
+
+// POST api/leaderboard (protected for logged in user)
+router.post("/", requireToken, (req, res, next) => {
+  const { score } = req.body;
+
+  const args = ["overallLeaderboard", score, req.user.username];
+
+  client.zadd(args, async (err, result) => {
+    if (err) {
+      console.log("error updating leaderboard", err);
+    } else {
+      console.log("we did it", result);
+    }
+  });
+
+  res.sendStatus(200);
+});
