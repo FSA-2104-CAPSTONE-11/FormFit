@@ -49,7 +49,7 @@ export const SessionsPieChart = (props) => {
   fillData();
 
   function smallerText(value, entry) {
-    return <span style={{ fontSize: "0.7rem" }}>{value}</span>;
+    return <span style={{ fontSize: "1vw" }}>{value}</span>;
   }
 
   return (
@@ -106,7 +106,7 @@ export const RepsPieChart = (props) => {
   fillData();
 
   function smallerText(value, entry) {
-    return <span style={{ fontSize: "0.7rem" }}>{value}</span>;
+    return <span style={{ fontSize: "1vm" }}>{value}</span>;
   }
 
   return (
