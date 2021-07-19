@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from "react";
-import {useSelector, useDispatch} from "react-redux";
-import {getUser} from "../store/user";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getUser } from "../store/user";
 import Chart from "./Chart";
-import {SessionsPieChart, RepsPieChart} from "./AllExerciseChart";
+import { SessionsPieChart, RepsPieChart } from "./AllExerciseChart";
 import SessionsData from "./SessionsData";
 import RepsData from "./RepsData";
 import {
@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Data = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.id);
-  const {poseSessions} = useSelector((state) => state.user);
+  const { poseSessions } = useSelector((state) => state.user);
   const classes = useStyles();
   const piePaper = clsx(classes.paper, classes.piePaperHeight);
   const paper = clsx(classes.paper, classes.paperHeight);
@@ -92,31 +92,31 @@ const Data = () => {
   if (poseSessions) {
     if (
       poseSessions.some(
-        (session) => session.pose && session.pose.name === "squat"
+        (session) => session.pose && session.pose.name === "Squat"
       )
     ) {
       const squatSessions = poseSessions.filter(
-        (session) => session.pose && session.pose.name === "squat"
+        (session) => session.pose && session.pose.name === "Squat"
       );
       exerciseSessions.push(squatSessions);
     }
     if (
       poseSessions.some(
-        (session) => session.pose && session.pose.name === "pushup"
+        (session) => session.pose && session.pose.name === "Push-Up"
       )
     ) {
       const pushupSessions = poseSessions.filter(
-        (session) => session.pose && session.pose.name === "pushup"
+        (session) => session.pose && session.pose.name === "Push-Up"
       );
       exerciseSessions.push(pushupSessions);
     }
     if (
       poseSessions.some(
-        (session) => session.pose && session.pose.name === "situp"
+        (session) => session.pose && session.pose.name === "Sit-Up"
       )
     ) {
       const sitUpSessions = poseSessions.filter(
-        (session) => session.pose && session.pose.name === "situp"
+        (session) => session.pose && session.pose.name === "Sit-Up"
       );
       exerciseSessions.push(sitUpSessions);
     }

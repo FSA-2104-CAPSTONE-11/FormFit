@@ -98,7 +98,7 @@ const Detector = () => {
 
   let [finished, setFinished] = useState(false);
   let [ticker, setTicker] = useState();
-  let [exercise, setExercise] = useState("squat");
+  let [exercise, setExercise] = useState("Squat");
 
   const {
     criteria,
@@ -402,7 +402,10 @@ const Detector = () => {
             </IconButton>
           ) : (
             <div className={classes.Button}>
-              <CircularProgress className={classes.loading} style={{ margin: "auto",  }} />
+              <CircularProgress
+                className={classes.loading}
+                style={{ margin: "auto" }}
+              />
             </div>
           )}
         </div>

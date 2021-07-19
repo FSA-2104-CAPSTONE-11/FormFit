@@ -42,7 +42,7 @@ function ExerciseSelector({ exercise, changeMe }) {
               marginTop: 50,
               color: "black",
               fontWeight: "bolder",
-              backgroundColor: "white"
+              backgroundColor: "white",
             }}
             MenuProps={{
               classes: { paper: classes.dropdownStyle },
@@ -57,13 +57,13 @@ function ExerciseSelector({ exercise, changeMe }) {
               getContentAnchorEl: null,
             }}
           >
-            <MenuItem className={classes.menuItemStyle} value="squat">
+            <MenuItem className={classes.menuItemStyle} value="Squat">
               Squat
             </MenuItem>
-            <MenuItem className={classes.menuItemStyle} value="pushup">
+            <MenuItem className={classes.menuItemStyle} value="Push-Up">
               Push-Up
             </MenuItem>
-            <MenuItem className={classes.menuItemStyle} value="situp">
+            <MenuItem className={classes.menuItemStyle} value="Sit-Up">
               Sit-Up
             </MenuItem>
           </Select>
