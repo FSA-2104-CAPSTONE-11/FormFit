@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
-    alignItems: "flex-end",
+    alignItems: "center",
     textAlign: "center",
     zIndex: 10,
     objectFit: "cover",
