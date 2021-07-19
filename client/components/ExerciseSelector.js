@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
+    justifyContent: "flex-end",
   },
   formControl: {
     margin: theme.spacing(1),

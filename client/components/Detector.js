@@ -66,10 +66,9 @@ const useStyles = makeStyles((theme) => ({
   },
   countDown: {
     display: "flex",
+    flexWrap: "wrap",
     justifyContent: "center",
-    alignItems: "center",
-    // left: "50%",
-    // top: "50%",
+    alignItems: "flex-end",
     zIndex: 10,
     objectFit: "cover",
     color: "white",
@@ -246,7 +245,7 @@ const Detector = () => {
         setTicker(count);
         count -= 1;
       } else if (count === 0) {
-        setTicker("GO!");
+        setTicker("Start when you see the points!");
         count -= 1;
       } else {
         clearInterval(timer);
