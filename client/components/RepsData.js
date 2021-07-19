@@ -23,8 +23,9 @@ const RepsData = (props) => {
   const classes = useStyles();
   const exercise = props.exercise;
   let avatarColor;
+
   if (exercise[0].pose.name === "Squat") {
-    avatarColor = "#0D95FD";
+    avatarColor = "#FF5D73";
   }
   if (exercise[0].pose.name === "Push-Up") {
     avatarColor = "#9d4edd";

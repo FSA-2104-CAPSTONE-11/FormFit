@@ -18,8 +18,9 @@ const Chart = (props) => {
   const theme = useTheme();
   const exercise = props.exercise;
   let barColor;
+
   if (exercise[0].pose.name === "Squat") {
-    barColor = "#0D95FD";
+    barColor = "#FF5D73";
   }
   if (exercise[0].pose.name === "Push-Up") {
     barColor = "#9d4edd";

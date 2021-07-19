@@ -17,11 +17,12 @@ import NavbarOffset from "./NavbarOffset";
 // style classes
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: "#e6b800",
-    color: theme.palette.common.white,
+    backgroundColor: "#FFFD82",
+    color: "theme.palette.common.white",
   },
   body: {
     fontSize: 14,
+    backgroundColor: "#EFFBF4",
   },
 }))(TableCell);
 

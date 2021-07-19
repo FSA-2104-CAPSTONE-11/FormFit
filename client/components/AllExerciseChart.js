@@ -1,7 +1,7 @@
 import React from "react";
 import { Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 
-const COLORS = ["#0D95FD", "#9d4edd", "#26A96C"];
+const COLORS = ["#FF5D73", "#9d4edd", "#26A96C"];
 
 const RADIAN = Math.PI / 180;
 
@@ -48,9 +48,9 @@ export const SessionsPieChart = (props) => {
 
   fillData();
 
-function smallerText(value, entry) {
-  return (<span style={{fontSize: "0.7rem"}}>{value}</span>)
-}
+  function smallerText(value, entry) {
+    return <span style={{ fontSize: "0.7rem" }}>{value}</span>;
+  }
 
   return (
     <ResponsiveContainer>
@@ -69,11 +69,11 @@ function smallerText(value, entry) {
           ))}
         </Pie>
         <Legend
-
-        layout="horizontal" verticalAlign="bottom" align="right"
-        formatter={smallerText}
-        iconSize="7"
-
+          layout="horizontal"
+          verticalAlign="bottom"
+          align="right"
+          formatter={smallerText}
+          iconSize="7"
           payload={sessionData.map((item, index) => ({
             id: item.name,
             type: "square",
@@ -106,7 +106,7 @@ export const RepsPieChart = (props) => {
   fillData();
 
   function smallerText(value, entry) {
-    return (<span style={{fontSize: "0.7rem"}}>{value}</span>)
+    return <span style={{ fontSize: "0.7rem" }}>{value}</span>;
   }
 
   return (
