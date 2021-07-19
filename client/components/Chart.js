@@ -18,13 +18,14 @@ const Chart = (props) => {
   const theme = useTheme();
   const exercise = props.exercise;
   let barColor;
-  if (exercise[0].pose.name === "squat") {
+
+  if (exercise[0].pose.name === "Squat") {
     barColor = "#FF5D73";
   }
-  if (exercise[0].pose.name === "pushup") {
+  if (exercise[0].pose.name === "Push-Up") {
     barColor = "#9d4edd";
   }
-  if (exercise[0].pose.name === "situp") {
+  if (exercise[0].pose.name === "Sit-Up") {
     barColor = "#26A96C";
   }
 
@@ -74,10 +75,10 @@ const Chart = (props) => {
         height={100}
         data={fillData()}
         margin={{
-          top: 5,
-          right: 5,
-          bottom: 5,
-          left: 5,
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
         }}
       >
         <CartesianGrid stroke="#f5f5f5" />
