@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(3),
     display: "flex",
-    // overflow: "auto",
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
@@ -69,7 +68,6 @@ const Data = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.id);
   const { poseSessions } = useSelector((state) => state.user);
   const classes = useStyles();
-  const piePaper = clsx(classes.paper, classes.piePaperHeight);
   const paper = clsx(classes.paper, classes.paperHeight);
 
   const [loaded, setLoaded] = useState(false);
@@ -165,9 +163,6 @@ const Data = () => {
                   <Grid item xs={12} md={6} lg={6} width="xs">
                     <Paper elevation={5} className={paper}>
                       <Chart exercise={exercise} />
-                      {/* <Typography component="h2" variant="h6">
-                        {exercise[0].pose.name} Sessions this Week
-                      </Typography> */}
                     </Paper>
                   </Grid>
                 </Grid>
