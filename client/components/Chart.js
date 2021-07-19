@@ -19,7 +19,7 @@ const Chart = (props) => {
   const exercise = props.exercise;
   let barColor;
   if (exercise[0].pose.name === "squat") {
-    barColor = "#0D95FD";
+    barColor = "#FF5D73";
   }
   if (exercise[0].pose.name === "pushup") {
     barColor = "#9d4edd";

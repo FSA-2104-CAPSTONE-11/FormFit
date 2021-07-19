@@ -24,7 +24,7 @@ const RepsData = (props) => {
   const exercise = props.exercise;
   let avatarColor;
   if (exercise[0].pose.name === "squat") {
-    avatarColor = "#0D95FD";
+    avatarColor = "#FF5D73";
   }
   if (exercise[0].pose.name === "pushup") {
     avatarColor = "#9d4edd";
@@ -35,7 +35,10 @@ const RepsData = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Avatar className={classes.avatar} style={{backgroundColor: avatarColor}}>
+      <Avatar
+        className={classes.avatar}
+        style={{ backgroundColor: avatarColor }}
+      >
         <Typography component="h3" variant="h4">
           {exercise.reduce((a, session) => {
             return a + session.reps;

@@ -1,21 +1,21 @@
 import React from "react";
-import {createTheme, ThemeProvider, CssBaseline} from "@material-ui/core";
+import { createTheme, ThemeProvider, CssBaseline } from "@material-ui/core";
 import Navbar from "./components/Navbar";
 import Routes from "./Routes";
-import {useSelector} from "react-redux";
-import {makeStyles} from "@material-ui/core/styles";
+import { useSelector } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
 
 const customTheme = createTheme({
   palette: {
     primary: {
-      main: "#0e3047",
-      dark: "#156064",
+      main: "#008BF5",
+      dark: "#0E0E52",
     },
     secondary: {
-      main: "#9e9d24",
+      main: "#77CBB9",
     },
     background: {
-      default: "#0e3047",
+      default: "#008BF5",
     },
   },
 });
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     marginLeft: -drawerWidth,
-  }
+  },
 }));
 
 const App = () => {
@@ -43,9 +43,7 @@ const App = () => {
         {isLoggedIn ? (
           <div className={classes.root}>
             <Navbar />
-            <div
-              className={classes.content}
-            >
+            <div className={classes.content}>
               <Routes />
             </div>
           </div>

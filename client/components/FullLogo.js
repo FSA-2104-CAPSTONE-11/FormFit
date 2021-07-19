@@ -1,8 +1,13 @@
 import React from "react";
 
 const FullLogo = () => (
-  <svg width="100%" height="100%" viewBox="0 0 924 290" preserveAspectRatio="xMidYMid meet">
-    <rect width="100%" height="100%" fill="#0e3047" />
+  <svg
+    width="100%"
+    height="100%"
+    viewBox="0 0 924 290"
+    preserveAspectRatio="xMidYMid meet"
+  >
+    <rect width="100%" height="100%" fill="#008BF5" />
     <path
       id="FormFit"
       fill="white"
