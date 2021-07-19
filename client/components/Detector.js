@@ -1,17 +1,17 @@
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import "@tensorflow/tfjs-backend-webgl";
-import React, { useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Webcam from "react-webcam";
-import { IconButton, SvgIcon, makeStyles } from "@material-ui/core";
+import {IconButton, SvgIcon, makeStyles} from "@material-ui/core";
 import StartButton from "./StartButton";
 import evaluateExercise from "./Evaluator";
 import Instructions from "./Instructions";
 import SessionSummary from "./SessionSummary";
 import NotLoggedIn from "./NotLoggedIn";
-import { Redirect } from "react-router";
-import { getPose } from "../store/pose";
-import { useDispatch, useSelector } from "react-redux";
-import { createPose } from "../store/poseSession";
+import {Redirect} from "react-router";
+import {getPose} from "../store/pose";
+import {useDispatch, useSelector} from "react-redux";
+import {createPose} from "../store/poseSession";
 import ExerciseSelector from "./ExerciseSelector";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
@@ -69,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "flex-end",
+    textAlign: "center",
     zIndex: 10,
     objectFit: "cover",
     color: "white",
@@ -129,7 +130,7 @@ const Detector = () => {
 
   useEffect(() => {
     async function getPoseInfoAndCriteria() {
-      await dispatch(getPose({ poseName: exercise }));
+      await dispatch(getPose({poseName: exercise}));
     }
     getPoseInfoAndCriteria();
   }, [exercise]);
@@ -209,7 +210,7 @@ const Detector = () => {
             canvasRef.current.height
           );
 
-          dispatch(createPose({ results, summaryOfScores, goodReps }));
+          dispatch(createPose({results, summaryOfScores, goodReps}));
           setFinished(true);
           noseHeight = 0;
         }
@@ -219,17 +220,20 @@ const Detector = () => {
 
   function detectorTimer() {
     let timer = setInterval(function () {
-      if (time === 0) {
+      if (time === 16) {
+        setTicker("GO!");
+      } else if (time <= 15) {
+        setTicker(time);
+      } else if (time === 0) {
         clearInterval(timer);
       }
-      setTicker(time);
       time -= 1;
     }, 1000);
   }
 
   function handleClick() {
     setFinished(false);
-    time = 15;
+    time = 16;
     maxTime = time;
     setAngleArray([]);
     requestAnimationFrame(async () => {
@@ -245,7 +249,7 @@ const Detector = () => {
         setTicker(count);
         count -= 1;
       } else if (count === 0) {
-        setTicker("Start when you see the points!");
+        setTicker("Ready... Set...");
         count -= 1;
       } else {
         clearInterval(timer);
@@ -310,7 +314,7 @@ const Detector = () => {
       );
 
       if (kp1.score > 0.5 && kp2.score > 0.5) {
-        angleArray.push({ [name]: [adjacentPairAngle, kp1.score, kp2.score] });
+        angleArray.push({[name]: [adjacentPairAngle, kp1.score, kp2.score]});
       }
 
       // If score is null, just show the keypoint.
@@ -384,10 +388,12 @@ const Detector = () => {
               )}
             </div>
             {finished ? <Redirect to="/summary" /> : <div></div>}
-            <div id="ticker" className={classes.countDown}>
-              <Typography component="h2" variant="h1">
-                {ticker}
-              </Typography>
+            <div style={{marginTop: "50%", }}>
+              <div id="ticker" className={classes.countDown}>
+                <Typography component="h2" variant="h1">
+                  {ticker}
+                </Typography>
+              </div>
             </div>
           </div>
           {detector ? (
@@ -401,7 +407,10 @@ const Detector = () => {
             </IconButton>
           ) : (
             <div className={classes.Button}>
-              <CircularProgress className={classes.loading} style={{ margin: "auto",  }} />
+              <CircularProgress
+                className={classes.loading}
+                style={{margin: "auto"}}
+              />
             </div>
           )}
         </div>
