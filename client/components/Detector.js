@@ -74,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
     objectFit: "cover",
     color: "white",
     opacity: "0.9",
+    marginTop: "20%",
   },
 }));
 
@@ -388,7 +389,7 @@ const Detector = () => {
               )}
             </div>
             {finished ? <Redirect to="/summary" /> : <div></div>}
-            <div style={{marginTop: "50%", }}>
+            <div>
               <div id="ticker" className={classes.countDown}>
                 <Typography component="h2" variant="h1">
                   {ticker}
