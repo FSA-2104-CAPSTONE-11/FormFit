@@ -13,8 +13,7 @@ FormFit is a digital fitness coach that analyses your form in real-time, assessi
 
 ### Video Demonstration
 
-<p align='center'><a href="https://youtu.be/B5MAbpgM9uQ"> <img style="max-width:300px" src="https://cdn.loom.com/sessions/thumbnails/04d6c8482c7341fb9b423d10f0bea30b-with-play.gif"> </br> <p align='center'> Watch Video</p> </a> </p>
-
+<p align='center'><a href="https://youtu.be/B5MAbpgM9uQ"> <img style="max-width:300px" src="https://user-images.githubusercontent.com/79876588/126710357-cb87db7f-560b-47c4-82fe-355771965c83.gif"> </br> <p align='center'> Watch Video</p> </a> </p>
 
 ## Visit the Deployed App
 
@@ -33,9 +32,13 @@ This Progressive-Web-App can be used in-browser on a phone or desktop, however i
 #### Android Installation 
 
 1. Navigate to formfit.herokuapp.com in **Chrome** ![image](https://user-images.githubusercontent.com/79876588/126702900-0dd4fe34-ba7d-4f23-b614-43d92c86e591.png)
-2. Click on the three dots in the upper right hand corner
-3. Tap Add to home screen.
-4. Press Add when the prompt is shown
+2. The first time you visit the site, a prompt will appear offering to install the app on your home screen
+![image](https://user-images.githubusercontent.com/79876588/126708302-329827c2-cbd2-47d2-814d-9469d7ce6c81.png)
+3. In subsequent visits the prompt may not appear, so you can click on the three dots in the upper right hand corner of Chrome
+4. Tap install app
+
+![image](https://user-images.githubusercontent.com/79876588/126708931-81907053-bbf8-419c-98e4-d81d9b84ccca.png)
+
 5. The FormFit app should now be on your phone's desktop!
 
 ## Tech Stack
