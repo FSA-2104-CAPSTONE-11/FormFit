@@ -20,7 +20,7 @@ This Progressive-Web-App can be used in-browser on a phone or desktop, however i
 
 #### iOS Installation 
 
-1. Nvigate to formfit.herokuapp.com in **Safari**
+1. Navigate to formfit.herokuapp.com in **Safari**
 2. Click on the share button
 ![shareButton](https://user-images.githubusercontent.com/79876588/126702177-ea7ebd6d-e746-4425-a928-4dc9c9eb9ffc.jpg)
 3. Select "Add to Home Screen"
