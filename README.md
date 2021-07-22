@@ -41,4 +41,4 @@ While the initial developers of FormFit don't have any plans to further the app,
 
 ## Special Thanks
 
-We would like to initally thank Jason Mayes from TensorFlow for suggesting MoveNet for FormFit and providing us with helpful resources. Additionally, FormFit would not have been possible if it weren't for our two great Team Leads: Lindsay Welhoelter and Ivan Lozano. Also, a special thanks to our Project Manager, Gary Kertis who always asked the tough questions! And of course, thank you to Fullstack Academy for providing us the opportunity to bring FomFit to life!
+We would like to initially thank Jason Mayes from TensorFlow for suggesting MoveNet for FormFit and providing us with helpful resources. Additionally, FormFit would not have been possible if it weren't for our two great Team Leads: Lindsay Welhoelter and Ivan Lozano. Also, a special thanks to our Project Manager, Gary Kertis who always asked the tough questions! And of course, thank you to Fullstack Academy for providing us the opportunity to bring FormFit to life!
