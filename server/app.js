@@ -16,7 +16,7 @@ client.on("connect", function () {
   console.log("Connected to Redis");
 });
 
-module.exports = { app, client };
+module.exports = {app, client};
 
 // redirect http requests to https
 if (process.env.NODE_ENV === "production") {

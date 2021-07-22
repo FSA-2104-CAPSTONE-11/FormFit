@@ -17,7 +17,6 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
  */
 const Routes = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => !!state.auth.id);
 
   const loadInitialData = () => {
     dispatch(me());

@@ -36,10 +36,7 @@ const RepsData = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Avatar
-        className={classes.avatar}
-        style={{ backgroundColor: avatarColor }}
-      >
+      <Avatar className={classes.avatar} style={{backgroundColor: avatarColor}}>
         <Typography component="h3" variant="h4">
           {exercise.reduce((a, session) => {
             return a + session.reps;

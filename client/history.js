@@ -1,8 +1,8 @@
-import {createMemoryHistory, createBrowserHistory} from 'history'
+import {createMemoryHistory, createBrowserHistory} from "history";
 
 const history =
-  process.env.NODE_ENV === 'test'
+  process.env.NODE_ENV === "test"
     ? createMemoryHistory()
-    : createBrowserHistory()
+    : createBrowserHistory();
 
-export default history
+export default history;

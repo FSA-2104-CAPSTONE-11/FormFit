@@ -1,7 +1,7 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { authenticate } from "../store";
-import { Redirect } from "react-router-dom";
+import {useSelector, useDispatch} from "react-redux";
+import {authenticate} from "../store";
+import {Redirect} from "react-router-dom";
 import {
   Avatar,
   Button,
@@ -17,14 +17,11 @@ import {
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
-/**
- * STYLES
- */
 const useStyles = makeStyles((theme) => ({
   main: {
     backgroundColor: "#ffffff",
     border: "1px solid #d3d3d3",
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
   paper: {
     marginTop: theme.spacing(8),
@@ -37,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "100%",
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -61,21 +58,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-/**
- * COMPONENT
- */
 const AuthForm = (props) => {
   const classes = useStyles();
   const isLoggedIn = useSelector((state) => !!state.auth.id);
-  const { name } = props;
+  const error = useSelector((state) => state.auth.error);
+  const dispatch = useDispatch();
+  const {name} = props;
   let displayName;
   if (name === "login") {
     displayName = "Login";
   } else if (name === "signup") {
     displayName = "Sign Up";
   }
-  const error = useSelector((state) => state.auth.error);
-  const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -84,11 +78,12 @@ const AuthForm = (props) => {
     const password = event.currentTarget.password.value;
     if (name === "signup") {
       const email = event.currentTarget.email.value;
-      dispatch(authenticate({ username, password, formName, email }));
+      dispatch(authenticate({username, password, formName, email}));
     } else {
-      dispatch(authenticate({ username, password, formName }));
+      dispatch(authenticate({username, password, formName}));
     }
   };
+
   return (
     <div>
       {isLoggedIn ? (
@@ -120,7 +115,7 @@ const AuthForm = (props) => {
                   autoComplete="username"
                   autoFocus
                   InputLabelProps={{
-                    style: { color: "#156064" },
+                    style: {color: "#156064"},
                     classes: {
                       root: classes.cssLabel,
                       focused: classes.cssFocused,
@@ -145,7 +140,7 @@ const AuthForm = (props) => {
                     name="email"
                     autoComplete="email"
                     InputLabelProps={{
-                      style: { color: "#156064" },
+                      style: {color: "#156064"},
                       classes: {
                         root: classes.cssLabel,
                         focused: classes.cssFocused,
@@ -173,7 +168,7 @@ const AuthForm = (props) => {
                   id="password"
                   autoComplete="current-password"
                   InputLabelProps={{
-                    style: { color: "#156064" },
+                    style: {color: "#156064"},
                     classes: {
                       root: classes.cssLabel,
                       focused: classes.cssFocused,
@@ -204,11 +199,7 @@ const AuthForm = (props) => {
                   {displayName}
                 </Button>
                 <Grid container>
-                  <Grid item xs>
-                    {/* <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link> */}
-                  </Grid>
+                  <Grid item xs></Grid>
                   <Grid item>
                     {name === "login" ? (
                       <Link

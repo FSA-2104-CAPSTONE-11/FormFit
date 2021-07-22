@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
 
 const TOKEN = "token";
@@ -11,7 +11,7 @@ export const getLeaderboard = createAsyncThunk("/api/leaderboard", async () => {
   try {
     const token = window.localStorage.getItem(TOKEN);
     if (token) {
-      const { data: leaderboard } = await axios.get("/api/leaderboard", {
+      const {data: leaderboard} = await axios.get("/api/leaderboard", {
         headers: {
           authorization: token,
         },
@@ -42,5 +42,5 @@ const leaderboardSlice = createSlice({
   },
 });
 
-export const { setLeaderboard } = leaderboardSlice.actions;
+export const {setLeaderboard} = leaderboardSlice.actions;
 export default leaderboardSlice.reducer;

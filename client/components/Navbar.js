@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { handleLogout } from "../store";
+import React, {useState} from "react";
+import {useDispatch} from "react-redux";
+import {handleLogout} from "../store";
 import DrawerComponent from "./Drawer";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   logoContainer: {
     display: "flex",
     marginLeft: "auto",
-    marginRight: -12
+    marginRight: -12,
   },
   logo: {
     justifyContent: "right",
@@ -55,8 +55,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = () => {
   const classes = useStyles();
-  const theme = useTheme();
-  // const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -86,7 +84,7 @@ const Navbar = () => {
             onClick={handleDrawerOpen}
             edge="start"
             className={clsx(classes.menuButton, open && classes.hide)}
-            style={{ margin: "0px", padding: "0px 8px 0px 8px" }}
+            style={{margin: "0px", padding: "0px 8px 0px 8px"}}
           >
             <MenuIcon />
           </IconButton>

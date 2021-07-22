@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 
 const TOKEN = "token";
 
@@ -42,5 +42,5 @@ const poseSessionSlice = createSlice({
   },
 });
 
-export const { setPoseSession } = poseSessionSlice.actions;
+export const {setPoseSession} = poseSessionSlice.actions;
 export default poseSessionSlice.reducer;
