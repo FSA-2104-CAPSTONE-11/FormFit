@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import Drawer from "@material-ui/core/Drawer";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -15,7 +15,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import StarIcon from "@material-ui/icons/Star";
 import Divider from "@material-ui/core/Divider";
 import history from "../history";
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 
 const drawerWidth = 240;
 
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 
 const DrawerComponent = (props) => {
   const classes = useStyles();
-  const { open, setOpen, handleClickLogout, handleDrawerClose } = props;
+  const {open, setOpen, handleClickLogout, handleDrawerClose} = props;
 
   const username = useSelector((state) => state.auth.username);
 

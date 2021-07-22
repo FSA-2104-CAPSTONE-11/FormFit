@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
+import {useSelector} from "react-redux";
+import {makeStyles} from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
 import Data from "./Data";
-import { Redirect } from "react-router-dom";
+import {Redirect} from "react-router-dom";
 
 function Copyright() {
   return (
@@ -37,23 +36,10 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
   },
-  paper: {
-    padding: theme.spacing(2),
-    display: "flex",
-    overflow: "auto",
-    flexDirection: "column",
-  },
-  fixedHeight: {
-    height: 240,
-  },
 }));
 
-/**
- * COMPONENT
- */
 export const Home = () => {
   const classes = useStyles();
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const isLoggedIn = useSelector((state) => !!state.auth.id);
 

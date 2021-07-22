@@ -1,12 +1,12 @@
 import React from "react";
-import { makeStyles } from "@material-ui/styles";
+import {makeStyles} from "@material-ui/styles";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   offset: {
     ...theme.mixins.toolbar,
-    flexGrow: 1
-  }
-}))
+    flexGrow: 1,
+  },
+}));
 
 export default function NavbarOffset() {
   const classes = useStyles();

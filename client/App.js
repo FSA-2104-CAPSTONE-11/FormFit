@@ -1,9 +1,9 @@
 import React from "react";
-import { createTheme, ThemeProvider, CssBaseline } from "@material-ui/core";
+import {createTheme, ThemeProvider, CssBaseline} from "@material-ui/core";
 import Navbar from "./components/Navbar";
 import Routes from "./Routes";
-import { useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
+import {useSelector} from "react-redux";
+import {makeStyles} from "@material-ui/core/styles";
 
 const customTheme = createTheme({
   palette: {

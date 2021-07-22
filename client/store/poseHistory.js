@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 
 const TOKEN = "token";
 
@@ -11,7 +11,7 @@ export const getHistory = createAsyncThunk("/api/history", async () => {
   try {
     const token = window.localStorage.getItem(TOKEN);
     if (token) {
-      const { data: history } = await axios.get("/api/history", {
+      const {data: history} = await axios.get("/api/history", {
         headers: {
           authorization: token,
         },
@@ -29,7 +29,7 @@ export const addToHistory = createAsyncThunk(
     try {
       const token = window.localStorage.getItem(TOKEN);
       if (token) {
-        const { dispatch } = thunkAPI;
+        const {dispatch} = thunkAPI;
         await axios.post("/api/history", arg, {
           headers: {
             authorization: token,
@@ -65,5 +65,5 @@ const historySlice = createSlice({
   },
 });
 
-export const { setHistory } = historySlice.actions;
+export const {setHistory} = historySlice.actions;
 export default historySlice.reducer;

@@ -1,6 +1,6 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
-import { FormControl, Select } from "@material-ui/core";
+import {makeStyles} from "@material-ui/core";
+import {FormControl, Select} from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 
 const useStyles = makeStyles((theme) => ({
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ExerciseSelector({ exercise, changeMe }) {
+function ExerciseSelector({exercise, changeMe}) {
   const classes = useStyles();
 
   function handleChange(event) {
@@ -45,7 +45,7 @@ function ExerciseSelector({ exercise, changeMe }) {
               backgroundColor: "white",
             }}
             MenuProps={{
-              classes: { paper: classes.dropdownStyle },
+              classes: {paper: classes.dropdownStyle},
               anchorOrigin: {
                 vertical: "bottom",
                 horizontal: "left",

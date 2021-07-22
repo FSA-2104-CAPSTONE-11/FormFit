@@ -1,21 +1,16 @@
 import React from "react";
-import { useTheme } from "@material-ui/core/styles";
 import {
   ComposedChart,
-  Line,
   Area,
   Bar,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
-  Scatter,
   ResponsiveContainer,
 } from "recharts";
 
 const Chart = (props) => {
-  const theme = useTheme();
   const exercise = props.exercise;
   let barColor;
 
@@ -34,14 +29,13 @@ const Chart = (props) => {
     const monthIndex = createdAt.slice(5, 7) - 1;
     const day = Number(createdAt.slice(8, 10));
     const event = new Date(year, monthIndex, day);
-    const options = { month: "short", day: "2-digit" };
+    const options = {month: "short", day: "2-digit"};
     return event.toLocaleDateString("US-en", options);
   };
 
   // Generate Exercise Data
-  const data = [];
   const createData = (date, score, reps) => {
-    return { date, score, reps };
+    return {date, score, reps};
   };
 
   let thisWeek = [];
@@ -85,7 +79,6 @@ const Chart = (props) => {
         <XAxis dataKey="date" />
         <YAxis />
         <Tooltip />
-        {/* <Legend /> */}
         <Bar dataKey="reps" barSize={20} fill={barColor} />
         <Area type="monotone" dataKey="score" fill="#ffc6ff" stroke="#ffc6ff" />
       </ComposedChart>
