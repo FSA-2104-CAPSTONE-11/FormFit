@@ -38,6 +38,7 @@ This Progressive-Web-App can be used in-browser on a phone or desktop, however i
 4. Tap install app
 
 ![image](https://user-images.githubusercontent.com/79876588/126708931-81907053-bbf8-419c-98e4-d81d9b84ccca.png)
+
 5. The FormFit app should now be on your phone's desktop!
 
 ## Tech Stack
