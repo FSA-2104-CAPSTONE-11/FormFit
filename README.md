@@ -9,7 +9,7 @@
 
 ## Introduction 
 
-FormFit is a digital fitness coach that analyses your form in real-time, assessing alignment and range of motion while exercising. After creating an account or logging in, you can get feedback on squats, push-ups, or sit-ups. The feedback provided is based on calculations of different joints in real time as you exercise. Feedback for each repetition is displayed upon completion of a session, and you can choose whether to save the results to your history. Your history will be preserved to view during later visits and the data displayed on the home dashboard will instantly be updated to include your most recent exercise. If you are persistent enough, you might find yourself on the global leaderboard, which shows the top 10 point-earners throughout the app!
+FormFit is a digital fitness coach that analyses your form in real-time, assessing alignment and range of motion while exercising. The app gives you a score on squats, push-ups, or sit-ups. The feedback provided is based on calculations of different joints as you exercise. Summary statistics for each repetition are displayed upon completion of a session. Your history will be preserved to view during later visits and your performance data will displayed on the home dashboard in a visually pleasing display. If you are persistent enough, you might find yourself on the global leaderboard, which shows the top 10 point-earners throughout the app!
 
 
 ## Visit the Deployed App
