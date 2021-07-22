@@ -17,6 +17,20 @@ FormFit is an exercise assistant Progressive-Web-App that provides feedback on d
 [Form Fit](http://formfit.herokuapp.com/) 
 - **provide steps on how to download to homepage**.   !TODO!
 
+## Tech Stack
+
+The framework of our Progressive Web App relies on React, Redux Toolkit, PostgreSQL, 
+Express, and Node.js, but we also make use of a few other technologies, including:
+
+- MoveNet from Tensorflow, which uses a trained Machine Learning model to keep track of  your body 
+movements in real time, and thus allows us to calculate a score and provide feedback on your form
+- a Redis cache, which sits in front of our database and houses a sorted set that allows our leaderboard 
+to update instantly
+- Material UI, which we used to style our app, and allows it to work well and look great on all devices, 
+though we do recommend using it on your mobile phone  
+
+![Screen Shot 2021-07-19 at 6 43 54 PM](https://user-images.githubusercontent.com/79953082/126699650-3f77f725-eda2-475d-9aef-7780df5d8f6c.png)
+
 ## Setting it Up
 
 1. Fork and clone this repo.
