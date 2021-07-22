@@ -34,11 +34,13 @@ though we do recommend using it on your mobile phone
 ## Setting it Up
 
 1. Fork and clone this repo.
-2. `npm install`.
-3. Create `formfit` database.
-4. Seed the database with `npm run seed`
-5. Start the build process and your application with: `npm run start:dev`.
-6. Navigate to `localhost:8080` to see FormFit in action!
+2. Install [Redis](https://redis.io/download) if you haven't already.
+3. `npm install`.
+4. Create `formfit` database.
+5. Seed the database with `npm run seed`.
+6. Instantiate local Redis server with: `redis-server`.
+7. Start the build process and your application with: `npm run start:dev`.
+8. Navigate to `localhost:8080` to see FormFit in action!
 
 
 ## Things to include
