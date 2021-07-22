@@ -37,9 +37,8 @@ FormFit is an exercise assistant Progressive-Web-App that provides feedback on d
 
 ## RoadMap
 
-While the initial developers of FormFit don't have any plans to further the app, the code was left in a state so future developers can add exercises! Take a look at the Criteria and Pose models in `/server/db/models` to see how to format any additional criteria and corresponding exercises. Testing the exercise with MoveNet and interpreting the results will be necessary in order to determine what instructions to provide the user. Additionally, Some work could also eb down to preload the MoveNet model to make for a better user experience. We look forward to seeing what can be done with FormFit!
+While the initial developers of FormFit don't have any plans to further the app, the code was left in a state so future developers can add exercises! Take a look at the Criteria and Pose models in `/server/db/models` to see how to format any additional criteria and corresponding exercises. Testing the exercise with MoveNet and interpreting the results will be necessary in order to determine what instructions to provide the user. Additionally, some work could also be done to preload the MoveNet model to make for a better user experience. Or, if you have any other ideas, let us know -- we look forward to seeing what can be done with FormFit!
 
 ## Special Thanks
 
 We would like to initally thank Jason Mayes from TensorFlow for suggesting MoveNet for FormFit and providing us with helpful resources. Additionally, FormFit would not have been possible if it weren't for our two great Team Leads: Lindsay Welhoelter and Ivan Lozano. Also, a special thanks to our Project Manager, Gary Kertis who always asked the tough questions! And of course, thank you to Fullstack Academy for providing us the opportunity to bring FomFit to life!
-
