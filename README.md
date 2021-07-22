@@ -22,7 +22,7 @@ FormFit is an exercise assistant Progressive-Web-App that provides feedback on d
 The framework of our Progressive Web App relies on React, Redux Toolkit, PostgreSQL, 
 Express, and Node.js, but we also make use of a few other technologies, including:
 
-- Movenet from Tensorflow, which uses a trained Machine Learning model to keep track of  your body 
+- MoveNet from Tensorflow, which uses a trained Machine Learning model to keep track of  your body 
 movements in real time, and thus allows us to calculate a score and provide feedback on your form
 - a Redis cache, which sits in front of our database and houses a sorted set that allows our leaderboard 
 to update instantly
