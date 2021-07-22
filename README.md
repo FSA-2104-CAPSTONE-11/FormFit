@@ -15,6 +15,7 @@ FormFit is a digital fitness coach that analyses your form in real-time, assessi
 
 <p align='center'><a href="https://youtu.be/B5MAbpgM9uQ"> <img style="max-width:300px" src="https://cdn.loom.com/sessions/thumbnails/04d6c8482c7341fb9b423d10f0bea30b-with-play.gif"> </br> <p align='center'> Watch Video</p> </a> </p>
 
+
 ## Visit the Deployed App
 
 [Form Fit](http://formfit.herokuapp.com/) 

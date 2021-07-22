@@ -2,11 +2,10 @@ import * as poseDetection from "@tensorflow-models/pose-detection";
 import "@tensorflow/tfjs-backend-webgl";
 import React, {useEffect, useRef, useState} from "react";
 import Webcam from "react-webcam";
-import {IconButton, SvgIcon, makeStyles} from "@material-ui/core";
+import {IconButton, makeStyles} from "@material-ui/core";
 import StartButton from "./StartButton";
 import evaluateExercise from "./Evaluator";
 import Instructions from "./Instructions";
-import SessionSummary from "./SessionSummary";
 import NotLoggedIn from "./NotLoggedIn";
 import {Redirect} from "react-router";
 import {getPose} from "../store/pose";
@@ -87,6 +86,7 @@ const Detector = () => {
 
   const webcamRef = useRef();
   const canvasRef = useRef();
+
   const dispatch = useDispatch();
 
   let summaryOfScores = {};
@@ -101,12 +101,7 @@ const Detector = () => {
   let [ticker, setTicker] = useState();
   let [exercise, setExercise] = useState("Squat");
 
-  const {
-    criteria,
-    instructions,
-    name: poseName,
-    id: poseId,
-  } = useSelector((state) => state.pose);
+  const {criteria, instructions} = useSelector((state) => state.pose);
 
   const [openInstructions, setOpenInstructions] = useState(true);
   const [detector, setDetector] = useState();
@@ -410,7 +405,7 @@ const Detector = () => {
             <div className={classes.Button}>
               <CircularProgress
                 className={classes.loading}
-                style={{ margin: "auto" }}
+                style={{margin: "auto"}}
               />
             </div>
           )}

@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { getHistory } from "../store/poseHistory";
+import React, {useEffect, useState} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {getHistory} from "../store/poseHistory";
 import NotLoggedIn from "./NotLoggedIn";
-import { addToHistory } from "../store/poseHistory";
-import { Link as ReactLink } from "react-router-dom";
+import {addToHistory} from "../store/poseHistory";
+import {Link as ReactLink} from "react-router-dom";
 import history from "../history";
-import { deletePose } from "../store/poseSession";
+import {deletePose} from "../store/poseSession";
 
 // style imports
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -156,7 +156,7 @@ const SessionSummary = () => {
           <div>
             <Card className={cardClasses.root}>
               <CardMedia title="Session Summary Image">
-                <img src={headerImage} style={{ width: "100%" }} />
+                <img src={headerImage} style={{width: "100%"}} />
               </CardMedia>
               {
                 <div>
@@ -212,32 +212,32 @@ const SessionSummary = () => {
                             })}
                         </div>
                       </Grid>
-                        <Grid item xs={12} sm={3}>
-                          <Button
-                            variant="contained"
-                            className={cardClasses.button}
-                            style={{
-                              backgroundColor: "#FFC2B4",
-                            }}
-                            onClick={handleSave}
-                            width="40%"
-                          >
-                            Save Session
-                          </Button>
-                        </Grid>
-                        <Grid item xs={12} sm={3}>
-                          <Button
-                            variant="contained"
-                            style={{
-                              backgroundColor: "red",
-                            }}
-                            className={cardClasses.button}
-                            onClick={handleDelete}
-                            width="40%"
-                          >
-                            Discard Session
-                          </Button>
-                        </Grid>
+                      <Grid item xs={12} sm={3}>
+                        <Button
+                          variant="contained"
+                          className={cardClasses.button}
+                          style={{
+                            backgroundColor: "#FFC2B4",
+                          }}
+                          onClick={handleSave}
+                          width="40%"
+                        >
+                          Save Session
+                        </Button>
+                      </Grid>
+                      <Grid item xs={12} sm={3}>
+                        <Button
+                          variant="contained"
+                          style={{
+                            backgroundColor: "red",
+                          }}
+                          className={cardClasses.button}
+                          onClick={handleDelete}
+                          width="40%"
+                        >
+                          Discard Session
+                        </Button>
+                      </Grid>
                     </Grid>
                   </CardContent>
                 </div>
@@ -280,7 +280,7 @@ const SessionSummary = () => {
                         className={accordionClasses.body}
                         component={"span"}
                       >
-                        <ul style={{ listStyleType: "none", padding: 0 }}>
+                        <ul style={{listStyleType: "none", padding: 0}}>
                           {Object.keys(rep).map((angle) => {
                             newCount++;
                             return (

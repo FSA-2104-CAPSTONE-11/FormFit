@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, {useEffect} from "react";
+import {useSelector, useDispatch} from "react-redux";
 import NotLoggedIn from "./NotLoggedIn";
-import { getLeaderboard } from "../store/leaderboard";
+import {getLeaderboard} from "../store/leaderboard";
 
 // style imports
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import {withStyles, makeStyles} from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -54,8 +54,6 @@ const Leaderboard = () => {
   useEffect(() => {
     dispatch(getLeaderboard());
   }, []);
-
-  console.log("leaderboard", leaderboard);
 
   return (
     <div>

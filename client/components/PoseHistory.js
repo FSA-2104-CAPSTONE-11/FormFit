@@ -13,7 +13,6 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Redirect } from "react-router";
 import NavbarOffset from "./NavbarOffset";
 
 /**
@@ -57,7 +56,6 @@ const History = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.id);
   const poseHistory = useSelector((state) => state.history);
   let poseName;
-  let feedback;
 
   const [currentPage, setCurrentPage] = useState(1);
   const [posesPerPage, setPosesPerPage] = useState(10);

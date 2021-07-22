@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, {useState} from "react";
+import {makeStyles} from "@material-ui/core/styles";
 import {
   Modal,
   Backdrop,
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Scoreboard({ openStatus, scoreProp }) {
+export default function Scoreboard({openStatus, scoreProp}) {
   const classes = useStyles();
   const [open, setOpen] = useState(openStatus);
 

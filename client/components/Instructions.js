@@ -1,13 +1,6 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import {
-  Modal,
-  Backdrop,
-  Slide,
-  Button,
-  Grid,
-  Typography,
-} from "@material-ui/core";
+import React, {useState} from "react";
+import {makeStyles} from "@material-ui/core/styles";
+import {Modal, Backdrop, Slide, Button, Typography} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Instructions({ instructions, openStatus, closeMe }) {
+export default function Instructions({instructions, openStatus, closeMe}) {
   const classes = useStyles();
   const [open, setOpen] = useState(openStatus);
 

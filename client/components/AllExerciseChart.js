@@ -1,5 +1,5 @@
 import React from "react";
-import { Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import {Legend, ResponsiveContainer, PieChart, Pie, Cell} from "recharts";
 
 const COLORS = ["#FF5D73", "#9d4edd", "#26A96C"];
 
@@ -49,7 +49,7 @@ export const SessionsPieChart = (props) => {
   fillData();
 
   function smallerText(value, entry) {
-    return <span style={{ fontSize: "1vw" }}>{value}</span>;
+    return <span style={{fontSize: "1vw"}}>{value}</span>;
   }
 
   return (
@@ -106,7 +106,7 @@ export const RepsPieChart = (props) => {
   fillData();
 
   function smallerText(value, entry) {
-    return <span style={{ fontSize: "1vw" }}>{value}</span>;
+    return <span style={{fontSize: "1vw"}}>{value}</span>;
   }
 
   return (

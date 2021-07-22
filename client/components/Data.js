@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { getUser } from "../store/user";
+import React, {useState, useEffect} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {getUser} from "../store/user";
 import Chart from "./Chart";
-import { SessionsPieChart, RepsPieChart } from "./AllExerciseChart";
+import {SessionsPieChart, RepsPieChart} from "./AllExerciseChart";
 import SessionsData from "./SessionsData";
 import RepsData from "./RepsData";
 import {
@@ -65,13 +65,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Data = () => {
-  const isLoggedIn = useSelector((state) => !!state.auth.id);
-  const { poseSessions } = useSelector((state) => state.user);
   const classes = useStyles();
   const paper = clsx(classes.paper, classes.paperHeight);
-
+  const isLoggedIn = useSelector((state) => !!state.auth.id);
+  const {poseSessions} = useSelector((state) => state.user);
   const [loaded, setLoaded] = useState(false);
-
   const dispatch = useDispatch();
 
   useEffect(() => {

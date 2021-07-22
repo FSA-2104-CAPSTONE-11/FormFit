@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 
 const TOKEN = "token";
 
@@ -16,7 +16,7 @@ export const getPose = createAsyncThunk("/api/history", async (arg) => {
   try {
     const token = window.localStorage.getItem(TOKEN);
     if (token) {
-      const { data: pose } = await axios.get(`/api/pose/${arg.poseName}`, {
+      const {data: pose} = await axios.get(`/api/pose/${arg.poseName}`, {
         headers: {
           authorization: token,
         },
@@ -47,5 +47,5 @@ const poseSlice = createSlice({
   },
 });
 
-export const { setPose } = poseSlice.actions;
+export const {setPose} = poseSlice.actions;
 export default poseSlice.reducer;
