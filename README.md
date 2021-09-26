@@ -17,7 +17,7 @@ FormFit is a digital fitness coach that analyses your form in real-time, assessi
 
 ## Visit the Deployed App
 
-[Form Fit](http://formfit.herokuapp.com/) 
+[FormFit](http://formfit.herokuapp.com/) 
 This Progressive-Web-App can be used in-browser on a phone or desktop, however it is recommended you use your phone. The app can be installed on the desktop of your phone by following the below instructions:
 
 #### iOS Installation 
